@@ -9,34 +9,34 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: "What is Brillance and who is it for?",
+    question: "What is Somove and who is it for?",
     answer:
-      "Brillance is a comprehensive billing automation platform designed for businesses that need custom contract management. It's perfect for SaaS companies, service providers, and enterprises looking to streamline their billing processes.",
+      "Somove is an open-source practice management platform built for somatic therapists, yoga teachers, dance therapists, psychologists, and any professional offering remote sessions involving movement or body-based work. It handles scheduling, video calls with gesture controls, payments, messaging, and client management.",
   },
   {
-    question: "How does the custom contract billing work?",
+    question: "How do the gesture controls work during video sessions?",
     answer:
-      "Our platform automatically processes your custom contracts, calculates billing amounts based on your specific terms, and generates invoices. You can set up complex pricing structures, usage-based billing, and custom billing cycles.",
+      "Somove uses MediaPipe Hands for browser-side gesture recognition. During a video session, you can toggle gesture controls on to manage your session hands-free — thumbs up to zoom in, open palm to zoom out, wave to mute/unmute, and a held fist to toggle your camera. No extra hardware needed, works with any webcam.",
   },
   {
-    question: "Can I integrate Brillance with my existing tools?",
+    question: "Can I self-host Somove for free?",
     answer:
-      "Yes! Brillance integrates seamlessly with popular CRM systems, accounting software, and payment processors. We support APIs and webhooks for custom integrations with your existing workflow.",
+      "Yes. Somove is open-source (AGPL-3.0). Click 'Deploy to Vercel' in our README, connect your Supabase project (free tier, EU region), and add your API keys for Daily.co, Cal.com, Stripe, and Resend — all of which have free tiers. The total cost to run your practice can be €0/month.",
   },
   {
-    question: "What kind of support do you provide?",
+    question: "Is client data secure and GDPR compliant?",
     answer:
-      "We offer 24/7 customer support, dedicated account managers for enterprise clients, comprehensive documentation, and onboarding assistance to help you get started quickly.",
+      "All data is hosted in EU data centers (Supabase Frankfurt, Daily.co EU, Vercel EU edge). Sensitive fields like intake data, session notes, and messages are encrypted at rest. Somove includes consent logging, cookie consent, and privacy policy pages. Right to erasure and data portability are supported.",
   },
   {
-    question: "Is my data secure with Brillance?",
+    question: "What video platform does Somove use?",
     answer:
-      "Absolutely. We use enterprise-grade security measures including end-to-end encryption, SOC 2 compliance, and regular security audits. Your data is stored in secure, redundant data centers.",
+      "Somove uses Daily.co for WebRTC video, which supports EU data centers and has GDPR DPA coverage. Unlike standard telehealth platforms designed for face-only calls, Somove's video is optimized for full-body observation — essential for somatic therapy, yoga, and movement-based sessions.",
   },
   {
-    question: "How do I get started with Brillance?",
+    question: "How do payments work?",
     answer:
-      "Getting started is simple! Sign up for our free trial, connect your existing systems, and our onboarding team will help you set up your first custom billing workflow within 24 hours.",
+      "Somove integrates with Stripe Checkout for session payments. Clients pay at the time of booking. You can offer a free first consultation as a toggle. The system handles refunds based on your cancellation policy. Revenue is tracked in your therapist dashboard.",
   },
 ]
 
@@ -67,13 +67,13 @@ export default function FAQSection() {
       <div className="flex-1 px-4 md:px-12 py-16 md:py-20 flex flex-col lg:flex-row justify-start items-start gap-6 lg:gap-12">
         {/* Left Column - Header */}
         <div className="w-full lg:flex-1 flex flex-col justify-center items-start gap-4 lg:py-5">
-          <div className="w-full flex flex-col justify-center text-[#49423D] font-semibold leading-tight md:leading-[44px] font-sans text-4xl tracking-tight">
+          <div className="w-full flex flex-col justify-center text-[#2D2A26] font-semibold leading-tight md:leading-[44px] font-sans text-4xl tracking-tight">
             Frequently Asked Questions
           </div>
-          <div className="w-full text-[#605A57] text-base font-normal leading-7 font-sans">
-            Explore your data, build your dashboard,
+          <div className="w-full text-[#9A9590] text-base font-normal leading-7 font-sans">
+            Everything you need to know about
             <br className="hidden md:block" />
-            bring your team together.
+            running your practice on Somove.
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export default function FAQSection() {
                     className="w-full px-5 py-[18px] flex justify-between items-center gap-5 text-left hover:bg-[rgba(73,66,61,0.02)] transition-colors duration-200"
                     aria-expanded={isOpen}
                   >
-                    <div className="flex-1 text-[#49423D] text-base font-medium leading-6 font-sans">
+                    <div className="flex-1 text-[#2D2A26] text-base font-medium leading-6 font-sans">
                       {item.question}
                     </div>
                     <div className="flex justify-center items-center">
@@ -107,7 +107,7 @@ export default function FAQSection() {
                       isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="px-5 pb-[18px] text-[#605A57] text-sm font-normal leading-6 font-sans">
+                    <div className="px-5 pb-[18px] text-[#9A9590] text-sm font-normal leading-6 font-sans">
                       {item.answer}
                     </div>
                   </div>

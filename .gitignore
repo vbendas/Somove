@@ -11,4 +11,4 @@ dist/
 .env*.local
 quartz/.quartz-cache/
 quartz/public/
-quartz/.git/
+quartz/docs/

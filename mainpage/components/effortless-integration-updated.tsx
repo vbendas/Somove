@@ -121,16 +121,16 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontFamily: "'Inter', sans-serif",
-            fontWeight: 700,
-            fontSize: "32px",
-            color: "#ffffff",
-          }}
-        >
-          b
-        </div>
+          fontFamily: "'Inter', sans-serif",
+          fontWeight: 700,
+          fontSize: "32px",
+          color: "#ffffff",
+        }}
+      >
+        S
+      </div>
 
-        {/* GitHub - 180° (left) */}
+        {/* GitHub - 180deg (left) */}
         <div
           style={{
             width: "32px",
@@ -138,7 +138,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             left: `${getPositionOnRing(80, Math.PI).x - 16}px`,
             top: `${getPositionOnRing(80, Math.PI).y - 16}px`,
             position: "absolute",
-            background: "#000000",
+            background: "#3ECF8E",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
             borderRadius: "50%",
             display: "flex",
@@ -147,8 +147,8 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           }}
         >
           <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
-            alt="GitHub"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/supabase.svg"
+            alt="Supabase"
             style={{
               width: "18px",
               height: "18px",
@@ -157,7 +157,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           />
         </div>
 
-        {/* Slack - 0° (right) */}
+        {/* Cal.com - 0deg (right) */}
         <div
           style={{
             width: "32px",
@@ -165,7 +165,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             left: `${getPositionOnRing(80, 0).x - 16}px`,
             top: `${getPositionOnRing(80, 0).y - 16}px`,
             position: "absolute",
-            background: "#ffffff",
+            background: "#292929",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
             borderRadius: "50%",
             display: "flex",
@@ -173,14 +173,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             justifyContent: "center",
           }}
         >
-          <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/slack.svg"
-            alt="Slack"
-            style={{
-              width: "18px",
-              height: "18px",
-            }}
-          />
+          <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700, fontFamily: "sans-serif" }}>Cal</span>
         </div>
 
         {/* Figma - 315° (top-right) */}
@@ -191,7 +184,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             left: `${getPositionOnRing(120, -Math.PI / 4).x - 16}px`,
             top: `${getPositionOnRing(120, -Math.PI / 4).y - 16}px`,
             position: "absolute",
-            background: "#EEEFE8",
+            background: "#635BFF",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
             borderRadius: "50%",
             display: "flex",
@@ -200,11 +193,12 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           }}
         >
           <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/figma.svg"
-            alt="Figma"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/stripe.svg"
+            alt="Stripe"
             style={{
               width: "16px",
               height: "16px",
+              filter: "brightness(0) invert(1)",
             }}
           />
         </div>
@@ -217,7 +211,7 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
             left: `${getPositionOnRing(120, (3 * Math.PI) / 4).x - 16}px`,
             top: `${getPositionOnRing(120, (3 * Math.PI) / 4).y - 16}px`,
             position: "absolute",
-            background: "#5865F2",
+            background: "#292929",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
             borderRadius: "50%",
             display: "flex",
@@ -226,8 +220,8 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           }}
         >
           <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg"
-            alt="Discord"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/dailydotco.svg"
+            alt="Daily.co"
             style={{
               width: "18px",
               height: "18px",
@@ -253,8 +247,8 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           }}
         >
           <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/notion.svg"
-            alt="Notion"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/resend.svg"
+            alt="Resend"
             style={{
               width: "18px",
               height: "18px",
@@ -306,8 +300,8 @@ const EffortlessIntegration: React.FC<EffortlessIntegrationProps> = ({ width = 4
           }}
         >
           <img
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/framer.svg"
-            alt="Framer"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vercel.svg"
+            alt="Vercel"
             style={{
               width: "16px",
               height: "16px",
