@@ -7,6 +7,8 @@ on:
     paths:
       - "Documentation/**"
       - "quartz/**"
+      - ".github/workflows/deploy-docs.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
