@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.zip
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.next/
+out/
+dist/
+.env
+.env.local
+.env*.local
+quartz/.quartz-cache/
+quartz/public/
+quartz/.git/
