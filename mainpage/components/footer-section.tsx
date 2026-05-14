@@ -4,10 +4,10 @@ export default function FooterSection() {
       <div className="self-stretch h-auto flex flex-col md:flex-row justify-between items-stretch pr-0 pb-8 pt-0">
         <div className="h-auto p-4 md:p-8 flex flex-col justify-start items-start gap-8">
           <div className="self-stretch flex justify-start items-center gap-3">
-            <div className="text-center text-[#2D2A26] text-xl font-medium leading-4 font-serif">Somove</div>
+            <img src="/logo.png" alt="Somove" className="h-16 sm:h-20 md:h-24 lg:h-[150px] w-auto" />
           </div>
           <div className="text-[rgba(45,42,38,0.90)] text-sm font-medium leading-[18px] font-sans">
-            Movement is medicine
+            Movement is medicine. Built by the community, for the community.
           </div>
 
           <div className="flex justify-start items-start gap-4">
@@ -54,9 +54,6 @@ export default function FooterSection() {
             <div className="flex flex-col justify-end items-start gap-2">
               <div className="text-[#2D2A26] text-sm font-normal leading-5 font-sans cursor-pointer hover:text-[#D4A574] transition-colors">
                 Features
-              </div>
-              <div className="text-[#2D2A26] text-sm font-normal leading-5 font-sans cursor-pointer hover:text-[#D4A574] transition-colors">
-                Pricing
               </div>
               <div className="text-[#2D2A26] text-sm font-normal leading-5 font-sans cursor-pointer hover:text-[#D4A574] transition-colors">
                 Gesture Controls
@@ -114,7 +111,7 @@ export default function FooterSection() {
         </div>
       </div>
 
-      <div className="self-stretch h-12 relative overflow-hidden border-t border-b border-[rgba(55,50,47,0.12)]">
+      <div className="self-stretch h-12 relative overflow-hidden border-t border-[rgba(55,50,47,0.12)]">
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <div className="w-full h-full relative">
             {Array.from({ length: 400 }).map((_, i) => (
@@ -131,6 +128,12 @@ export default function FooterSection() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="self-stretch py-6 px-4 md:px-8 flex justify-center items-center">
+        <p className="text-[rgba(45,42,38,0.60)] text-sm font-normal leading-5 font-sans">
+          Built with love in Jardim Loloma, Castelo Branco — Portugal
+        </p>
       </div>
     </div>
   )

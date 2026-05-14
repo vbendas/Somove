@@ -19,14 +19,14 @@ const faqData: FAQItem[] = [
       "Somove uses MediaPipe Hands for browser-side gesture recognition. During a video session, you can toggle gesture controls on to manage your session hands-free — thumbs up to zoom in, open palm to zoom out, wave to mute/unmute, and a held fist to toggle your camera. No extra hardware needed, works with any webcam.",
   },
   {
-    question: "Can I self-host Somove for free?",
+    question: "Can I really run Somove for free?",
     answer:
-      "Yes. Somove is open-source (AGPL-3.0). Click 'Deploy to Vercel' in our README, connect your Supabase project (free tier, EU region), and add your API keys for Daily.co, Cal.com, Stripe, and Resend — all of which have free tiers. The total cost to run your practice can be €0/month.",
+      "Yes. Somove is open-source under AGPL-3.0 — you copy the platform and it becomes your own. You control your data, the code, and the infrastructure. Set it up with Supabase (free tier, EU region), Daily.co, Cal.com, Stripe, and Resend — all of which offer free tiers. The total cost to run your practice can be €0/month. No subscriptions, no vendor lock-in.",
   },
   {
     question: "Is client data secure and GDPR compliant?",
     answer:
-      "All data is hosted in EU data centers (Supabase Frankfurt, Daily.co EU, Vercel EU edge). Sensitive fields like intake data, session notes, and messages are encrypted at rest. Somove includes consent logging, cookie consent, and privacy policy pages. Right to erasure and data portability are supported.",
+      "All data is hosted in EU data centers (Supabase Frankfurt, Daily.co EU). Sensitive fields like intake data, session notes, and messages are encrypted at rest. Somove includes consent logging, cookie consent, and privacy policy pages. Right to erasure and data portability are supported. Because you self-host, you have full control over where and how data is stored.",
   },
   {
     question: "What video platform does Somove use?",
@@ -37,6 +37,11 @@ const faqData: FAQItem[] = [
     question: "How do payments work?",
     answer:
       "Somove integrates with Stripe Checkout for session payments. Clients pay at the time of booking. You can offer a free first consultation as a toggle. The system handles refunds based on your cancellation policy. Revenue is tracked in your therapist dashboard.",
+  },
+  {
+    question: "What does open-source mean for me?",
+    answer:
+      "Somove is built by the community, for the community. When you get started, you get your own copy of the entire platform — your data, your code, your rules. You can customize it, extend it, or adapt it to your practice's unique needs. No one can take it away from you, change the terms, or shut it down. Open-source means you're not renting a service — you own your tools. The community contributes improvements, and everyone benefits.",
   },
 ]
 

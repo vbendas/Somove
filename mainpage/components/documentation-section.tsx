@@ -20,8 +20,8 @@ export default function DocumentationSection() {
 
   const cards = [
     {
-      title: "Deploy your practice",
-      description: "One-click deploy to Vercel. Set up your profile,\navailability, and pricing in minutes.",
+      title: "Get started",
+      description: "Create your own instance of Somove. Set up your profile,\navailability, and session rates in minutes.",
       image: "/modern-dashboard-interface-with-data-visualization.jpg",
     },
     {
@@ -64,15 +64,15 @@ export default function DocumentationSection() {
             From zero to live practice
           </div>
           <div className="self-stretch text-center text-[#9A9590] text-base font-normal leading-7 font-sans">
-            Deploy Somove, set up your therapist profile, and start seeing clients
+            Set up Somove, create your therapist profile, and start seeing clients
             <br />
             — all in under 30 minutes.
           </div>
         </div>
       </div>
 
-      <div className="self-stretch px-4 md:px-9 overflow-hidden flex justify-start items-center">
-        <div className="flex-1 py-8 md:py-11 flex flex-col md:flex-row justify-start items-center gap-6 md:gap-12">
+      <div className="self-stretch px-4 md:px-9 overflow-hidden flex justify-center items-center">
+        <div className="w-full max-w-[1200px] py-8 md:py-11 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
           <div className="w-full md:w-auto md:max-w-[400px] flex flex-col justify-center items-center gap-4 order-2 md:order-1">
             {cards.map((card, index) => {
               const isActive = index === activeCard
@@ -93,6 +93,9 @@ export default function DocumentationSection() {
                     <div
                       key={animationKey}
                       className="h-0.5 bg-[#D4A574] animate-[progressBar_5s_linear_forwards] will-change-transform"
+                      style={{
+                        animation: 'progressBar 5s linear forwards',
+                      }}
                     />
                   </div>
                   <div className="px-6 py-5 w-full flex flex-col gap-2">
@@ -132,17 +135,6 @@ export default function DocumentationSection() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes progressBar {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(0%);
-          }
-        }
-      `}</style>
     </div>
   )
 }

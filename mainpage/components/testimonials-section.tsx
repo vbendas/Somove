@@ -37,7 +37,7 @@ export default function TestimonialsSection() {
     },
     {
       quote:
-        "I was spending €400 a month on fragmented tools. Somove gives me everything — scheduling, payments, secure video — for free as open source. I deployed it myself in 20 minutes.",
+        "I was spending €400 a month on fragmented tools. Somove gives me everything — scheduling, payments, secure video — for free as open source. I had it running in 20 minutes, and it's mine. My platform, my data, my rules.",
       name: "Ana Oliveira",
       company: "Dance/Movement Therapist, Porto",
       image:
