@@ -17,3 +17,8 @@ Welcome to the **Somove** project documentation hub. This site contains all proj
 - [[Scheduling System Roadmap]]
 - [[Payment System Roadmap]]
 - [[Chat and Support Roadmap]]
+- [[Group Sessions Roadmap]]
+
+## Features
+
+- [[Group Breathwork Classes]]

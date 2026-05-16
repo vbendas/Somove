@@ -14,6 +14,11 @@ Detailed feature roadmaps for the full marketplace build:
 - [[Scheduling System Roadmap|Scheduling System Roadmap]] — Cal.com integration
 - [[Payment System Roadmap|Payment System Roadmap]] — Stripe Connect
 - [[Chat and Support Roadmap|Chat and Support Roadmap]] — Therapist inbox + Chatwoot + Typebot
+- [[Group Sessions Roadmap|Group Sessions Roadmap]] — Group classes (breathwork) booking, video, safety, and management
+
+### FEATURES
+Feature specifications for new capabilities:
+- [[Group Breathwork Classes|Group Breathwork Classes]] — Group session support for up to 8 participants
 
 ### [[Somatic Therapy Platform Research Report|RESEARCH]]
 Market research, competitive analysis, and industry context for the somatic therapy platform.
