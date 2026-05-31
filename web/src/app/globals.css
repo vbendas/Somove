@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #FFFDF5;
+    --foreground: #2D2A26;
+    --surface: #FFF5E1;
+    --primary: #D4A574;
+    --primary-dark: #C4905E;
+    --primary-foreground: #FFFDF5;
+    --accent: #8BA888;
+    --accent-dark: #7A9777;
+    --accent-foreground: #FFFDF5;
+    --soft-rose: #E8C4B8;
+    --muted-sky: #B5C7D3;
+    --light-moss: #C5D5C5;
+    --warm-gray: #9A9590;
+    --card: #FFFDF5;
+    --card-foreground: #2D2A26;
+    --popover: #FFFDF5;
+    --popover-foreground: #2D2A26;
+    --secondary: #FFF5E1;
+    --secondary-foreground: #2D2A26;
+    --muted: #FFF5E1;
+    --muted-foreground: #9A9590;
+    --destructive: #E8C4B8;
+    --destructive-foreground: #2D2A26;
+    --border: #E8E4DC;
+    --input: #E8E4DC;
+    --ring: #D4A574;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-5 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28;
+  }
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+  .pill-badge {
+    @apply inline-block px-4 py-2 rounded-full text-xs font-body font-semibold tracking-wide uppercase;
+    background: rgba(255, 253, 245, 0.85);
+    border: 1px solid rgba(212, 165, 116, 0.15);
+    color: var(--foreground);
+  }
+  .pill-badge-accent {
+    @apply inline-block px-4 py-2 rounded-full text-xs font-body font-semibold tracking-wide uppercase;
+    background: rgba(139, 168, 136, 0.12);
+    color: var(--accent);
+  }
+}

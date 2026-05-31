@@ -1,0 +1,27 @@
+{
+  "name": "Somove — Somatic Therapy Platform",
+  "short_name": "Somove",
+  "description": "Book somatic therapy sessions with certified practitioners. Full-body video calls with contactless gesture controls.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFDF5",
+  "theme_color": "#D4A574",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}
