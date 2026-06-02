@@ -1,0 +1,11 @@
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/ISSUE_TEMPLATE/bug_report.md
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/ISSUE_TEMPLATE/feature_request.md
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/dependabot.yml
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/pull_request_template.md
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/build-preview.yaml
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/ci.yaml
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/deploy-preview.yaml
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/docker-build-push.yaml
+/Users/victorbendas/Documents/GitHub/Somove/quartz/CODE_OF_CONDUCT.md
+/Users/victorbendas/Documents/GitHub/Somove/quartz/LICENSE.txt
+/Users/victorbendas/Documents/GitHub/Somove/quartz/README.md

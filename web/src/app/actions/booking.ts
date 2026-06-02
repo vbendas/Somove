@@ -12,6 +12,8 @@ interface CreateSessionInput {
   sessionType: "single" | "free_first_session";
   priceCents: number;
   timeZone?: string;
+  sessionTypeId?: string;
+  useCredits?: boolean;
 }
 
 export async function createSession(input: CreateSessionInput) {
@@ -31,20 +33,47 @@ export async function createSession(input: CreateSessionInput) {
     .eq("id", user.id)
     .single();
 
-  const paymentStatus = input.sessionType === "free_first_session" ? "free_first_session" : "pending";
-  const status = input.sessionType === "free_first_session" ? "confirmed" : "pending_payment";
+  const paymentStatus = input.sessionType === "free_first_session"
+    ? "free_first_session"
+    : input.useCredits
+    ? "paid"
+    : "pending";
+  const status = input.sessionType === "free_first_session" || input.useCredits
+    ? "confirmed"
+    : "pending_payment";
+
+  if (input.useCredits) {
+    const { data: credit } = await supabase
+      .from("session_credits")
+      .select("id, used_credits")
+      .eq("client_id", user.id)
+      .eq("therapist_id", input.therapistId)
+      .gt("remaining_credits", 0)
+      .order("purchased_at", { ascending: true })
+      .limit(1)
+      .single();
+
+    if (credit) {
+      await supabase
+        .from("session_credits")
+        .update({ used_credits: credit.used_credits + 1 })
+        .eq("id", credit.id);
+    }
+  }
 
   const { data: session, error } = await supabase
     .from("sessions")
     .insert({
       client_id: user.id,
       therapist_id: input.therapistId,
+      session_type_id: input.sessionTypeId || null,
       scheduled_at: input.scheduledAt,
       duration_min: input.durationMin,
       status,
       payment_status: paymentStatus,
-      amount_paid_cents: input.sessionType === "free_first_session" ? 0 : input.priceCents,
+      amount_paid_cents: paymentStatus === "free_first_session" || paymentStatus === "paid" ? 0 : input.priceCents,
       currency: "EUR",
+      tos_version: null,
     })
     .select("id")
     .single();
@@ -94,7 +123,7 @@ export async function createSession(input: CreateSessionInput) {
     }
   }
 
-  if (input.sessionType !== "free_first_session") {
+  if (input.sessionType !== "free_first_session" && !input.useCredits) {
     const profile = therapistProfile as unknown as {
       stripe_secret_key: string | null;
       users: { name: string } | null;
@@ -106,14 +135,28 @@ export async function createSession(input: CreateSessionInput) {
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
+      let productName = `Session with ${profile.users?.name || "Professional"}`;
+      if (input.sessionTypeId) {
+        const { data: sessionType } = await supabase
+          .from("session_types")
+          .select("name, is_bundle, bundle_sessions")
+          .eq("id", input.sessionTypeId)
+          .single();
+        if (sessionType) {
+          productName = sessionType.is_bundle
+            ? `${sessionType.name} (${sessionType.bundle_sessions} sessions)`
+            : sessionType.name;
+        }
+      }
+
       const checkoutResult = await stripeClient.createCheckoutSession({
         lineItems: [
           {
             priceData: {
               currency: "eur",
               productData: {
-                name: `Session with ${profile.users?.name || "Therapist"}`,
-                description: `${input.durationMin} min somatic therapy session`,
+                name: productName,
+                description: `${input.durationMin} min session with ${profile.users?.name || "Professional"}`,
               },
               unitAmount: input.priceCents,
             },
@@ -128,6 +171,8 @@ export async function createSession(input: CreateSessionInput) {
           somove_session_id: session.id,
           somove_client_id: user.id,
           somove_therapist_id: input.therapistId,
+          somove_session_type_id: input.sessionTypeId || "",
+          somove_is_bundle: input.sessionTypeId ? "true" : "false",
         },
       });
 
@@ -174,6 +219,12 @@ export async function createSession(input: CreateSessionInput) {
       client_id: user.id,
     });
   }
+
+  const { createSessionRoom } = await import("@/app/actions/session");
+  createSessionRoom(session.id).catch(() => {});
+
+  const { notifyBookingConfirmed } = await import("@/app/actions/notifications");
+  notifyBookingConfirmed(session.id).catch(() => {});
 
   revalidatePath("/my-sessions");
   redirect(`/booking/confirmed?sessionId=${session.id}`);
@@ -252,7 +303,7 @@ export async function cancelSession(sessionId: string) {
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("cal_booking_uid, stripe_payment_intent_id, payment_status, therapist_id")
+    .select("cal_booking_uid, stripe_payment_intent_id, payment_status, therapist_id, session_type_id")
     .eq("id", sessionId)
     .single();
 
@@ -301,6 +352,28 @@ export async function cancelSession(sessionId: string) {
       .eq("session_id", sessionId)
       .eq("stripe_payment_intent_id", session.stripe_payment_intent_id);
   }
+
+  if (session?.payment_status === "paid" && session.session_type_id) {
+    const { data: credit } = await supabase
+      .from("session_credits")
+      .select("id, used_credits")
+      .eq("client_id", user.id)
+      .eq("therapist_id", session.therapist_id)
+      .gt("used_credits", 0)
+      .order("purchased_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (credit) {
+      await supabase
+        .from("session_credits")
+        .update({ used_credits: credit.used_credits - 1 })
+        .eq("id", credit.id);
+    }
+  }
+
+  const { notifySessionCancelled } = await import("@/app/actions/notifications");
+  notifySessionCancelled(sessionId).catch(() => {});
 
   revalidatePath("/my-sessions");
   revalidatePath("/dashboard");

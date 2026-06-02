@@ -1,0 +1,11 @@
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon.svg
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/logo.png
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/logo.webp
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/mask-group-pattern.svg
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/modern-dashboard-interface-for-schedule-planning-w.jpg
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/modern-dashboard-interface-with-data-visualization.jpg
+/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/static/icon.png
+/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/static/og-image.png
+/Users/victorbendas/Documents/GitHub/Somove/web/public/icons/icon-192x192.png
+/Users/victorbendas/Documents/GitHub/Somove/web/public/icons/icon-512x512.png
+/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/bg.mp4

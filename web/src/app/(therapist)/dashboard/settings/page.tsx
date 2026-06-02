@@ -34,8 +34,10 @@ interface AvailabilityData {
   timezone: string;
 }
 
+type Tab = "profile" | "pricing" | "session-types" | "tos" | "availability" | "integrations";
+
 export default function SettingsPage() {
-  const [tab, setTab] = useState<"profile" | "pricing" | "availability" | "integrations">("profile");
+  const [tab, setTab] = useState<Tab>("profile");
   const [loading, setLoading] = useState(false);
   const [profileLoaded, setProfileLoaded] = useState(false);
 
@@ -59,10 +61,32 @@ export default function SettingsPage() {
 
   const [calApiKey, setCalApiKey] = useState("");
   const [calEventTypeId, setCalEventTypeId] = useState("");
-  const [stripeKey, setStripeKey] = useState("");
-  const [stripeWebhook, setStripeWebhook] = useState("");
-  const [dailyKey, setDailyKey] = useState("");
+  const [mirotalkUrl, setMirotalkUrl] = useState("");
+  const [mirotalkKey, setMirotalkKey] = useState("");
+  const [videoProvider, setVideoProvider] = useState<"daily" | "mirotalk">("daily");
+  const [dailyApiKey, setDailyApiKey] = useState("");
   const [resendKey, setResendKey] = useState("");
+
+  const [sessionTypes, setSessionTypes] = useState<Array<{
+    id: string;
+    name: string;
+    description: string | null;
+    duration_min: number;
+    price_cents: number;
+    is_active: boolean;
+    is_bundle: boolean;
+    bundle_sessions: number | null;
+  }>>([]);
+  const [newTypeName, setNewTypeName] = useState("");
+  const [newTypeDuration, setNewTypeDuration] = useState("60");
+  const [newTypePrice, setNewTypePrice] = useState("");
+  const [newTypeDescription, setNewTypeDescription] = useState("");
+  const [newTypeIsBundle, setNewTypeIsBundle] = useState(false);
+  const [newTypeBundleSessions, setNewTypeBundleSessions] = useState("3");
+  const [editingType, setEditingType] = useState<string | null>(null);
+
+  const [tosText, setTosText] = useState("");
+  const [tosVersion, setTosVersion] = useState(1);
 
   const loadProfile = useCallback(async () => {
     try {
@@ -89,10 +113,23 @@ export default function SettingsPage() {
         }
         setCalApiKey(data.cal_api_key || "");
         setCalEventTypeId(data.cal_event_type_id || "");
-        setStripeKey(data.stripe_secret_key || "");
-        setStripeWebhook(data.stripe_webhook_secret || "");
-        setDailyKey(data.daily_api_key || "");
         setResendKey(data.resend_api_key || "");
+        setMirotalkUrl(data.mirotalk_url || "");
+        setMirotalkKey(data.mirotalk_api_key || "");
+        setVideoProvider(data.video_provider || "daily");
+        setDailyApiKey(data.daily_api_key || "");
+        setTosText(data.tos_text || "");
+        setTosVersion(data.tos_version || 1);
+      }
+
+      const { data: types } = await supabase
+        .from("session_types")
+        .select("*")
+        .eq("therapist_id", user.id)
+        .order("created_at", { ascending: true });
+
+      if (types) {
+        setSessionTypes(types);
       }
     } catch {
       toast.error("Failed to load profile. Please refresh the page.");
@@ -192,9 +229,10 @@ export default function SettingsPage() {
         .update({
           cal_api_key: calApiKey || null,
           cal_event_type_id: calEventTypeId || null,
-          stripe_secret_key: stripeKey || null,
-          stripe_webhook_secret: stripeWebhook || null,
-          daily_api_key: dailyKey || null,
+          mirotalk_url: mirotalkUrl || null,
+          mirotalk_api_key: mirotalkKey || null,
+          daily_api_key: dailyApiKey || null,
+          video_provider: videoProvider,
           resend_api_key: resendKey || null,
         })
         .eq("user_id", user.id);
@@ -218,6 +256,126 @@ export default function SettingsPage() {
         weekly: { ...prev.weekly, [day]: newSlots },
       };
     });
+  };
+
+  const addSessionType = async () => {
+    if (!newTypeName || !newTypePrice) {
+      toast.error("Name and price are required");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { createSessionType } = await import("@/app/actions/session-types");
+      const result = await createSessionType({
+        name: newTypeName,
+        description: newTypeDescription || null,
+        duration_min: parseInt(newTypeDuration),
+        price_cents: Math.round(parseFloat(newTypePrice) * 100),
+        is_bundle: newTypeIsBundle,
+        bundle_sessions: newTypeIsBundle ? parseInt(newTypeBundleSessions) : null,
+      });
+
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+
+      if (result.data) {
+        setSessionTypes((prev) => [...prev, result.data!]);
+      }
+      setNewTypeName("");
+      setNewTypePrice("");
+      setNewTypeDescription("");
+      setNewTypeDuration("60");
+      setNewTypeIsBundle(false);
+      setNewTypeBundleSessions("3");
+      toast.success(newTypeIsBundle ? "Bundle created" : "Session type created");
+    } catch {
+      toast.error("Failed to create session type");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateSessionTypeHandler = async (id: string, updates: { name?: string; description?: string | null; duration_min?: number; price_cents?: number }) => {
+    setLoading(true);
+    try {
+      const { updateSessionType } = await import("@/app/actions/session-types");
+      const result = await updateSessionType(id, updates);
+
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+
+      if (result.data) {
+        setSessionTypes((prev) => prev.map((t) => (t.id === id ? result.data! : t)));
+      }
+      setEditingType(null);
+      toast.success("Session type updated");
+    } catch {
+      toast.error("Failed to update session type");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteSessionTypeHandler = async (id: string) => {
+    setLoading(true);
+    try {
+      const { deleteSessionType } = await import("@/app/actions/session-types");
+      const result = await deleteSessionType(id);
+
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+
+      setSessionTypes((prev) => prev.filter((t) => t.id !== id));
+      toast.success("Session type deleted");
+    } catch {
+      toast.error("Failed to delete session type");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleSessionTypeActiveHandler = async (id: string, isActive: boolean) => {
+    try {
+      const { toggleSessionTypeActive } = await import("@/app/actions/session-types");
+      const result = await toggleSessionTypeActive(id, isActive);
+
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+
+      if (result.data) {
+        setSessionTypes((prev) => prev.map((t) => (t.id === id ? result.data! : t)));
+      }
+    } catch {
+      toast.error("Failed to toggle session type");
+    }
+  };
+
+  const saveTosHandler = async () => {
+    setLoading(true);
+    try {
+      const { saveTermsOfService } = await import("@/app/actions/session-types");
+      const result = await saveTermsOfService(tosText);
+
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+
+      setTosVersion((v) => v + 1);
+      toast.success("Terms of Service saved");
+    } catch {
+      toast.error("Failed to save Terms of Service");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const copySchedule = (fromDay: string, toDay: string) => {
@@ -247,7 +405,7 @@ export default function SettingsPage() {
         ) : (
           <>
         <div className="mb-6 flex gap-1 rounded-card bg-surface p-1 overflow-x-auto">
-          {(["profile", "pricing", "availability", "integrations"] as const).map((t) => (
+          {(["profile", "pricing", "session-types", "tos", "availability", "integrations"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -257,7 +415,7 @@ export default function SettingsPage() {
                   : "text-warm-gray hover:text-foreground"
               }`}
             >
-              {t}
+              {t === "tos" ? "Terms" : t.replace("-", " ")}
             </button>
           ))}
         </div>
@@ -337,6 +495,295 @@ export default function SettingsPage() {
               <Button onClick={savePricing} disabled={loading}>
                 <Save className="mr-2 h-4 w-4" />
                 {loading ? "Saving..." : "Save Pricing"}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {tab === "session-types" && (
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Session Types</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-warm-gray">
+                  Create different session types that clients can book. Each type has its own name, duration, and price.
+                </p>
+
+                {sessionTypes.filter((t) => !t.is_bundle).length > 0 && (
+                  <div className="space-y-2">
+                    {sessionTypes.filter((t) => !t.is_bundle).map((st) => (
+                      <div
+                        key={st.id}
+                        className="flex items-center justify-between rounded-card border border-border p-3"
+                      >
+                        {editingType === st.id ? (
+                          <SessionTypeEditor
+                            sessionType={st}
+                            onSave={(updates) => updateSessionTypeHandler(st.id, updates)}
+                            onCancel={() => setEditingType(null)}
+                            loading={loading}
+                          />
+                        ) : (
+                          <>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-foreground">{st.name}</span>
+                                {!st.is_active && (
+                                  <span className="text-xs text-warm-gray">(inactive)</span>
+                                )}
+                              </div>
+                              <p className="text-xs text-warm-gray">
+                                {st.duration_min} min — €{(st.price_cents / 100).toFixed(2)}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Switch
+                                checked={st.is_active}
+                                onCheckedChange={(v) => toggleSessionTypeActiveHandler(st.id, v)}
+                              />
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setEditingType(st.id)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => deleteSessionTypeHandler(st.id)}
+                                className="text-destructive"
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="rounded-card border border-dashed border-border p-4 space-y-3">
+                  <p className="text-sm font-medium text-foreground">Add Session Type</p>
+                  <Input
+                     placeholder="Session name (e.g., Language Lesson)"
+                    value={newTypeName}
+                    onChange={(e) => setNewTypeName(e.target.value)}
+                  />
+                  <Textarea
+                    placeholder="Description (optional)"
+                    value={newTypeDescription}
+                    onChange={(e) => setNewTypeDescription(e.target.value)}
+                    className="min-h-[60px]"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Duration</label>
+                      <select
+                        value={newTypeDuration}
+                        onChange={(e) => setNewTypeDuration(e.target.value)}
+                        className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
+                      >
+                        <option value="30">30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60">60 min</option>
+                        <option value="90">90 min</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Price (EUR)</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray text-sm">€</span>
+                        <Input
+                          type="number"
+                          min={0}
+                          placeholder="90"
+                          value={newTypePrice}
+                          onChange={(e) => setNewTypePrice(e.target.value)}
+                          className="pl-7"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <Button onClick={addSessionType} disabled={loading || !newTypeName || !newTypePrice} className="w-full">
+                    {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    Add Session Type
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Bundle Packages</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-warm-gray">
+                  Offer session bundles at a discounted rate. Clients purchase a bundle and use credits to book sessions.
+                </p>
+
+                {sessionTypes.filter((t) => t.is_bundle).length > 0 && (
+                  <div className="space-y-2">
+                    {sessionTypes.filter((t) => t.is_bundle).map((st) => (
+                      <div
+                        key={st.id}
+                        className="flex items-center justify-between rounded-card border border-border p-3"
+                      >
+                        {editingType === st.id ? (
+                          <SessionTypeEditor
+                            sessionType={st}
+                            onSave={(updates) => updateSessionTypeHandler(st.id, updates)}
+                            onCancel={() => setEditingType(null)}
+                            loading={loading}
+                          />
+                        ) : (
+                          <>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-foreground">{st.name}</span>
+                                {!st.is_active && (
+                                  <span className="text-xs text-warm-gray">(inactive)</span>
+                                )}
+                              </div>
+                              <p className="text-xs text-warm-gray">
+                                {st.bundle_sessions} sessions — €{(st.price_cents / 100).toFixed(2)}
+                                {st.bundle_sessions && st.price_cents > 0 && (
+                                  <span className="ml-1 text-accent">
+                                    (€{(st.price_cents / 100 / st.bundle_sessions).toFixed(2)}/session)
+                                  </span>
+                                )}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Switch
+                                checked={st.is_active}
+                                onCheckedChange={(v) => toggleSessionTypeActiveHandler(st.id, v)}
+                              />
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setEditingType(st.id)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => deleteSessionTypeHandler(st.id)}
+                                className="text-destructive"
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="rounded-card border border-dashed border-border p-4 space-y-3">
+                  <p className="text-sm font-medium text-foreground">Add Bundle</p>
+                  <Input
+                    placeholder="Bundle name (e.g., 5-Session Pack)"
+                    value={newTypeName}
+                    onChange={(e) => setNewTypeName(e.target.value)}
+                  />
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Sessions</label>
+                      <select
+                        value={newTypeBundleSessions}
+                        onChange={(e) => setNewTypeBundleSessions(e.target.value)}
+                        className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
+                      >
+                        <option value="3">3 sessions</option>
+                        <option value="5">5 sessions</option>
+                        <option value="10">10 sessions</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Duration each</label>
+                      <select
+                        value={newTypeDuration}
+                        onChange={(e) => setNewTypeDuration(e.target.value)}
+                        className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
+                      >
+                        <option value="30">30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60">60 min</option>
+                        <option value="90">90 min</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Total price</label>
+                      <div className="relative">
+                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray text-sm">€</span>
+                        <Input
+                          type="number"
+                          min={0}
+                          placeholder="350"
+                          value={newTypePrice}
+                          onChange={(e) => setNewTypePrice(e.target.value)}
+                          className="pl-6"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {newTypePrice && newTypeBundleSessions && (
+                    <p className="text-xs text-warm-gray">
+                      €{(parseFloat(newTypePrice || "0") / parseInt(newTypeBundleSessions || "1")).toFixed(2)} per session
+                    </p>
+                  )}
+                  <Button
+                    onClick={() => {
+                      setNewTypeIsBundle(true);
+                      addSessionType();
+                      setNewTypeIsBundle(false);
+                    }}
+                    disabled={loading || !newTypeName || !newTypePrice}
+                    className="w-full"
+                  >
+                    {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    Add Bundle
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {tab === "tos" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Terms of Service</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-warm-gray">
+                Write your own Terms of Service that clients will see and accept before booking a session. If left empty, Somove&apos;s default terms apply.
+              </p>
+              <div className="rounded-card bg-surface p-3">
+                <p className="text-xs text-warm-gray">
+                  Current version: <span className="font-medium text-foreground">v{tosVersion}</span>
+                </p>
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-foreground">
+                  Terms of Service
+                </label>
+                <Textarea
+                  value={tosText}
+                  onChange={(e) => setTosText(e.target.value)}
+                  className="min-h-[200px]"
+                  placeholder="Enter your terms of service here. Clients will be required to read and accept these terms before booking a session with you."
+                />
+              </div>
+              <Button onClick={saveTosHandler} disabled={loading}>
+                <Save className="mr-2 h-4 w-4" />
+                {loading ? "Saving..." : "Save Terms of Service"}
               </Button>
             </CardContent>
           </Card>
@@ -457,27 +904,102 @@ export default function SettingsPage() {
               calEventTypeId={calEventTypeId}
             />
 
-            <StripeIntegrationCard
-              stripeKey={stripeKey}
-              setStripeKey={setStripeKey}
-              stripeWebhook={stripeWebhook}
-              setStripeWebhook={setStripeWebhook}
-            />
+            <StripeConnectCard />
 
             <Card>
               <CardHeader>
-                <CardTitle>Daily.co</CardTitle>
+                <CardTitle>Video Calls</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="mb-3 text-sm text-warm-gray">
-                  Power your video calls with Daily.co.
-                </p>
-                <Input
-                  type="password"
-                  placeholder="Daily.co API Key"
-                  value={dailyKey}
-                  onChange={(e) => setDailyKey(e.target.value)}
-                />
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-foreground">
+                    Video Provider
+                  </label>
+                  <p className="mb-2 text-xs text-warm-gray">
+                    Choose how video sessions are hosted.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setVideoProvider("daily")}
+                      className={`rounded-lg border p-3 text-left transition-colors ${
+                        videoProvider === "daily"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                    >
+                      <p className="text-sm font-medium">Daily.co</p>
+                      <p className="mt-1 text-[11px] text-warm-gray">
+                        Free hosted (2,000 min/mo). No setup needed.
+                      </p>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVideoProvider("mirotalk")}
+                      className={`rounded-lg border p-3 text-left transition-colors ${
+                        videoProvider === "mirotalk"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                    >
+                      <p className="text-sm font-medium">MiroTalk</p>
+                      <p className="mt-1 text-[11px] text-warm-gray">
+                        Self-hosted. Full data privacy control.
+                      </p>
+                    </button>
+                  </div>
+                </div>
+
+                {videoProvider === "daily" && (
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-foreground">
+                      Daily.co API Key
+                    </label>
+                    <p className="mb-1 text-xs text-warm-gray">
+                      Get from{" "}
+                      <a
+                        href="https://dashboard.daily.co"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary underline"
+                      >
+                        dashboard.daily.co
+                      </a>
+                    </p>
+                    <Input
+                      type="password"
+                      placeholder="Daily API Key"
+                      value={dailyApiKey}
+                      onChange={(e) => setDailyApiKey(e.target.value)}
+                    />
+                  </div>
+                )}
+
+                {videoProvider === "mirotalk" && (
+                  <>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">
+                        Instance URL
+                      </label>
+                      <Input
+                        placeholder="https://video.somove.app"
+                        value={mirotalkUrl}
+                        onChange={(e) => setMirotalkUrl(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">
+                        API Key
+                      </label>
+                      <Input
+                        type="password"
+                        placeholder="MiroTalk API_KEY_SECRET"
+                        value={mirotalkKey}
+                        onChange={(e) => setMirotalkKey(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
 
@@ -506,6 +1028,81 @@ export default function SettingsPage() {
         )}
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+function SessionTypeEditor({
+  sessionType,
+  onSave,
+  onCancel,
+  loading,
+}: {
+  sessionType: {
+    id: string;
+    name: string;
+    description: string | null;
+    duration_min: number;
+    price_cents: number;
+    is_bundle: boolean;
+    bundle_sessions: number | null;
+  };
+  onSave: (updates: { name?: string; description?: string | null; duration_min?: number; price_cents?: number }) => void;
+  onCancel: () => void;
+  loading: boolean;
+}) {
+  const [name, setName] = useState(sessionType.name);
+  const [duration, setDuration] = useState(String(sessionType.duration_min));
+  const [price, setPrice] = useState(String(sessionType.price_cents / 100));
+
+  return (
+    <div className="flex-1 space-y-2">
+      <Input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
+        className="text-sm"
+      />
+      <div className="grid grid-cols-2 gap-2">
+        <select
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          className="rounded-card border border-input bg-transparent px-3 py-1.5 text-sm"
+        >
+          <option value="30">30 min</option>
+          <option value="45">45 min</option>
+          <option value="60">60 min</option>
+          <option value="90">90 min</option>
+        </select>
+        <div className="relative">
+          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray text-sm">€</span>
+          <Input
+            type="number"
+            min={0}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="pl-6 text-sm"
+          />
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          onClick={() =>
+            onSave({
+              name,
+              duration_min: parseInt(duration),
+              price_cents: Math.round(parseFloat(price) * 100),
+            })
+          }
+          disabled={loading || !name || !price}
+        >
+          Save
+        </Button>
+        <Button size="sm" variant="ghost" onClick={onCancel}>
+          Cancel
+        </Button>
       </div>
     </div>
   );
@@ -649,155 +1246,170 @@ function CalIntegrationCard({
   );
 }
 
-function StripeIntegrationCard({
-  stripeKey,
-  setStripeKey,
-  stripeWebhook,
-  setStripeWebhook,
-}: {
-  stripeKey: string;
-  setStripeKey: (v: string) => void;
-  stripeWebhook: string;
-  setStripeWebhook: (v: string) => void;
-}) {
-  const [status, setStatus] = useState<"idle" | "testing" | "connected" | "error">("idle");
-  const [connectedEmail, setConnectedEmail] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+function StripeConnectCard() {
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [payoutsEnabled, setPayoutsEnabled] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
 
-  const handleTest = async () => {
-    setStatus("testing");
-    setErrorMsg("");
+  useEffect(() => {
+    const loadStatus = async () => {
+      try {
+        const { createOrGetConnectedAccount, refreshAccountStatus } = await import("@/app/actions/stripe");
+        const result = await createOrGetConnectedAccount();
+        if ("accountId" in result) {
+          setAccountId(result.accountId);
+          const status = await refreshAccountStatus();
+          if ("chargesEnabled" in status) {
+            setPayoutsEnabled(status.payoutsEnabled);
+          }
+        }
+      } catch {
+        // Silently handle
+      }
+      setLoading(false);
+    };
+    loadStatus();
+  }, []);
 
-    const { testStripeConnection } = await import("@/app/actions/stripe");
-    const result = await testStripeConnection(stripeKey);
-
-    if (result.error) {
-      setStatus("error");
-      setErrorMsg(result.error.message);
-    } else if (result.data?.success) {
-      setStatus("connected");
-      setConnectedEmail(result.data.email || result.data.accountId || "Connected");
+  const handleOnboarding = async () => {
+    setActionLoading(true);
+    try {
+      const { getOnboardingLink } = await import("@/app/actions/stripe");
+      const result = await getOnboardingLink();
+      if ("url" in result) {
+        window.location.href = result.url;
+      }
+    } catch {
+      toast.error("Failed to create onboarding link");
     }
+    setActionLoading(false);
+  };
+
+  const handleDashboard = async () => {
+    setActionLoading(true);
+    try {
+      const { getDashboardLink } = await import("@/app/actions/stripe");
+      const result = await getDashboardLink();
+      if ("url" in result) {
+        window.open(result.url, "_blank");
+      }
+    } catch {
+      toast.error("Failed to open dashboard");
+    }
+    setActionLoading(false);
+  };
+
+  const handleRefresh = async () => {
+    setActionLoading(true);
+    try {
+      const { refreshAccountStatus } = await import("@/app/actions/stripe");
+      const status = await refreshAccountStatus();
+      if ("chargesEnabled" in status) {
+        setPayoutsEnabled(status.payoutsEnabled);
+        toast.success("Status refreshed");
+      }
+    } catch {
+      toast.error("Failed to refresh status");
+    }
+    setActionLoading(false);
   };
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <CardTitle>Stripe</CardTitle>
-            {status === "connected" && (
-              <CheckCircle className="h-5 w-5 text-accent" />
-            )}
-            {status === "error" && (
-              <XCircle className="h-5 w-5 text-destructive" />
-            )}
+    <Card>
+      <CardHeader>
+        <div className="flex items-center gap-2">
+          <CardTitle>Stripe Payments</CardTitle>
+          {payoutsEnabled && <CheckCircle className="h-5 w-5 text-accent" />}
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {loading ? (
+          <div className="flex items-center gap-2 text-sm text-warm-gray">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Loading payment status...
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-warm-gray">
-            Accept payments via Stripe Checkout. Clients pay directly on Stripe&apos;s hosted page.
-          </p>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-foreground">
-              Secret Key
-            </label>
-            <Input
-              type="password"
-              placeholder="sk_live_xxxxxxxxxxxx"
-              value={stripeKey}
-              onChange={(e) => {
-                setStripeKey(e.target.value);
-                setStatus("idle");
-              }}
-            />
-          </div>
-
-          {errorMsg && (
-            <p className="text-xs text-destructive">{errorMsg}</p>
-          )}
-
-          <Button
-            onClick={handleTest}
-            disabled={!stripeKey || status === "testing"}
-            variant="outline"
-            className="w-full"
-          >
-            {status === "testing" ? (
-              <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Testing...</>
-            ) : (
-              "Test Connection"
-            )}
-          </Button>
-
-          {status === "connected" && (
-            <p className="text-sm text-accent">Connected as {connectedEmail}</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Webhook Setup</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-warm-gray">
-            To receive payment confirmations, create a webhook in your Stripe dashboard.
-          </p>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-foreground">
-              Webhook Signing Secret
-            </label>
-            <Input
-              type="password"
-              placeholder="whsec_xxxxxxxxxxxx"
-              value={stripeWebhook}
-              onChange={(e) => setStripeWebhook(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-foreground">Webhook URL</p>
-            <div className="flex items-center gap-2">
-              <code className="flex-1 rounded bg-surface px-3 py-2 text-xs text-foreground">
-                {typeof window !== "undefined" ? `${window.location.origin}/api/webhooks/stripe` : "/api/webhooks/stripe"}
-              </code>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 flex-shrink-0"
-                onClick={() => {
-                  const url = `${window.location.origin}/api/webhooks/stripe`;
-                  navigator.clipboard.writeText(url);
-                  toast.success("Copied to clipboard");
-                }}
-              >
-                <Copy className="h-3.5 w-3.5" />
-              </Button>
+        ) : payoutsEnabled ? (
+          <div className="space-y-4">
+            <div className="rounded-card bg-accent/5 border border-accent/20 p-4">
+              <p className="text-sm font-medium text-accent">
+                Payouts are enabled
+              </p>
+              <p className="mt-1 text-xs text-warm-gray">
+                Your bank account is connected. You receive payments automatically after each session (minus 10% platform fee).
+              </p>
             </div>
-          </div>
 
-          <div className="space-y-1 text-xs text-warm-gray">
-            <p>Steps:</p>
-            <ol className="ml-4 list-decimal space-y-1">
-              <li>Go to stripe.com → Developers → Webhooks → Add endpoint</li>
-              <li>Add the webhook URL above</li>
-              <li>Select events:
-                <ul className="ml-4 mt-1 list-disc space-y-0.5">
-                  <li><strong>checkout.session.completed</strong></li>
-                  <li><strong>checkout.session.expired</strong></li>
-                  <li><strong>charge.refunded</strong></li>
-                </ul>
-              </li>
-              <li>Copy the webhook signing secret</li>
-              <li>Paste it in the Webhook Secret field above</li>
-              <li>Save</li>
-            </ol>
+            <Button
+              onClick={handleDashboard}
+              variant="outline"
+              className="w-full"
+              disabled={actionLoading}
+            >
+              Manage Payouts & Tax Documents
+            </Button>
+
+            <Button
+              onClick={handleRefresh}
+              variant="ghost"
+              className="w-full"
+              disabled={actionLoading}
+            >
+              Refresh Status
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        ) : accountId ? (
+          <div className="space-y-4">
+            <div className="rounded-card bg-primary/5 border border-primary/20 p-4">
+              <p className="text-sm font-medium text-primary">
+                Complete your payment setup
+              </p>
+              <p className="mt-1 text-xs text-warm-gray">
+                Connect your bank account to receive payments from sessions. You&apos;ll need to verify your identity with Stripe.
+              </p>
+            </div>
+
+            <Button
+              onClick={handleOnboarding}
+              className="w-full"
+              disabled={actionLoading}
+            >
+              {actionLoading ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Setting up...</>
+              ) : (
+                "Connect Bank Account"
+              )}
+            </Button>
+
+            <Button
+              onClick={handleRefresh}
+              variant="ghost"
+              className="w-full"
+              disabled={actionLoading}
+            >
+              Check Status
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-warm-gray">
+              Set up payments to receive earnings from sessions. Somove charges a 10% platform fee per session.
+            </p>
+
+            <Button
+              onClick={handleOnboarding}
+              className="w-full"
+              disabled={actionLoading}
+            >
+              {actionLoading ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Setting up...</>
+              ) : (
+                "Set Up Payments"
+              )}
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

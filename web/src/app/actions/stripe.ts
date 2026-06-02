@@ -3,77 +3,223 @@
 import { StripeClient } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
-export async function testStripeConnection(secretKey: string) {
-  const stripeClient = new StripeClient(secretKey);
-  const result = await stripeClient.testConnection();
-  return result;
+const PLATFORM_FEE_PERCENT = 10;
+
+function getPlatformStripe(): StripeClient | null {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) return null;
+  return new StripeClient(key);
 }
 
-export async function createStripeCheckout(sessionId: string) {
-  const supabase = createClient();
+export async function createOrGetConnectedAccount(): Promise<
+  { accountId: string } | { error: string }
+> {
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
 
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
 
-  if (!user) return { error: "Not authenticated." };
+  const { data: profile } = await supabase
+    .from("therapist_profile")
+    .select("stripe_account_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (profile?.stripe_account_id) {
+    return { accountId: profile.stripe_account_id };
+  }
+
+  const result = await stripe.createConnectedAccount(user.email || "");
+  if (result.error) return { error: result.error.message };
+
+  await supabase
+    .from("therapist_profile")
+    .update({ stripe_account_id: result.data!.accountId })
+    .eq("user_id", user.id);
+
+  return { accountId: result.data!.accountId };
+}
+
+export async function getOnboardingLink(): Promise<
+  { url: string } | { error: string }
+> {
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("therapist_profile")
+    .select("stripe_account_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile?.stripe_account_id) {
+    return { error: "No Stripe account found. Please create one first." };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const result = await stripe.createOnboardingLink(
+    profile.stripe_account_id,
+    `${siteUrl}/dashboard/settings?onboarding=refresh`,
+    `${siteUrl}/dashboard/settings?onboarding=complete`
+  );
+
+  if (result.error) return { error: result.error.message };
+  return { url: result.data!.url };
+}
+
+export async function refreshAccountStatus(): Promise<
+  { chargesEnabled: boolean; payoutsEnabled: boolean } | { error: string }
+> {
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("therapist_profile")
+    .select("stripe_account_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile?.stripe_account_id) {
+    return { error: "No Stripe account found" };
+  }
+
+  const result = await stripe.getAccountStatus(profile.stripe_account_id);
+  if (result.error) return { error: result.error.message };
+
+  await supabase
+    .from("therapist_profile")
+    .update({
+      stripe_onboarding_done:
+        result.data!.chargesEnabled && result.data!.payoutsEnabled,
+      stripe_payouts_enabled: result.data!.payoutsEnabled,
+    })
+    .eq("user_id", user.id);
+
+  return {
+    chargesEnabled: result.data!.chargesEnabled,
+    payoutsEnabled: result.data!.payoutsEnabled,
+  };
+}
+
+export async function getDashboardLink(): Promise<
+  { url: string } | { error: string }
+> {
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("therapist_profile")
+    .select("stripe_account_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile?.stripe_account_id) {
+    return { error: "No Stripe account found" };
+  }
+
+  const result = await stripe.createDashboardLink(profile.stripe_account_id);
+  if (result.error) return { error: result.error.message };
+  return { url: result.data!.url };
+}
+
+export async function createStripeCheckout(sessionId: string) {
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("*, users!sessions_client_id_fkey(name, email), therapist_profile!sessions_therapist_id_fkey(stripe_secret_key, users!inner(name))")
+    .select(
+      "*, users!sessions_client_id_fkey(name, email), therapist_profile!sessions_therapist_id_fkey(stripe_account_id, stripe_payouts_enabled, users!inner(name))"
+    )
     .eq("id", sessionId)
     .single();
 
-  if (!session) return { error: "Session not found." };
+  if (!session) return { error: "Session not found" };
 
   const profile = session.therapist_profile as unknown as {
-    stripe_secret_key: string | null;
+    stripe_account_id: string | null;
+    stripe_payouts_enabled: boolean;
     users: { name: string } | null;
   };
 
-  if (!profile?.stripe_secret_key) {
-    return { error: "Therapist has not configured Stripe." };
+  if (!profile?.stripe_account_id) {
+    return { error: "Therapist has not connected their bank account" };
+  }
+
+  if (!profile.stripe_payouts_enabled) {
+    return {
+      error: "Therapist has not completed Stripe onboarding yet",
+    };
   }
 
   const client = session.users as unknown as { name: string; email: string } | null;
-  const therapistName = profile.users?.name || "Therapist";
-
-  const stripeClient = new StripeClient(profile.stripe_secret_key);
+  const therapistName = profile.users?.name || "Professional";
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const platformFee = Math.round(session.amount_paid_cents * (PLATFORM_FEE_PERCENT / 100));
 
-  const result = await stripeClient.createCheckoutSession({
-    lineItems: [
-      {
-        priceData: {
-          currency: "eur",
-          productData: {
-            name: `Session with ${therapistName}`,
-            description: `${session.duration_min} min somatic therapy session`,
-          },
-          unitAmount: session.amount_paid_cents,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    successUrl: `${siteUrl}/booking/confirmed?sessionId=${session.id}&payment=success`,
-    cancelUrl: `${siteUrl}/booking/confirmed?sessionId=${session.id}&payment=cancelled`,
-    customerEmail: client?.email,
+  let productName = `Session with ${therapistName}`;
+  if (session.session_type_id) {
+    const { data: st } = await supabase
+      .from("session_types")
+      .select("name, is_bundle, bundle_sessions")
+      .eq("id", session.session_type_id)
+      .single();
+    if (st) {
+      productName = st.is_bundle
+        ? `${st.name} (${st.bundle_sessions} sessions)`
+        : st.name;
+    }
+  }
+
+  const result = await stripe.createConnectedCheckout({
+    amount: session.amount_paid_cents,
+    currency: "eur",
+    connectedAccountId: profile.stripe_account_id,
+    applicationFeeAmount: platformFee,
     metadata: {
       somove_session_id: session.id,
       somove_client_id: session.client_id,
       somove_therapist_id: session.therapist_id,
+      somove_platform_fee: String(platformFee),
     },
+    successUrl: `${siteUrl}/booking/confirmed?sessionId=${session.id}&payment=success`,
+    cancelUrl: `${siteUrl}/booking/confirmed?sessionId=${session.id}&payment=cancelled`,
+    customerEmail: client?.email,
+    productName,
+    productDescription: `${session.duration_min} min somatic therapy session`,
   });
 
-  if (result.error) {
-    return { error: result.error.message };
-  }
-
-  if (!result.data) {
-    return { error: "No checkout session created" };
-  }
+  if (result.error) return { error: result.error.message };
+  if (!result.data) return { error: "No checkout session created" };
 
   await supabase
     .from("sessions")
@@ -84,47 +230,30 @@ export async function createStripeCheckout(sessionId: string) {
 }
 
 export async function processRefund(sessionId: string) {
-  const supabase = createClient();
+  const stripe = getPlatformStripe();
+  if (!stripe) return { error: "Stripe platform not configured" };
 
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  if (!user) return { error: "Not authenticated." };
+  if (!user) return { error: "Not authenticated" };
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("stripe_payment_intent_id, therapist_id, therapist_profile!sessions_therapist_id_fkey(stripe_secret_key)")
+    .select("stripe_payment_intent_id, therapist_id")
     .eq("id", sessionId)
     .single();
 
-  if (!session) return { error: "Session not found." };
+  if (!session) return { error: "Session not found" };
+  if (!session.stripe_payment_intent_id) return { error: "No payment to refund" };
 
-  if (!session.stripe_payment_intent_id) {
-    return { error: "No payment to refund." };
-  }
-
-  const profile = session.therapist_profile as unknown as {
-    stripe_secret_key: string | null;
-  };
-
-  if (!profile?.stripe_secret_key) {
-    return { error: "Therapist Stripe not configured." };
-  }
-
-  const stripeClient = new StripeClient(profile.stripe_secret_key);
-  const refundResult = await stripeClient.createRefund(session.stripe_payment_intent_id);
-
-  if (refundResult.error) {
-    return { error: refundResult.error.message };
-  }
+  const refundResult = await stripe.createRefund(session.stripe_payment_intent_id);
+  if (refundResult.error) return { error: refundResult.error.message };
 
   await supabase
     .from("sessions")
-    .update({
-      payment_status: "refunded",
-      status: "cancelled",
-    })
+    .update({ payment_status: "refunded", status: "cancelled" })
     .eq("id", sessionId);
 
   await supabase
@@ -133,25 +262,5 @@ export async function processRefund(sessionId: string) {
     .eq("session_id", sessionId)
     .eq("stripe_payment_intent_id", session.stripe_payment_intent_id);
 
-  return { success: true };
-}
-
-export async function saveStripeIntegration(stripeSecretKey: string, stripeWebhookSecret: string) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { error: "Not authenticated." };
-
-  const { error } = await supabase
-    .from("therapist_profile")
-    .update({
-      stripe_secret_key: stripeSecretKey || null,
-      stripe_webhook_secret: stripeWebhookSecret || null,
-    })
-    .eq("user_id", user.id);
-
-  if (error) return { error: error.message };
   return { success: true };
 }

@@ -11,6 +11,8 @@ export async function middleware(request: NextRequest) {
     "/onboarding",
     "/therapists",
     "/emergency",
+    "/setup",
+    "/invite",
   ];
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
@@ -65,6 +67,9 @@ export async function middleware(request: NextRequest) {
     .single();
 
   if (pathname === "/login") {
+    if (userData?.role === "admin") {
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+    }
     if (userData?.role === "therapist") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
@@ -81,6 +86,18 @@ export async function middleware(request: NextRequest) {
 
   if (pathname === "/onboarding" && userData?.role !== "therapist") {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // Admin routes
+  if (pathname.startsWith("/admin")) {
+    if (userData?.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  // Redirect admin to admin dashboard on root
+  if (pathname === "/" && userData?.role === "admin") {
+    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
   }
 
   return supabaseResponse;

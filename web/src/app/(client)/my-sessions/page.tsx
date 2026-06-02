@@ -43,7 +43,7 @@ export default async function MySessionsPage() {
               </div>
               <p className="text-warm-gray">No sessions yet</p>
               <Link href="/">
-                <Button>Browse Therapists</Button>
+                <Button>Browse Professionals</Button>
               </Link>
             </div>
           )}
@@ -63,7 +63,7 @@ export default async function MySessionsPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-foreground">
-                            {(therapist as unknown as { name: string })?.name || "Therapist"}
+                            {(therapist as unknown as { name: string })?.name || "Professional"}
                           </p>
                           <p className="text-sm text-warm-gray">
                             {scheduledAt.toLocaleDateString("en-GB", {
@@ -105,6 +105,7 @@ export default async function MySessionsPage() {
               {pastSessions.map((session) => {
                 const therapist = session.therapist_profile?.users;
                 const scheduledAt = new Date(session.scheduled_at);
+                const therapistUserId = session.therapist_id;
                 return (
                   <div
                     key={session.id}
@@ -113,7 +114,7 @@ export default async function MySessionsPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-foreground">
-                          {(therapist as unknown as { name: string })?.name || "Therapist"}
+                          {(therapist as unknown as { name: string })?.name || "Professional"}
                         </p>
                         <p className="text-sm text-warm-gray">
                           {scheduledAt.toLocaleDateString("en-GB", {
@@ -123,9 +124,18 @@ export default async function MySessionsPage() {
                           })}
                         </p>
                       </div>
-                      <span className="rounded-full bg-surface px-3 py-1 text-xs text-warm-gray">
-                        {session.status}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-surface px-3 py-1 text-xs text-warm-gray">
+                          {session.status}
+                        </span>
+                        {session.status === "completed" && therapistUserId && (
+                          <Link href={`/therapists/${therapistUserId}/book`}>
+                            <Button size="sm" variant="outline">
+                              Book Again
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );

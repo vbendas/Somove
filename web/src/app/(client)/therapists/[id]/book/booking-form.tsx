@@ -1,11 +1,22 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { createSession } from "@/app/actions/booking";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import type { CalSlotsResponse } from "@/lib/cal.types";
+
+interface SessionType {
+  id: string;
+  name: string;
+  description: string | null;
+  duration_min: number;
+  price_cents: number;
+  is_bundle: boolean;
+  bundle_sessions: number | null;
+}
 
 interface BookingFormProps {
   therapistId: string;
@@ -17,6 +28,12 @@ interface BookingFormProps {
   timezone: string;
   calSlots: CalSlotsResponse | null;
   useCalIntegration: boolean;
+  sessionTypes: SessionType[];
+  availableCredits: number;
+  hasTos: boolean;
+  tosAccepted: boolean;
+  tosText: string | null;
+  tosVersion: number;
 }
 
 interface WeeklyAvailability {
@@ -132,6 +149,8 @@ function getCalAvailableSlots(
   });
 }
 
+type Step = "type" | "date" | "time" | "tos" | "confirm";
+
 export default function BookingForm({
   therapistId,
   durationMin,
@@ -142,14 +161,28 @@ export default function BookingForm({
   timezone,
   calSlots,
   useCalIntegration,
+  sessionTypes,
+  availableCredits,
+  hasTos,
+  tosAccepted,
+  tosText,
+  tosVersion,
 }: BookingFormProps) {
-  const [step, setStep] = useState<"date" | "time" | "confirm">("date");
+  const [step, setStep] = useState<Step>(
+    hasTos && !tosAccepted ? "type" : "type"
+  );
+  const [selectedSessionType, setSelectedSessionType] = useState<SessionType | null>(null);
+  const [useCredits, setUseCredits] = useState(false);
+  const [useFreeSession, setUseFreeSession] = useState(canUseFreeSession);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [selectedTimeLabel, setSelectedTimeLabel] = useState<string>("");
-  const [useFreeSession, setUseFreeSession] = useState(canUseFreeSession);
+  const [tosAgreed, setTosAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [monthOffset, setMonthOffset] = useState(0);
+
+  const singleTypes = sessionTypes.filter((t) => !t.is_bundle);
+  const bundleTypes = sessionTypes.filter((t) => t.is_bundle);
 
   const rules = useMemo(
     () =>
@@ -161,12 +194,15 @@ export default function BookingForm({
     [availabilityRules]
   );
 
+  const activeDuration = selectedSessionType?.duration_min || durationMin;
+  const activePrice = selectedSessionType?.price_cents || priceCents;
+
   const availableDates = useMemo(() => {
     if (useCalIntegration && calSlots) {
       return getCalAvailableDates(calSlots);
     }
-    return getLocalAvailableDates(rules, durationMin, rules.bufferMinutes || 15, existingBookings);
-  }, [useCalIntegration, calSlots, rules, durationMin, existingBookings]);
+    return getLocalAvailableDates(rules, activeDuration, rules.bufferMinutes || 15, existingBookings);
+  }, [useCalIntegration, calSlots, rules, activeDuration, existingBookings]);
 
   const availableSlots = useMemo(() => {
     if (!selectedDate) return [];
@@ -175,14 +211,14 @@ export default function BookingForm({
       return getCalAvailableSlots(selectedDate, calSlots);
     }
 
-    return getLocalAvailableSlots(selectedDate, rules, durationMin, rules.bufferMinutes || 15, existingBookings).map(
+    return getLocalAvailableSlots(selectedDate, rules, activeDuration, rules.bufferMinutes || 15, existingBookings).map(
       (slot) => ({
         start: `${selectedDate}T${slot}:00`,
         end: "",
         label: slot,
       })
     );
-  }, [selectedDate, useCalIntegration, calSlots, rules, durationMin, existingBookings]);
+  }, [selectedDate, useCalIntegration, calSlots, rules, activeDuration, existingBookings]);
 
   const monthDates = useMemo(() => {
     const now = new Date();
@@ -199,6 +235,20 @@ export default function BookingForm({
     return targetMonth.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
   }, [monthOffset]);
 
+  const handleTypeSelect = (type: SessionType) => {
+    setSelectedSessionType(type);
+    setUseFreeSession(false);
+    setUseCredits(false);
+    setStep("date");
+  };
+
+  const handleFreeSession = () => {
+    setSelectedSessionType(null);
+    setUseFreeSession(true);
+    setUseCredits(false);
+    setStep("date");
+  };
+
   const handleDateSelect = (dateStr: string) => {
     setSelectedDate(dateStr);
     setSelectedTime("");
@@ -209,7 +259,39 @@ export default function BookingForm({
   const handleTimeSelect = (slot: { start: string; end: string; label: string }) => {
     setSelectedTime(slot.start);
     setSelectedTimeLabel(slot.label);
-    setStep("confirm");
+
+    if (hasTos && !tosAccepted) {
+      setStep("tos");
+    } else {
+      setStep("confirm");
+    }
+  };
+
+  const handleTosAccept = async () => {
+    if (!tosAgreed) return;
+
+    try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase.from("terms_acceptances").insert({
+        therapist_id: therapistId,
+        client_id: user.id,
+        tos_version: tosVersion,
+      });
+
+      if (error) {
+        toast.error("Failed to record acceptance");
+        return;
+      }
+
+      setStep("confirm");
+    } catch {
+      toast.error("Failed to accept terms");
+    }
   };
 
   const handleBook = async () => {
@@ -217,13 +299,19 @@ export default function BookingForm({
 
     const scheduledAt = new Date(selectedTime);
 
+    const sessionTypeId = selectedSessionType?.id;
+    const isFreeSession = useFreeSession || (canUseFreeSession && !selectedSessionType);
+    const isCreditUse = useCredits && availableCredits > 0;
+
     const result = await createSession({
       therapistId,
       scheduledAt: scheduledAt.toISOString(),
-      durationMin,
-      sessionType: useFreeSession ? "free_first_session" : "single",
-      priceCents: useFreeSession ? 0 : priceCents,
+      durationMin: activeDuration,
+      sessionType: isFreeSession ? "free_first_session" : isCreditUse ? "single" : "single",
+      priceCents: isFreeSession || isCreditUse ? 0 : activePrice,
       timeZone: timezone,
+      sessionTypeId: sessionTypeId || undefined,
+      useCredits: isCreditUse,
     });
 
     if (result?.error) {
@@ -232,25 +320,119 @@ export default function BookingForm({
     }
   };
 
+  const steps: Step[] = hasTos && !tosAccepted
+    ? ["type", "date", "time", "tos", "confirm"]
+    : ["type", "date", "time", "confirm"];
+
+  const currentStepIndex = steps.indexOf(step);
+
+  const isFreeEligible = canUseFreeSession && !selectedSessionType;
+  const effectivePrice = isFreeEligible ? 0 : useCredits ? 0 : activePrice;
+
   return (
     <div className="space-y-6">
       <div className="flex gap-2">
-        {["date", "time", "confirm"].map((s) => (
+        {steps.map((s, i) => (
           <div
             key={s}
             className={`h-1.5 flex-1 rounded-full transition-colors ${
-              (s === "date" && step === "date") ||
-              (s === "time" && (step === "time" || step === "confirm")) ||
-              (s === "confirm" && step === "confirm")
-                ? "bg-primary"
-                : "bg-border"
+              i <= currentStepIndex ? "bg-primary" : "bg-border"
             }`}
           />
         ))}
       </div>
 
+      {step === "type" && (
+        <div className="space-y-4">
+          <h3 className="font-heading text-lg font-medium text-foreground">
+            Choose Session Type
+          </h3>
+
+          {canUseFreeSession && (
+            <button
+              onClick={handleFreeSession}
+              className="w-full rounded-card border border-accent/30 bg-accent/5 p-4 text-left transition-all hover:border-accent/50 hover:bg-accent/10"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-foreground">Free First Session</p>
+                  <p className="text-sm text-warm-gray">Try a session with no commitment</p>
+                </div>
+                <span className="text-lg font-medium text-accent">Free</span>
+              </div>
+            </button>
+          )}
+
+          {singleTypes.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-xs font-medium text-warm-gray uppercase tracking-wide">Individual Sessions</p>
+              {singleTypes.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => handleTypeSelect(type)}
+                  className="w-full rounded-card border border-border p-4 text-left transition-all hover:border-primary/30 hover:bg-primary/5"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-foreground">{type.name}</p>
+                      {type.description && (
+                        <p className="text-sm text-warm-gray">{type.description}</p>
+                      )}
+                      <p className="text-xs text-warm-gray">{type.duration_min} min</p>
+                    </div>
+                    <span className="text-lg font-medium text-foreground">
+                      €{(type.price_cents / 100).toFixed(0)}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {bundleTypes.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-xs font-medium text-warm-gray uppercase tracking-wide">Bundle Packages</p>
+              {bundleTypes.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => handleTypeSelect(type)}
+                  className="w-full rounded-card border border-border p-4 text-left transition-all hover:border-primary/30 hover:bg-primary/5"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-foreground">{type.name}</p>
+                      <p className="text-sm text-warm-gray">
+                        {type.bundle_sessions} sessions — €{(type.price_cents / 100 / (type.bundle_sessions || 1)).toFixed(0)}/session
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-lg font-medium text-foreground">
+                        €{(type.price_cents / 100).toFixed(0)}
+                      </span>
+                      <p className="text-xs text-warm-gray">{type.duration_min} min each</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {singleTypes.length === 0 && bundleTypes.length === 0 && !canUseFreeSession && (
+            <p className="py-4 text-center text-warm-gray">
+              No session types available. Please try again later.
+            </p>
+          )}
+        </div>
+      )}
+
       {step === "date" && (
         <div>
+          <div className="mb-4 flex items-center gap-3">
+            <Button variant="ghost" size="sm" onClick={() => setStep("type")}>
+              ← Change type
+            </Button>
+          </div>
+
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-heading text-lg font-medium text-foreground">
               {monthLabel}
@@ -338,13 +520,60 @@ export default function BookingForm({
         </div>
       )}
 
-      {step === "confirm" && (
+      {step === "tos" && (
         <div>
           <Button variant="ghost" size="sm" onClick={() => setStep("time")} className="mb-4">
             ← Change time
           </Button>
 
+          <h3 className="mb-4 font-heading text-lg font-medium text-foreground">
+            Terms of Service
+          </h3>
+
+          <div className="max-h-[300px] overflow-y-auto rounded-card border border-border bg-card p-4 mb-4">
+            <div className="prose prose-sm text-foreground whitespace-pre-wrap">
+              {tosText}
+            </div>
+          </div>
+
+          <label className="flex items-start gap-3 rounded-card border border-border p-4 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={tosAgreed}
+              onChange={(e) => setTosAgreed(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-border"
+            />
+            <span className="text-sm text-foreground">
+              I have read and accept the Terms of Service (v{tosVersion})
+            </span>
+          </label>
+
+          <Button
+            className="mt-4 w-full"
+            size="lg"
+            onClick={handleTosAccept}
+            disabled={!tosAgreed || loading}
+          >
+            Accept & Continue
+          </Button>
+        </div>
+      )}
+
+      {step === "confirm" && (
+        <div>
+          <Button variant="ghost" size="sm" onClick={() => setStep(hasTos && !tosAccepted ? "tos" : "time")} className="mb-4">
+            ← Change time
+          </Button>
+
           <div className="space-y-3 rounded-card border border-border bg-card p-4">
+            {selectedSessionType && (
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-warm-gray">Session</span>
+                <span className="text-sm font-medium text-foreground">
+                  {selectedSessionType.name}
+                </span>
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <span className="text-sm text-warm-gray">Date</span>
               <span className="text-sm font-medium text-foreground">
@@ -363,19 +592,37 @@ export default function BookingForm({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-warm-gray">Duration</span>
-              <span className="text-sm font-medium text-foreground">{durationMin} min</span>
+              <span className="text-sm font-medium text-foreground">{activeDuration} min</span>
             </div>
             <div className="border-t border-border pt-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-foreground">Total</span>
                 <span className="text-lg font-medium text-foreground">
-                  {useFreeSession ? "Free" : `€${(priceCents / 100).toFixed(0)}`}
+                  {effectivePrice === 0 ? "Free" : `€${(effectivePrice / 100).toFixed(0)}`}
                 </span>
               </div>
             </div>
           </div>
 
-          {canUseFreeSession && (
+          {availableCredits > 0 && !useFreeSession && (
+            <div className="mt-4 flex items-center justify-between rounded-card border border-primary/30 bg-primary/5 p-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">
+                  {availableCredits} {availableCredits === 1 ? "Credit" : "Credits"} Available
+                </p>
+                <p className="text-xs text-warm-gray">Use a credit instead of paying</p>
+              </div>
+              <Button
+                variant={useCredits ? "default" : "outline"}
+                size="sm"
+                onClick={() => setUseCredits(!useCredits)}
+              >
+                {useCredits ? "Using Credit" : "Use Credit"}
+              </Button>
+            </div>
+          )}
+
+          {canUseFreeSession && !useFreeSession && (
             <div className="mt-4 flex items-center justify-between rounded-card border border-accent/30 bg-accent/5 p-3">
               <div>
                 <p className="text-sm font-medium text-foreground">Use free first session?</p>
@@ -397,7 +644,11 @@ export default function BookingForm({
             onClick={handleBook}
             disabled={loading}
           >
-            {loading ? "Booking..." : useFreeSession ? "Confirm Free Session" : "Continue to Payment"}
+            {loading
+              ? "Booking..."
+              : effectivePrice === 0
+              ? "Confirm Booking"
+              : "Continue to Payment"}
           </Button>
         </div>
       )}

@@ -77,7 +77,7 @@ export function TopBar({
             >
               <Bell className="h-5 w-5" />
               {notificationCount > 0 && (
-                <span className="absolute right-1 top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
+                <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red-500 px-[5px] text-[11px] font-bold text-white ring-2 ring-background">
                   {notificationCount > 99 ? "99+" : notificationCount}
                 </span>
               )}

@@ -2,12 +2,15 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import ClientListSearch from "./client-list-search";
 
 export const dynamic = "force-dynamic";
-import { Search } from "lucide-react";
 
-export default async function ClientsPage() {
+export default async function ClientsPage({
+  searchParams,
+}: {
+  searchParams: { q?: string };
+}) {
   const supabase = createClient();
   const {
     data: { user },
@@ -21,7 +24,17 @@ export default async function ClientsPage() {
     .eq("therapist_id", user.id)
     .order("scheduled_at", { ascending: false });
 
-  const clientsMap = new Map<string, { name: string; email: string; lastSession: string; nextSession: string | null }>();
+  const clientsMap = new Map<
+    string,
+    {
+      name: string;
+      email: string;
+      lastSession: string;
+      nextSession: string | null;
+      lastNote: string | null;
+    }
+  >();
+
   sessions?.forEach((s) => {
     const client = s.users as unknown as { name: string; email: string };
     if (!client) return;
@@ -34,6 +47,7 @@ export default async function ClientsPage() {
         lastSession: scheduledAt,
         nextSession:
           ["confirmed", "pending_payment"].includes(s.status) ? scheduledAt : null,
+        lastNote: null,
       });
     } else {
       if (!existing.nextSession && ["confirmed", "pending_payment"].includes(s.status)) {
@@ -42,7 +56,32 @@ export default async function ClientsPage() {
     }
   });
 
-  const clients = Array.from(clientsMap.entries());
+  const clientIds = Array.from(clientsMap.keys());
+
+  for (const cId of clientIds) {
+    const { data: note } = await supabase
+      .from("client_notes")
+      .select("body")
+      .eq("client_id", cId)
+      .eq("therapist_id", user.id)
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (note?.body) {
+      const client = clientsMap.get(cId);
+      if (client) {
+        const firstLine = note.body.split("\n")[0];
+        client.lastNote = firstLine.length > 60 ? firstLine.slice(0, 60) + "..." : firstLine;
+      }
+    }
+  }
+
+  const q = searchParams.q?.toLowerCase() || "";
+  const clients = Array.from(clientsMap.entries()).filter(
+    ([, c]) => !q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,15 +90,14 @@ export default async function ClientsPage() {
           Clients
         </h1>
 
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-warm-gray" />
-          <Input placeholder="Search clients..." className="pl-10" />
-        </div>
+        <ClientListSearch initialQuery={q} />
 
         {clients.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <p className="text-warm-gray">No clients yet</p>
+              <p className="text-warm-gray">
+                {q ? "No clients match your search" : "No clients yet"}
+              </p>
             </CardContent>
           </Card>
         ) : (
@@ -74,17 +112,27 @@ export default async function ClientsPage() {
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-foreground">{client.name}</p>
                       <p className="truncate text-sm text-warm-gray">
-                        Last: {new Date(client.lastSession).toLocaleDateString("en-GB", {
+                        Last:{" "}
+                        {new Date(client.lastSession).toLocaleDateString("en-GB", {
                           day: "numeric",
                           month: "short",
                         })}
                         {client.nextSession && (
-                          <> · Next: {new Date(client.nextSession).toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "short",
-                          })}</>
+                          <>
+                            {" "}
+                            · Next:{" "}
+                            {new Date(client.nextSession).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                            })}
+                          </>
                         )}
                       </p>
+                      {client.lastNote && (
+                        <p className="mt-0.5 truncate text-xs text-warm-gray/70 italic">
+                          {client.lastNote}
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

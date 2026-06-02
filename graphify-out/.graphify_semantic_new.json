@@ -1,0 +1,1482 @@
+{
+  "nodes": [
+    {
+      "id": "deploy-docs-workflow",
+      "label": "Deploy Quartz docs to GitHub Pages",
+      "file_type": "code",
+      "source_file": ".github/workflows/deploy-docs.yml"
+    },
+    {
+      "id": "prd_somove",
+      "label": "Somove Product Requirements Document (Lean MVP)",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "prd_somove_copy",
+      "label": "Somove PRD (Somove folder copy)",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Product Requirement Document/Product Requirements Document.md"
+    },
+    {
+      "id": "group_breathwork_classes",
+      "label": "Group Breathwork Classes Feature Spec",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Features/Group Breathwork Classes.md"
+    },
+    {
+      "id": "somatic_therapy_research_report",
+      "label": "Somatic Therapy Platform Research Report",
+      "file_type": "paper",
+      "source_file": "Documentation/Somove/Research/Somatic Therapy Platform Research Report.md"
+    },
+    {
+      "id": "chat_support_roadmap",
+      "label": "Chat and Support System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md"
+    },
+    {
+      "id": "group_sessions_roadmap",
+      "label": "Group Sessions Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md"
+    },
+    {
+      "id": "master_platform_roadmap",
+      "label": "Master Platform Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md"
+    },
+    {
+      "id": "payment_system_roadmap",
+      "label": "Payment System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Payment System Roadmap.md"
+    },
+    {
+      "id": "scheduling_system_roadmap",
+      "label": "Scheduling System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Scheduling System Roadmap.md"
+    },
+    {
+      "id": "video_call_roadmap",
+      "label": "Video Call System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md"
+    },
+    {
+      "id": "somove_platform",
+      "label": "Somove Platform",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "daily_co",
+      "label": "Daily.co",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "cal_com",
+      "label": "Cal.com",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "stripe",
+      "label": "Stripe",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "supabase",
+      "label": "Supabase",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "mediapipe_hands",
+      "label": "MediaPipe Hands",
+      "file_type": "document",
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "livekit",
+      "label": "LiveKit",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md"
+    },
+    {
+      "id": "chatwoot",
+      "label": "Chatwoot",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md"
+    },
+    {
+      "id": "typebot",
+      "label": "Typebot",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md"
+    },
+    {
+      "id": "mistral_small_4",
+      "label": "Mistral Small 4",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md"
+    },
+    {
+      "id": "movenet_pose_detection",
+      "label": "MoveNet Pose Detection",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md"
+    },
+    {
+      "id": "quartz_docs",
+      "label": "Quartz Docs",
+      "file_type": "code",
+      "source_file": ".github/workflows/deploy-docs.yml"
+    },
+    {
+      "id": "somove_platform",
+      "label": "Somove Platform",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Welcome.md"
+    },
+    {
+      "id": "master_platform_roadmap",
+      "label": "Master Platform Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "video_call_roadmap",
+      "label": "Video Call System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md"
+    },
+    {
+      "id": "scheduling_system_roadmap",
+      "label": "Scheduling System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "payment_system_roadmap",
+      "label": "Payment System Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "chat_and_support_roadmap",
+      "label": "Chat & Support Roadmap",
+      "file_type": "document",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "video_call_system",
+      "label": "Video Call System",
+      "file_type": "code",
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md"
+    },
+    {
+      "id": "scheduling_system",
+      "label": "Scheduling System (Cal.com)",
+      "file_type": "code",
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "payment_system",
+      "label": "Payment System (Stripe Connect)",
+      "file_type": "code",
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "chat_support_system",
+      "label": "Chat & Support System",
+      "file_type": "code",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "auto_frame_feature",
+      "label": "Auto-Frame Feature",
+      "file_type": "code",
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md"
+    },
+    {
+      "id": "notes_system",
+      "label": "Therapist Notes System",
+      "file_type": "code",
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "session_credits_model",
+      "label": "Session Credits Model",
+      "file_type": "code",
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "design_system",
+      "label": "Somove Design System",
+      "file_type": "code",
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "authentication_system",
+      "label": "Authentication System",
+      "file_type": "code",
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "landing_page_plan",
+      "label": "Landing Page Plan",
+      "file_type": "document",
+      "source_file": "cleolenzea/LANDING_PAGE_PLAN.md"
+    },
+    {
+      "id": "landing_page_design",
+      "label": "Landing Page Design System",
+      "file_type": "code",
+      "source_file": "cleolenzea/LANDING_PAGE_PLAN.md"
+    },
+    {
+      "id": "livekit_webrtc",
+      "label": "LiveKit WebRTC",
+      "file_type": "code",
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md"
+    },
+    {
+      "id": "cal_com_scheduling",
+      "label": "Cal.com Scheduling Engine",
+      "file_type": "code",
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "stripe_connect",
+      "label": "Stripe Connect Express",
+      "file_type": "code",
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "chatwoot_support",
+      "label": "Chatwoot (Self-hosted)",
+      "file_type": "code",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "typebot_chatbot",
+      "label": "Typebot Chatbot",
+      "file_type": "code",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "mistral_small_4",
+      "label": "Mistral Small 4 (OpenRouter)",
+      "file_type": "code",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "supabase_realtime",
+      "label": "Supabase Realtime",
+      "file_type": "code",
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md"
+    },
+    {
+      "id": "group_breathwork_classes",
+      "label": "Group Breathwork Classes",
+      "file_type": "document",
+      "source_file": "Documentation/Somove/Welcome.md"
+    },
+    {
+      "id": "github_funding_jackyzha0",
+      "label": "GitHub Sponsors (jackyzha0)",
+      "file_type": "document",
+      "source_file": "quartz/.github/FUNDING.yml"
+    },
+    {
+      "id": "quartz_bug_report_template",
+      "label": "Bug Report Template",
+      "file_type": "document",
+      "source_file": "quartz/.github/ISSUE_TEMPLATE/bug_report.md"
+    },
+    {
+      "id": "quartz_feature_request_template",
+      "label": "Feature Request Template",
+      "file_type": "document",
+      "source_file": "quartz/.github/ISSUE_TEMPLATE/feature_request.md"
+    },
+    {
+      "id": "quartz_dependabot_config",
+      "label": "Dependabot Configuration",
+      "file_type": "document",
+      "source_file": "quartz/.github/dependabot.yml"
+    },
+    {
+      "id": "quartz_pull_request_template",
+      "label": "Pull Request Template",
+      "file_type": "document",
+      "source_file": "quartz/.github/pull_request_template.md"
+    },
+    {
+      "id": "quartz_build_preview_workflow",
+      "label": "Build Preview Deployment Workflow",
+      "file_type": "document",
+      "source_file": "quartz/.github/workflows/build-preview.yaml"
+    },
+    {
+      "id": "quartz_ci_workflow",
+      "label": "CI Build and Test Workflow",
+      "file_type": "document",
+      "source_file": "quartz/.github/workflows/ci.yaml"
+    },
+    {
+      "id": "quartz_deploy_preview_workflow",
+      "label": "Deploy Preview to Cloudflare Pages Workflow",
+      "file_type": "document",
+      "source_file": "quartz/.github/workflows/deploy-preview.yaml"
+    },
+    {
+      "id": "quartz_docker_build_push_workflow",
+      "label": "Docker Build and Push Workflow",
+      "file_type": "document",
+      "source_file": "quartz/.github/workflows/docker-build-push.yaml"
+    },
+    {
+      "id": "quartz_code_of_conduct",
+      "label": "Citizen Code of Conduct",
+      "file_type": "document",
+      "source_file": "quartz/CODE_OF_CONDUCT.md"
+    },
+    {
+      "id": "quartz_mit_license",
+      "label": "MIT License",
+      "file_type": "document",
+      "source_file": "quartz/LICENSE.txt"
+    },
+    {
+      "id": "quartz_readme",
+      "label": "Quartz v4 README",
+      "file_type": "document",
+      "source_file": "quartz/README.md"
+    },
+    {
+      "id": "web_readme",
+      "label": "web/README.md",
+      "file_type": "document",
+      "source_file": "web/README.md"
+    },
+    {
+      "id": "assets_b_acm8681457",
+      "label": "Dark Textured Background",
+      "file_type": "image",
+      "source_file": "Assets/b,acm8681457.png"
+    },
+    {
+      "id": "assets_bac8681457",
+      "label": "Dark Textured Background",
+      "file_type": "image",
+      "source_file": "Assets/bac8681457.png"
+    },
+    {
+      "id": "assets_crest",
+      "label": "SoMove Crest Logo",
+      "file_type": "image",
+      "source_file": "Assets/crest.png"
+    },
+    {
+      "id": "assets_logo",
+      "label": "SoMove Wordmark Logo",
+      "file_type": "image",
+      "source_file": "Assets/logo.png"
+    },
+    {
+      "id": "assets_logo_webp",
+      "label": "SoMove Wordmark Logo (WebP)",
+      "file_type": "image",
+      "source_file": "Assets/logo.webp"
+    },
+    {
+      "id": "assets_test_design",
+      "label": "Underwriter Art Design",
+      "file_type": "image",
+      "source_file": "Assets/test_design.png"
+    },
+    {
+      "id": "mainpage_apple_icon",
+      "label": "Mainpage Apple Touch Icon",
+      "file_type": "image",
+      "source_file": "mainpage/public/apple-icon.png"
+    },
+    {
+      "id": "mainpage_crest",
+      "label": "Mainpage Crest Logo",
+      "file_type": "image",
+      "source_file": "mainpage/public/crest.png"
+    },
+    {
+      "id": "mainpage_icon_dark",
+      "label": "Mainpage Dark Favicon",
+      "file_type": "image",
+      "source_file": "mainpage/public/icon-dark-32x32.png"
+    },
+    {
+      "id": "mainpage_icon_light",
+      "label": "Mainpage Light Favicon",
+      "file_type": "image",
+      "source_file": "mainpage/public/icon-light-32x32.png"
+    },
+    {
+      "id": "icon_svg",
+      "label": "Somove App Icon (SM Monogram)",
+      "file_type": "image",
+      "source_file": "mainpage/public/icon.svg"
+    },
+    {
+      "id": "mask_group_pattern_svg",
+      "label": "Decorative Wave Background Pattern",
+      "file_type": "image",
+      "source_file": "mainpage/public/mask-group-pattern.svg"
+    },
+    {
+      "id": "logo_png",
+      "label": "Somove Logo (Dark Text)",
+      "file_type": "image",
+      "source_file": "mainpage/public/logo.png"
+    },
+    {
+      "id": "logo_webp",
+      "label": "Somove Logo (WebP)",
+      "file_type": "image",
+      "source_file": "mainpage/public/logo.webp"
+    },
+    {
+      "id": "dashboard_schedule_planning",
+      "label": "Schedule Planning Dashboard UI",
+      "file_type": "image",
+      "source_file": "mainpage/public/modern-dashboard-interface-for-schedule-planning-w.jpg"
+    },
+    {
+      "id": "dashboard_data_visualization",
+      "label": "Data Visualization Analytics Dashboard",
+      "file_type": "image",
+      "source_file": "mainpage/public/modern-dashboard-interface-with-data-visualization.jpg"
+    },
+    {
+      "id": "quartz_icon_png",
+      "label": "Quartz Crystal Line Art Icon",
+      "file_type": "image",
+      "source_file": "quartz/quartz/static/icon.png"
+    },
+    {
+      "id": "quartz_og_image",
+      "label": "Quartz 4 Branding OG Image",
+      "file_type": "image",
+      "source_file": "quartz/quartz/static/og-image.png"
+    },
+    {
+      "id": "web_icon_192",
+      "label": "Somove PWA Icon 192px",
+      "file_type": "image",
+      "source_file": "web/public/icons/icon-192x192.png"
+    },
+    {
+      "id": "web_icon_512",
+      "label": "Somove PWA Icon 512px",
+      "file_type": "image",
+      "source_file": "web/public/icons/icon-512x512.png"
+    },
+    {
+      "id": "bg_mp4",
+      "label": "Cleolenzea Landing Page Background Video",
+      "file_type": "document",
+      "source_file": "cleolenzea/bg.mp4"
+    }
+  ],
+  "edges": [
+    {
+      "source": "prd_somove_copy",
+      "target": "master_platform_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Product Requirement Document/Product Requirements Document.md",
+      "weight": 1.0
+    },
+    {
+      "source": "prd_somove",
+      "target": "master_platform_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "video_call_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "scheduling_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "payment_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "chat_support_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "prd_somove",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Master Platform Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "group_breathwork_classes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "master_platform_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "video_call_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "payment_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "scheduling_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "chat_support_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "daily_co",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "cal_com",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "stripe",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "supabase",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "mediapipe_hands",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "livekit",
+      "target": "movenet_pose_detection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chatwoot",
+      "target": "typebot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "typebot",
+      "target": "mistral_small_4",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_roadmap",
+      "target": "supabase",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "payment_system_roadmap",
+      "target": "stripe",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Payment System Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "scheduling_system_roadmap",
+      "target": "cal_com",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Scheduling System Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "scheduling_system_roadmap",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Scheduling System Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "video_call_roadmap",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "deploy-docs-workflow",
+      "target": "quartz_docs",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/workflows/deploy-docs.yml",
+      "weight": 1.0
+    },
+    {
+      "source": "group_sessions_roadmap",
+      "target": "somove_platform",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Documentation/Somove/Roadmap/Group Sessions Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somatic_therapy_research_report",
+      "target": "somove_platform",
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Documentation/Somove/Research/Somatic Therapy Platform Research Report.md",
+      "weight": 1.0
+    },
+    {
+      "source": "livekit",
+      "target": "daily_co",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Documentation/PRD.md",
+      "weight": 1.0
+    },
+    {
+      "source": "video_call_roadmap",
+      "target": "prd_somove",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md",
+      "weight": 1.0
+    },
+    {
+      "source": "group_breathwork_classes",
+      "target": "somove_platform",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Features/Group Breathwork Classes.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "master_platform_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "video_call_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "scheduling_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "payment_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "chat_and_support_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "group_breathwork_classes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Welcome.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "design_system",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "somove_platform",
+      "target": "authentication_system",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "video_call_system",
+      "target": "livekit_webrtc",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "video_call_system",
+      "target": "auto_frame_feature",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_frame_feature",
+      "target": "livekit_webrtc",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/VIDEO_CALL_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "scheduling_system",
+      "target": "cal_com_scheduling",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "payment_system",
+      "target": "stripe_connect",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "payment_system",
+      "target": "session_credits_model",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "chatwoot_support",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "typebot_chatbot",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "supabase_realtime",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "typebot_chatbot",
+      "target": "mistral_small_4",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "scheduling_system",
+      "target": "video_call_system",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "payment_system",
+      "target": "scheduling_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "scheduling_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "video_call_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "chat_support_system",
+      "target": "payment_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "video_call_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "scheduling_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "payment_system_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "master_platform_roadmap",
+      "target": "chat_and_support_roadmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "landing_page_plan",
+      "target": "landing_page_design",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "cleolenzea/LANDING_PAGE_PLAN.md",
+      "weight": 1.0
+    },
+    {
+      "source": "landing_page_design",
+      "target": "design_system",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "cleolenzea/LANDING_PAGE_PLAN.md",
+      "weight": 1.0
+    },
+    {
+      "source": "session_credits_model",
+      "target": "payment_system",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "notes_system",
+      "target": "video_call_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_build_preview_workflow",
+      "target": "quartz_ci_workflow",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "quartz/.github/workflows/build-preview.yaml",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_deploy_preview_workflow",
+      "target": "quartz_docker_build_push_workflow",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "quartz/.github/workflows/deploy-preview.yaml",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_bug_report_template",
+      "target": "quartz_feature_request_template",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "quartz/.github/ISSUE_TEMPLATE/bug_report.md",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_deploy_preview_workflow",
+      "target": "quartz_build_preview_workflow",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "quartz/.github/workflows/deploy-preview.yaml",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_pull_request_template",
+      "target": "quartz_bug_report_template",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "quartz/.github/pull_request_template.md",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_logo",
+      "target": "assets_logo_webp",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Assets/logo.png",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_crest",
+      "target": "mainpage_crest",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Assets/crest.png",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_logo",
+      "target": "assets_crest",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Assets/logo.png",
+      "weight": 0.8
+    },
+    {
+      "source": "mainpage_apple_icon",
+      "target": "mainpage_icon_dark",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mainpage/public/apple-icon.png",
+      "weight": 1.0
+    },
+    {
+      "source": "mainpage_icon_dark",
+      "target": "mainpage_icon_light",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mainpage/public/icon-dark-32x32.png",
+      "weight": 1.0
+    },
+    {
+      "source": "mainpage_apple_icon",
+      "target": "mainpage_icon_light",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mainpage/public/apple-icon.png",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_b_acm8681457",
+      "target": "assets_bac8681457",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Assets/b,acm8681457.png",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_test_design",
+      "target": "assets_crest",
+      "relation": "conceptually_related_to",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.2,
+      "source_file": "Assets/test_design.png",
+      "weight": 0.5
+    },
+    {
+      "source": "logo_png",
+      "target": "logo_webp",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "mainpage/public/logo.png",
+      "weight": 1.0
+    },
+    {
+      "source": "icon_svg",
+      "target": "logo_png",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "mainpage/public/icon.svg",
+      "weight": 1.0
+    },
+    {
+      "source": "logo_png",
+      "target": "web_icon_192",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "mainpage/public/logo.png",
+      "weight": 1.0
+    },
+    {
+      "source": "logo_png",
+      "target": "web_icon_512",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "mainpage/public/logo.png",
+      "weight": 1.0
+    },
+    {
+      "source": "icon_svg",
+      "target": "web_icon_192",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "mainpage/public/icon.svg",
+      "weight": 1.0
+    },
+    {
+      "source": "icon_svg",
+      "target": "web_icon_512",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "mainpage/public/icon.svg",
+      "weight": 1.0
+    },
+    {
+      "source": "web_icon_192",
+      "target": "web_icon_512",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "web/public/icons/icon-192x192.png",
+      "weight": 1.0
+    },
+    {
+      "source": "quartz_icon_png",
+      "target": "quartz_og_image",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "quartz/quartz/static/icon.png",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboard_schedule_planning",
+      "target": "dashboard_data_visualization",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "mainpage/public/modern-dashboard-interface-for-schedule-planning-w.jpg",
+      "weight": 1.0
+    },
+    {
+      "source": "mask_group_pattern_svg",
+      "target": "dashboard_schedule_planning",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "mainpage/public/mask-group-pattern.svg",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "somove_tech_stack",
+      "label": "Somove Lean MVP Technology Stack",
+      "nodes": [
+        "somove_platform",
+        "daily_co",
+        "cal_com",
+        "stripe",
+        "supabase",
+        "mediapipe_hands"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/PRD.md"
+    },
+    {
+      "id": "marketplace_video_system",
+      "label": "Full Marketplace Video Call System",
+      "nodes": [
+        "video_call_roadmap",
+        "livekit",
+        "movenet_pose_detection"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Video Call Roadmap.md"
+    },
+    {
+      "id": "support_chat_stack",
+      "label": "Support Chat Technology Stack",
+      "nodes": [
+        "chatwoot",
+        "typebot",
+        "mistral_small_4",
+        "supabase"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/Somove/Roadmap/Chat and Support Roadmap.md"
+    },
+    {
+      "id": "somove_platform_core_systems",
+      "label": "Core Platform Subsystems",
+      "nodes": [
+        "somove_platform",
+        "video_call_system",
+        "scheduling_system",
+        "payment_system",
+        "chat_support_system"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "third_party_infra_stack",
+      "label": "Third-Party Infrastructure Stack",
+      "nodes": [
+        "livekit_webrtc",
+        "cal_com_scheduling",
+        "stripe_connect",
+        "chatwoot_support",
+        "typebot_chatbot"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Documentation/plan/MASTER_PLATFORM_ROADMAP.md"
+    },
+    {
+      "id": "booking_to_session_flow",
+      "label": "Booking to Session Lifecycle Flow",
+      "nodes": [
+        "cal_com_scheduling",
+        "stripe_connect",
+        "livekit_webrtc",
+        "session_credits_model"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md"
+    },
+    {
+      "id": "quartz_ci_cd_pipeline",
+      "label": "Quartz CI/CD Pipeline",
+      "nodes": [
+        "quartz_build_preview_workflow",
+        "quartz_ci_workflow",
+        "quartz_deploy_preview_workflow",
+        "quartz_docker_build_push_workflow"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "quartz/.github/workflows"
+    },
+    {
+      "id": "quartz_community_governance",
+      "label": "Quartz Community Governance",
+      "nodes": [
+        "quartz_code_of_conduct",
+        "quartz_mit_license",
+        "quartz_readme"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "quartz/CODE_OF_CONDUCT.md"
+    },
+    {
+      "id": "quartz_github_templates",
+      "label": "GitHub Issue and PR Templates",
+      "nodes": [
+        "quartz_bug_report_template",
+        "quartz_feature_request_template",
+        "quartz_pull_request_template"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "quartz/.github/ISSUE_TEMPLATE/bug_report.md"
+    },
+    {
+      "id": "somove_brand_assets",
+      "label": "SoMove Brand Identity System",
+      "nodes": [
+        "assets_crest",
+        "assets_logo",
+        "assets_logo_webp",
+        "mainpage_crest"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Assets/crest.png"
+    },
+    {
+      "id": "mainpage_favicon_set",
+      "label": "Mainpage Favicon and Icon Set",
+      "nodes": [
+        "mainpage_apple_icon",
+        "mainpage_icon_dark",
+        "mainpage_icon_light"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mainpage/public/apple-icon.png"
+    },
+    {
+      "id": "dark_background_assets",
+      "label": "Dark Textured Background Assets",
+      "nodes": [
+        "assets_b_acm8681457",
+        "assets_bac8681457"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Assets/b,acm8681457.png"
+    },
+    {
+      "id": "somove_branding_assets",
+      "label": "Somove Brand Identity Assets",
+      "nodes": [
+        "icon_svg",
+        "logo_png",
+        "logo_webp",
+        "web_icon_192",
+        "web_icon_512"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "mainpage/public/logo.png"
+    },
+    {
+      "id": "quartz_branding_assets",
+      "label": "Quartz Static Site Generator Branding",
+      "nodes": [
+        "quartz_icon_png",
+        "quartz_og_image"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "quartz/quartz/static/og-image.png"
+    },
+    {
+      "id": "product_dashboard_previews",
+      "label": "Somove Product Dashboard UI Previews",
+      "nodes": [
+        "dashboard_schedule_planning",
+        "dashboard_data_visualization",
+        "mask_group_pattern_svg"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "mainpage/public/modern-dashboard-interface-for-schedule-planning-w.jpg"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

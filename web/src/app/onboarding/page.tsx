@@ -104,10 +104,10 @@ export default function OnboardingPage() {
 
     const slug = `somove-${Date.now().toString(36)}`;
     const result = await createCalEventType(calApiKey, {
-      title: "Somatic Therapy Session",
+      title: "Session",
       slug,
       lengthInMinutes: duration,
-      description: "Book a somatic therapy session via Somove",
+      description: "Book a session via Somove",
       minimumBookingNotice: 60,
       afterEventBuffer: 15,
     });
@@ -181,7 +181,7 @@ export default function OnboardingPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">About You</label>
                 <Textarea
-                  placeholder="Describe your approach to somatic therapy, what clients can expect, and your philosophy..."
+                  placeholder="Describe your approach, what clients can expect, and your philosophy..."
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   className="min-h-[120px]"

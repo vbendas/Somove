@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CreditCard } from "lucide-react";
 
 async function getTherapist(id: string) {
   const supabase = createClient();
@@ -17,19 +18,37 @@ async function getTherapist(id: string) {
   return data;
 }
 
+async function getClientCredits(clientId: string, therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("session_credits")
+    .select("remaining_credits")
+    .eq("client_id", clientId)
+    .eq("therapist_id", therapistId)
+    .gt("remaining_credits", 0);
+  return data?.reduce((sum, c) => sum + c.remaining_credits, 0) || 0;
+}
+
 export default async function TherapistProfilePage({
   params,
 }: {
   params: { id: string };
 }) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const therapist = await getTherapist(params.id);
 
   if (!therapist) {
     notFound();
   }
 
-  const user = therapist.users as { id: string; name: string; email: string } | null;
-  const name = user?.name || "Therapist";
+  const userObj = therapist.users as { id: string; name: string; email: string } | null;
+  const name = userObj?.name || "Professional";
+
+  const credits = user ? await getClientCredits(user.id, params.id) : 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,6 +78,15 @@ export default async function TherapistProfilePage({
               )}
             </div>
           </div>
+
+          {credits > 0 && (
+            <div className="mb-4 flex items-center gap-3 rounded-card border border-primary/20 bg-primary/5 p-3">
+              <CreditCard className="h-4 w-4 text-primary" />
+              <p className="text-sm font-medium text-foreground">
+                You have {credits} {credits === 1 ? "session credit" : "session credits"} remaining
+              </p>
+            </div>
+          )}
 
           {therapist.bio && (
             <div className="mb-6">
@@ -111,12 +139,12 @@ export default async function TherapistProfilePage({
           </div>
 
           <div className="flex gap-3">
-            <Link href={`/intake`} className="flex-1">
+            <Link href={`/therapists/${params.id}/book`} className="flex-1">
               <Button className="w-full" size="lg">
                 Book a Session
               </Button>
             </Link>
-            <Link href={`/inbox?therapist=${user?.id}`} className="flex-1">
+            <Link href={`/inbox?therapist=${userObj?.id}`} className="flex-1">
               <Button variant="outline" className="w-full" size="lg">
                 Message {name.split(" ")[0]}
               </Button>

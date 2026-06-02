@@ -46,9 +46,9 @@ export function BottomNav({ items, className }: BottomNavProps) {
             >
               <div className="relative">
                 <Icon className="h-5 w-5" strokeWidth={isActive ? 2.5 : 2} />
-                {item.badge && item.badge > 0 && (
-                  <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
-                    {item.badge > 99 ? "99+" : item.badge}
+                {(item.badge ?? 0) > 0 && (
+                  <span className="absolute -right-2 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red-500 px-[5px] text-[11px] font-bold text-white ring-2 ring-background">
+                    {(item.badge ?? 0) > 99 ? "99+" : item.badge}
                   </span>
                 )}
               </div>

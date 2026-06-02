@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Lora, DM_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import ChatwootWidget from "@/components/support/chatwoot-widget";
+import { NotificationProvider } from "@/components/notifications/notification-provider";
+import { SWRegister, PushPermission } from "@/components/notifications/sw-register";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { getPlatformSettings } from "@/lib/platform";
 import "./globals.css";
 
 const lora = Lora({
@@ -15,39 +20,46 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Somove — Somatic Therapy Platform",
-  description:
-    "Book somatic therapy sessions with certified practitioners. Full-body video calls with contactless gesture controls, secure messaging, and practice management.",
-  keywords: [
-    "somatic therapy",
-    "somatic experiencing",
-    "dance movement therapy",
-    "trauma therapy",
-    "nervous system regulation",
-    "online therapy",
-    "body-based healing",
-    "telehealth",
-    "therapy platform",
-  ],
-  openGraph: {
-    title: "Somove — Somatic Therapy Platform",
-    description:
-      "Book somatic therapy sessions with certified practitioners. Full-body video calls with contactless gesture controls.",
-    type: "website",
-    url: "https://somove.app",
-  },
-  manifest: "/manifest.json",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getPlatformSettings();
+  const name = settings.platform_name;
+  const tagline = settings.platform_tagline || "Professional Session Platform";
 
-export const viewport: Viewport = {
-  themeColor: "#D4A574",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
+  return {
+    title: `${name} — ${tagline}`,
+    description: `Book sessions with certified professionals on ${name}. Video calls, secure messaging, and practice management.`,
+    keywords: [
+      "online sessions",
+      "video coaching",
+      "professional services",
+      "remote learning",
+      "practice management",
+      "session booking",
+      "telehealth",
+      "video calls",
+      "online platform",
+    ],
+    openGraph: {
+      title: `${name} — ${tagline}`,
+      description: `Book sessions with certified professionals on ${name}.`,
+      type: "website",
+      url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    },
+    manifest: "/manifest.json",
+  };
+}
 
-export default function RootLayout({
+export async function generateViewport(): Promise<Viewport> {
+  const settings = await getPlatformSettings();
+  return {
+    themeColor: settings.primary_color,
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -57,8 +69,14 @@ export default function RootLayout({
       <body
         className={`${lora.variable} ${dmSans.variable} font-body antialiased`}
       >
-        {children}
-        <Toaster />
+        <NotificationProvider>
+          {children}
+          <Toaster />
+          <ChatwootWidget />
+          <SWRegister />
+          <PushPermission />
+          <InstallPrompt />
+        </NotificationProvider>
       </body>
     </html>
   );

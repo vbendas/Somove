@@ -26,7 +26,7 @@ export default async function BookingConfirmedPage({
 
   const scheduledAt = new Date(session.scheduled_at);
   const therapist = session.therapist_profile?.users;
-  const therapistName = (therapist as unknown as { name: string })?.name || "Therapist";
+  const therapistName = (therapist as unknown as { name: string })?.name || "Professional";
 
   const paymentStatus = searchParams.payment;
 
@@ -60,7 +60,7 @@ BEGIN:VEVENT
 DTSTART:${scheduledAt.toISOString().replace(/[-:]/g, "").split(".")[0]}Z
 DTEND:${new Date(scheduledAt.getTime() + session.duration_min * 60000).toISOString().replace(/[-:]/g, "").split(".")[0]}Z
 SUMMARY:Session with ${therapistName}
-DESCRIPTION:Somatic therapy session via Somove
+DESCRIPTION:Session via Somove
 END:VEVENT
 END:VCALENDAR`;
 
@@ -116,7 +116,7 @@ END:VCALENDAR`;
               </div>
             </div>
             <div className="border-t border-border pt-3">
-              <p className="text-sm text-warm-gray">Therapist</p>
+              <p className="text-sm text-warm-gray">Professional</p>
               <p className="font-medium text-foreground">{therapistName}</p>
             </div>
             {session.payment_status === "paid" && (
@@ -184,7 +184,7 @@ END:VCALENDAR`;
           </Link>
           <Link href="/">
             <Button variant="ghost" className="w-full">
-              Browse More Therapists
+              Browse More Professionals
             </Button>
           </Link>
         </div>

@@ -1,0 +1,11 @@
+/Users/victorbendas/Documents/GitHub/Somove/web/README.md
+/Users/victorbendas/Documents/GitHub/Somove/Assets/b,acm8681457.png
+/Users/victorbendas/Documents/GitHub/Somove/Assets/bac8681457.png
+/Users/victorbendas/Documents/GitHub/Somove/Assets/crest.png
+/Users/victorbendas/Documents/GitHub/Somove/Assets/logo.png
+/Users/victorbendas/Documents/GitHub/Somove/Assets/logo.webp
+/Users/victorbendas/Documents/GitHub/Somove/Assets/test_design.png
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/apple-icon.png
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/crest.png
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon-dark-32x32.png
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon-light-32x32.png

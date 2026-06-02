@@ -1,0 +1,116 @@
+_format_version: "2.8.1"
+_transform: true
+
+services:
+  - name: auth-v1-open
+    url: http://auth:9999/verify
+    routes:
+      - name: auth-v1-open
+        paths:
+          - /auth/v1/verify
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+
+  - name: auth-v1-open-callback
+    url: http://auth:9999/callback
+    routes:
+      - name: auth-v1-open-callback
+        paths:
+          - /auth/v1/callback
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+
+  - name: auth-v1-open-authorize
+    url: http://auth:9999/authorize
+    routes:
+      - name: auth-v1-open-authorize
+        paths:
+          - /auth/v1/authorize
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+
+  - name: auth-v1
+    url: http://auth:9999/
+    routes:
+      - name: auth-v1
+        paths:
+          - /auth/v1/
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+      - name: key-auth
+        config:
+          hide_credentials: false
+      - name: proxy-cache
+        config:
+          response_code:
+            - 200
+            - 204
+            - 400
+            - 401
+            - 403
+            - 404
+            - 500
+          request_method:
+            - GET
+          content_type:
+            - application/json
+          cache_ttl: 10
+          cache_key: "${request.method}${request.uri}"
+          vary_headers:
+            - authorization
+          storage_memory: true
+
+  - name: rest-v1
+    url: http://rest:3000/
+    routes:
+      - name: rest-v1
+        paths:
+          - /rest/v1/
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+      - name: key-auth
+        config:
+          hide_credentials: false
+      - name: proxy-cache
+        config:
+          response_code:
+            - 200
+            - 204
+            - 400
+            - 401
+            - 403
+            - 404
+            - 500
+          request_method:
+            - GET
+          content_type:
+            - application/json
+          cache_ttl: 10
+          cache_key: "${request.method}${request.uri}"
+          vary_headers:
+            - authorization
+          storage_memory: true
+
+  - name: storage-v1
+    url: http://storage:8000/
+    routes:
+      - name: storage-v1
+        paths:
+          - /storage/v1/
+        strip_path: true
+        preserve_host: true
+    plugins:
+      - name: cors
+      - name: key-auth
+        config:
+          hide_credentials: false

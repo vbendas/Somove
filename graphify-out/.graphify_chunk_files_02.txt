@@ -1,0 +1,11 @@
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Welcome.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/index.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/MASTER_PLATFORM_ROADMAP.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/VIDEO_CALL_ROADMAP.md
+/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/LANDING_PAGE_PLAN.md
+/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/README.md
+/Users/victorbendas/Documents/GitHub/Somove/mainpage/README.md
+/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/FUNDING.yml

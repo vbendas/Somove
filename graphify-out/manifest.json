@@ -1,0 +1,2122 @@
+{
+  "/Users/victorbendas/Documents/GitHub/Somove/.claude/settings.local.json": {
+    "mtime": 1778532623.7920046,
+    "ast_hash": "40211e0d9f038cdb6128a0ca0f9ea945",
+    "semantic_hash": "40211e0d9f038cdb6128a0ca0f9ea945"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/.opencode/opencode.json": {
+    "mtime": 1780348604.7203286,
+    "ast_hash": "e5f74d14a81702b55bdf53b33ec991d7",
+    "semantic_hash": "e5f74d14a81702b55bdf53b33ec991d7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/.opencode/package.json": {
+    "mtime": 1780348773.3640876,
+    "ast_hash": "d3ab821609ec487b22aa5b0027f5f400",
+    "semantic_hash": "d3ab821609ec487b22aa5b0027f5f400"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/.opencode/plugins/graphify.js": {
+    "mtime": 1780348594.3299239,
+    "ast_hash": "64ccd3c03dbfe0980b6095766f5c4e52",
+    "semantic_hash": "64ccd3c03dbfe0980b6095766f5c4e52"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/.obsidian/app.json": {
+    "mtime": 1778758436.7312768,
+    "ast_hash": "87b5d70041a76e5f2671ebcaacbd3f4a",
+    "semantic_hash": "87b5d70041a76e5f2671ebcaacbd3f4a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/.obsidian/appearance.json": {
+    "mtime": 1778758436.7317803,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": "99914b932bd37a50b983c5e7c90ae93b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/.obsidian/core-plugins.json": {
+    "mtime": 1778758402.0767689,
+    "ast_hash": "7c877bea49eaeabb100563bd157b9051",
+    "semantic_hash": "7c877bea49eaeabb100563bd157b9051"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/.obsidian/graph.json": {
+    "mtime": 1778758453.821,
+    "ast_hash": "7e9ee55c495811734e2074852b7f7352",
+    "semantic_hash": "7e9ee55c495811734e2074852b7f7352"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/.obsidian/workspace.json": {
+    "mtime": 1778758870.83375,
+    "ast_hash": "8c60ecbbfb4bed3859caaed484e22ae5",
+    "semantic_hash": "8c60ecbbfb4bed3859caaed484e22ae5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/.eslintrc.json": {
+    "mtime": 1778525361.323994,
+    "ast_hash": "5cc89077d438e3d0d0a8308ab7e06a5a",
+    "semantic_hash": "5cc89077d438e3d0d0a8308ab7e06a5a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/next-env.d.ts": {
+    "mtime": 1778525361.324223,
+    "ast_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838",
+    "semantic_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/next.config.mjs": {
+    "mtime": 1778525361.3242311,
+    "ast_hash": "21958f5752add43cc47ab0ff5172cd46",
+    "semantic_hash": "21958f5752add43cc47ab0ff5172cd46"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/package.json": {
+    "mtime": 1778756791.0917165,
+    "ast_hash": "d21b58001395bc14fe391767ebe08f0d",
+    "semantic_hash": "d21b58001395bc14fe391767ebe08f0d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/postcss.config.mjs": {
+    "mtime": 1778525361.324242,
+    "ast_hash": "b7941c02b947e17ae32f67ae7e664ec8",
+    "semantic_hash": "b7941c02b947e17ae32f67ae7e664ec8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/app/layout.tsx": {
+    "mtime": 1778526082.7906082,
+    "ast_hash": "5ac2daa3fc4b486f40395b35237c2238",
+    "semantic_hash": "5ac2daa3fc4b486f40395b35237c2238"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/app/page.tsx": {
+    "mtime": 1778619595.3956175,
+    "ast_hash": "40c17f7fc9029cc66fa0f6232c5cbfed",
+    "semantic_hash": "40c17f7fc9029cc66fa0f6232c5cbfed"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/AboutTherapist.tsx": {
+    "mtime": 1778619630.2451117,
+    "ast_hash": "094beb64e3a494c5998d12b3dd7db95b",
+    "semantic_hash": "094beb64e3a494c5998d12b3dd7db95b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Blog.tsx": {
+    "mtime": 1778619549.6968546,
+    "ast_hash": "0e3cdcdaea88d37a5644f8afa617715d",
+    "semantic_hash": "0e3cdcdaea88d37a5644f8afa617715d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/CrisisBanner.tsx": {
+    "mtime": 1778619521.8150554,
+    "ast_hash": "4870934588dac70165f0867cc1edb782",
+    "semantic_hash": "4870934588dac70165f0867cc1edb782"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/FinalCTA.tsx": {
+    "mtime": 1778619564.8156424,
+    "ast_hash": "194fbd9b33df92a1711eb6ba44e832e4",
+    "semantic_hash": "194fbd9b33df92a1711eb6ba44e832e4"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Footer.tsx": {
+    "mtime": 1778619636.2026982,
+    "ast_hash": "b6c5184e8961d93b7166b0129c6241f7",
+    "semantic_hash": "b6c5184e8961d93b7166b0129c6241f7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/GreenCTA.tsx": {
+    "mtime": 1778619534.3549066,
+    "ast_hash": "7e585141b63b7733088b3b7f0ecc9829",
+    "semantic_hash": "7e585141b63b7733088b3b7f0ecc9829"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Header.tsx": {
+    "mtime": 1778619356.5520194,
+    "ast_hash": "de1edcc16d259b16762f4618e70b7507",
+    "semantic_hash": "de1edcc16d259b16762f4618e70b7507"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Hero.tsx": {
+    "mtime": 1778619377.3069186,
+    "ast_hash": "139d3c07c4b73bbf5d03ce4b1f8c4066",
+    "semantic_hash": "139d3c07c4b73bbf5d03ce4b1f8c4066"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/HowItWorks.tsx": {
+    "mtime": 1778619429.632113,
+    "ast_hash": "72d4f198e0cdb802a29cacb50fffe0ea",
+    "semantic_hash": "72d4f198e0cdb802a29cacb50fffe0ea"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/ParallaxBackground.tsx": {
+    "mtime": 1778619256.303958,
+    "ast_hash": "eadbd860bfdc98c51c0a31315b808bfe",
+    "semantic_hash": "eadbd860bfdc98c51c0a31315b808bfe"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Pricing.tsx": {
+    "mtime": 1778619508.7909474,
+    "ast_hash": "7342d3a84eeaa872b1ab5073458f41e9",
+    "semantic_hash": "7342d3a84eeaa872b1ab5073458f41e9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/StatsCounter.tsx": {
+    "mtime": 1778619466.363319,
+    "ast_hash": "3b90aaba8c25a0c6b3cd490871f849cf",
+    "semantic_hash": "3b90aaba8c25a0c6b3cd490871f849cf"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/Testimonials.tsx": {
+    "mtime": 1778619486.7306802,
+    "ast_hash": "7836ffe309001e529f47f1fb784349a1",
+    "semantic_hash": "7836ffe309001e529f47f1fb784349a1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/WhatIsSomatic.tsx": {
+    "mtime": 1778619397.1554997,
+    "ast_hash": "234baf09d73fc876256d49313486d56b",
+    "semantic_hash": "234baf09d73fc876256d49313486d56b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/landing/WhySomatic.tsx": {
+    "mtime": 1778619452.8109744,
+    "ast_hash": "d07f7a6c5f241b50d4378a7d4ff85e7f",
+    "semantic_hash": "d07f7a6c5f241b50d4378a7d4ff85e7f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/svg/WaveDividers.tsx": {
+    "mtime": 1778594494.6705508,
+    "ast_hash": "d1755a1194fed926f568d8dea8cc0342",
+    "semantic_hash": "d1755a1194fed926f568d8dea8cc0342"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/ui/AnimatedSection.tsx": {
+    "mtime": 1778526798.7806776,
+    "ast_hash": "0ec50040910ebec6f7a03ba9869cfc62",
+    "semantic_hash": "0ec50040910ebec6f7a03ba9869cfc62"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/ui/Badge.tsx": {
+    "mtime": 1778526115.8905125,
+    "ast_hash": "4538a80ef617cf229e4ed08e52fc049f",
+    "semantic_hash": "4538a80ef617cf229e4ed08e52fc049f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/ui/Button.tsx": {
+    "mtime": 1778619317.387819,
+    "ast_hash": "4739e9f3badf7994acd021382c7f82b1",
+    "semantic_hash": "4739e9f3badf7994acd021382c7f82b1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/ui/Card.tsx": {
+    "mtime": 1778619338.8245735,
+    "ast_hash": "0b128692926bd424624a271ae4ebdf39",
+    "semantic_hash": "0b128692926bd424624a271ae4ebdf39"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/components/ui/SectionHeading.tsx": {
+    "mtime": 1778619325.6275604,
+    "ast_hash": "7ef870e91bced1fd0f9d7e40cecb9528",
+    "semantic_hash": "7ef870e91bced1fd0f9d7e40cecb9528"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/hooks/useInView.ts": {
+    "mtime": 1778526790.9174626,
+    "ast_hash": "ba179f6877efecc26deb053695d72945",
+    "semantic_hash": "ba179f6877efecc26deb053695d72945"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/src/hooks/useSwipe.ts": {
+    "mtime": 1778594841.2395988,
+    "ast_hash": "fcd3cea683701ae42e2fbb90d7e68aeb",
+    "semantic_hash": "fcd3cea683701ae42e2fbb90d7e68aeb"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/tailwind.config.ts": {
+    "mtime": 1778619288.381284,
+    "ast_hash": "82c1b15868b3c7cee3e064c0baa61b9c",
+    "semantic_hash": "82c1b15868b3c7cee3e064c0baa61b9c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/tsconfig.json": {
+    "mtime": 1778525361.3251958,
+    "ast_hash": "3bd7a3770c6b44dbcaab1d2f175db8bd",
+    "semantic_hash": "3bd7a3770c6b44dbcaab1d2f175db8bd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/app/layout.tsx": {
+    "mtime": 1778761050.8357964,
+    "ast_hash": "c621ccc238abfd4e022d9f7b671cbec4",
+    "semantic_hash": "c621ccc238abfd4e022d9f7b671cbec4"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/app/page.tsx": {
+    "mtime": 1778764642.9706047,
+    "ast_hash": "0907a24b4318742b81cae8526cdebd64",
+    "semantic_hash": "0907a24b4318742b81cae8526cdebd64"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components.json": {
+    "mtime": 1778758297.4214342,
+    "ast_hash": "ba0496f98030c9a620c4cf864cd11792",
+    "semantic_hash": "ba0496f98030c9a620c4cf864cd11792"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/cta-section.tsx": {
+    "mtime": 1778764964.6386335,
+    "ast_hash": "1da843715a2c96d41b071bbc66b22dd0",
+    "semantic_hash": "1da843715a2c96d41b071bbc66b22dd0"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/dashboard-preview.tsx": {
+    "mtime": 1778758297.4092896,
+    "ast_hash": "2c26aa086b8dc0ca545898b47950c2b5",
+    "semantic_hash": "2c26aa086b8dc0ca545898b47950c2b5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/documentation-section.tsx": {
+    "mtime": 1778764950.0962045,
+    "ast_hash": "9d318f5b301efa42e4672d6bc12643b8",
+    "semantic_hash": "9d318f5b301efa42e4672d6bc12643b8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/effortless-integration-updated.tsx": {
+    "mtime": 1778758995.3991718,
+    "ast_hash": "fecc69b9cbdb86a5d2ad01d61add549f",
+    "semantic_hash": "fecc69b9cbdb86a5d2ad01d61add549f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/effortless-integration.tsx": {
+    "mtime": 1778758297.414284,
+    "ast_hash": "6bd6a45dd13db7799935f9dbbbacd1a2",
+    "semantic_hash": "6bd6a45dd13db7799935f9dbbbacd1a2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/faq-section.tsx": {
+    "mtime": 1778764916.4034574,
+    "ast_hash": "c89fbfee88656f49f902040c47ed2f52",
+    "semantic_hash": "c89fbfee88656f49f902040c47ed2f52"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/feature-cards.tsx": {
+    "mtime": 1778758297.4070077,
+    "ast_hash": "de1d8b63f997c1ff0f47e65ea05d3c48",
+    "semantic_hash": "de1d8b63f997c1ff0f47e65ea05d3c48"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/footer-section.tsx": {
+    "mtime": 1778765003.846012,
+    "ast_hash": "64f1d2129e5e73a7bccc2bf3aaea70f1",
+    "semantic_hash": "64f1d2129e5e73a7bccc2bf3aaea70f1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/header.tsx": {
+    "mtime": 1778758297.4162836,
+    "ast_hash": "11b25ce8c03d5a91035544cf7a9f89a8",
+    "semantic_hash": "11b25ce8c03d5a91035544cf7a9f89a8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/hero-section.tsx": {
+    "mtime": 1778758297.4122255,
+    "ast_hash": "b0e3917e9b1480fa21ce6b6ac7d3c594",
+    "semantic_hash": "b0e3917e9b1480fa21ce6b6ac7d3c594"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/numbers-that-speak.tsx": {
+    "mtime": 1778758297.4101193,
+    "ast_hash": "160930916554c996da295f2c930505ba",
+    "semantic_hash": "160930916554c996da295f2c930505ba"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/pricing-section.tsx": {
+    "mtime": 1778758774.9775043,
+    "ast_hash": "89b14467e6645e6471accd625b514f9e",
+    "semantic_hash": "89b14467e6645e6471accd625b514f9e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/smart-simple-brilliant.tsx": {
+    "mtime": 1778758297.4204774,
+    "ast_hash": "f2f6af5261b35b0c23f324a5229be5c2",
+    "semantic_hash": "f2f6af5261b35b0c23f324a5229be5c2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/testimonials-section.tsx": {
+    "mtime": 1778764980.8176446,
+    "ast_hash": "6e8b78b4c2e7368cbd45e99c27119a03",
+    "semantic_hash": "6e8b78b4c2e7368cbd45e99c27119a03"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/theme-provider.tsx": {
+    "mtime": 1778758297.3587809,
+    "ast_hash": "3cd89febe6ca9cb784ba567481e50b5d",
+    "semantic_hash": "3cd89febe6ca9cb784ba567481e50b5d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/accordion.tsx": {
+    "mtime": 1778758297.378169,
+    "ast_hash": "3280ea6d007c8a1a4eb2168853752f9d",
+    "semantic_hash": "3280ea6d007c8a1a4eb2168853752f9d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/alert-dialog.tsx": {
+    "mtime": 1778758297.3614643,
+    "ast_hash": "f67f220ce30c2d4fc5c7f38f7cad743f",
+    "semantic_hash": "f67f220ce30c2d4fc5c7f38f7cad743f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/alert.tsx": {
+    "mtime": 1778758297.3807764,
+    "ast_hash": "0b8a92e185c2b4b4132b39ab9d6bfd36",
+    "semantic_hash": "0b8a92e185c2b4b4132b39ab9d6bfd36"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/aspect-ratio.tsx": {
+    "mtime": 1778758297.3605478,
+    "ast_hash": "54a4035369e138e3e28c8f81f24a3e4e",
+    "semantic_hash": "54a4035369e138e3e28c8f81f24a3e4e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/avatar.tsx": {
+    "mtime": 1778758297.3878343,
+    "ast_hash": "0b5f08c610364dfb4b439de3072c0a18",
+    "semantic_hash": "0b5f08c610364dfb4b439de3072c0a18"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/badge.tsx": {
+    "mtime": 1778758297.390138,
+    "ast_hash": "c668163ef77ed404525a44bdad8d4149",
+    "semantic_hash": "c668163ef77ed404525a44bdad8d4149"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/breadcrumb.tsx": {
+    "mtime": 1778758297.3845549,
+    "ast_hash": "73c34eacd6610e17fcf10fafc36e5e4f",
+    "semantic_hash": "73c34eacd6610e17fcf10fafc36e5e4f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/button.tsx": {
+    "mtime": 1778758297.3936143,
+    "ast_hash": "98a94b66c19f7b65768a73963a5127dc",
+    "semantic_hash": "98a94b66c19f7b65768a73963a5127dc"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/calendar.tsx": {
+    "mtime": 1778758297.3838406,
+    "ast_hash": "849df3f14ce3ae50bf9f0daa48c0d192",
+    "semantic_hash": "849df3f14ce3ae50bf9f0daa48c0d192"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/card.tsx": {
+    "mtime": 1778758297.3651276,
+    "ast_hash": "6163cb04124696988967213843de8759",
+    "semantic_hash": "6163cb04124696988967213843de8759"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/carousel.tsx": {
+    "mtime": 1778758297.40512,
+    "ast_hash": "3ddd9aa0bdb3ce098a2544c0796d7d5c",
+    "semantic_hash": "3ddd9aa0bdb3ce098a2544c0796d7d5c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/chart.tsx": {
+    "mtime": 1778758297.370875,
+    "ast_hash": "cc7a999284bd7783e837a08991ced461",
+    "semantic_hash": "cc7a999284bd7783e837a08991ced461"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/checkbox.tsx": {
+    "mtime": 1778758297.396251,
+    "ast_hash": "9704a9dc477951f889df4d9fe814e692",
+    "semantic_hash": "9704a9dc477951f889df4d9fe814e692"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/collapsible.tsx": {
+    "mtime": 1778758297.397036,
+    "ast_hash": "b72b5773d0bf0c7f037492e24ba87f03",
+    "semantic_hash": "b72b5773d0bf0c7f037492e24ba87f03"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/command.tsx": {
+    "mtime": 1778758297.3864675,
+    "ast_hash": "05f2f28c4223b32d8496c7f12af5df1d",
+    "semantic_hash": "05f2f28c4223b32d8496c7f12af5df1d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/context-menu.tsx": {
+    "mtime": 1778758297.403105,
+    "ast_hash": "2aa075061e5b83c1336ac23e27afb15e",
+    "semantic_hash": "2aa075061e5b83c1336ac23e27afb15e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/dialog.tsx": {
+    "mtime": 1778758297.3895285,
+    "ast_hash": "4c0ae830ee9a2accd99d6034ef69d7c2",
+    "semantic_hash": "4c0ae830ee9a2accd99d6034ef69d7c2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/drawer.tsx": {
+    "mtime": 1778758297.3793046,
+    "ast_hash": "8a97d59e7dcbe7fc6f33f099396dc1c7",
+    "semantic_hash": "8a97d59e7dcbe7fc6f33f099396dc1c7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/dropdown-menu.tsx": {
+    "mtime": 1778758297.3982348,
+    "ast_hash": "aa1a31a573b2de8c2dec3dd763d89720",
+    "semantic_hash": "aa1a31a573b2de8c2dec3dd763d89720"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/form.tsx": {
+    "mtime": 1778758297.4039214,
+    "ast_hash": "8558308ba44bf5795b21e19316758047",
+    "semantic_hash": "8558308ba44bf5795b21e19316758047"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/hover-card.tsx": {
+    "mtime": 1778758297.371538,
+    "ast_hash": "efa74c912813e82c46b09404186f50fe",
+    "semantic_hash": "efa74c912813e82c46b09404186f50fe"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/input-otp.tsx": {
+    "mtime": 1778758297.369702,
+    "ast_hash": "6c6765e5e951ce1c9478c91181f2070f",
+    "semantic_hash": "6c6765e5e951ce1c9478c91181f2070f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/input.tsx": {
+    "mtime": 1778758297.401044,
+    "ast_hash": "06f3c32e6ea7c8894c308311db9d5b46",
+    "semantic_hash": "06f3c32e6ea7c8894c308311db9d5b46"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/label.tsx": {
+    "mtime": 1778758297.375438,
+    "ast_hash": "d903b43cea5545736489d68398e9d721",
+    "semantic_hash": "d903b43cea5545736489d68398e9d721"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/menubar.tsx": {
+    "mtime": 1778758297.3888094,
+    "ast_hash": "dce0764df19697910c15e8953f182191",
+    "semantic_hash": "dce0764df19697910c15e8953f182191"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/navigation-menu.tsx": {
+    "mtime": 1778758297.3774314,
+    "ast_hash": "cf43f62575090447c33d2c4ca3a857c2",
+    "semantic_hash": "cf43f62575090447c33d2c4ca3a857c2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/pagination.tsx": {
+    "mtime": 1778758297.3631506,
+    "ast_hash": "7198ef830dcb2a51b89a5ae56b4d5f24",
+    "semantic_hash": "7198ef830dcb2a51b89a5ae56b4d5f24"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/popover.tsx": {
+    "mtime": 1778758297.3673368,
+    "ast_hash": "2cc3a66dc8b534b07b67166d450bf277",
+    "semantic_hash": "2cc3a66dc8b534b07b67166d450bf277"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/progress.tsx": {
+    "mtime": 1778758297.3681967,
+    "ast_hash": "9bceccedd810bcfd115462ac2a49c5f9",
+    "semantic_hash": "9bceccedd810bcfd115462ac2a49c5f9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/radio-group.tsx": {
+    "mtime": 1778758297.385258,
+    "ast_hash": "4f88daf9c5a7e09cf0b7af5af0472441",
+    "semantic_hash": "4f88daf9c5a7e09cf0b7af5af0472441"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/resizable.tsx": {
+    "mtime": 1778758297.3746529,
+    "ast_hash": "346349c424a33f80008d3ad17748c8fb",
+    "semantic_hash": "346349c424a33f80008d3ad17748c8fb"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/scroll-area.tsx": {
+    "mtime": 1778758297.3738704,
+    "ast_hash": "8e2931c98fa1b2521793d3cdfabc1738",
+    "semantic_hash": "8e2931c98fa1b2521793d3cdfabc1738"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/select.tsx": {
+    "mtime": 1778758297.399399,
+    "ast_hash": "73ee5213dbcd25fc5e574c2facda58fd",
+    "semantic_hash": "73ee5213dbcd25fc5e574c2facda58fd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/separator.tsx": {
+    "mtime": 1778758297.3928282,
+    "ast_hash": "fa1d6b256d52cabcb4107578b9b6b0a4",
+    "semantic_hash": "fa1d6b256d52cabcb4107578b9b6b0a4"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/sheet.tsx": {
+    "mtime": 1778758297.372992,
+    "ast_hash": "53dcbdaf54edbc8107df654165041fcc",
+    "semantic_hash": "53dcbdaf54edbc8107df654165041fcc"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/sidebar.tsx": {
+    "mtime": 1778758297.39111,
+    "ast_hash": "2298e8a44ff28f5f335cf7204599ab85",
+    "semantic_hash": "2298e8a44ff28f5f335cf7204599ab85"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/skeleton.tsx": {
+    "mtime": 1778758297.40191,
+    "ast_hash": "2543986774fc345cb3bb7d170bd67647",
+    "semantic_hash": "2543986774fc345cb3bb7d170bd67647"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/slider.tsx": {
+    "mtime": 1778758297.3662672,
+    "ast_hash": "0e96171ef7e605df87cd5443c1bd9dd5",
+    "semantic_hash": "0e96171ef7e605df87cd5443c1bd9dd5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/sonner.tsx": {
+    "mtime": 1778758297.3762696,
+    "ast_hash": "ccbedfa7e07db2476c5ce5753c1d2873",
+    "semantic_hash": "ccbedfa7e07db2476c5ce5753c1d2873"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/switch.tsx": {
+    "mtime": 1778758297.382426,
+    "ast_hash": "5331f90f9f5dc71c2e0fe8d7073d3687",
+    "semantic_hash": "5331f90f9f5dc71c2e0fe8d7073d3687"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/table.tsx": {
+    "mtime": 1778758297.3920147,
+    "ast_hash": "f9c4a944e8f63900317a2e34d5749e00",
+    "semantic_hash": "f9c4a944e8f63900317a2e34d5749e00"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/tabs.tsx": {
+    "mtime": 1778758297.3640232,
+    "ast_hash": "58aacdaccdedde3bed1fbf686250a620",
+    "semantic_hash": "58aacdaccdedde3bed1fbf686250a620"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/textarea.tsx": {
+    "mtime": 1778758297.40034,
+    "ast_hash": "6f7f48a37038bd31f680a101da5f1297",
+    "semantic_hash": "6f7f48a37038bd31f680a101da5f1297"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/toast.tsx": {
+    "mtime": 1778758297.395462,
+    "ast_hash": "5ee7ed62dc695a0ed611a999791189c6",
+    "semantic_hash": "5ee7ed62dc695a0ed611a999791189c6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/toaster.tsx": {
+    "mtime": 1778758297.3689492,
+    "ast_hash": "81ec599e471d6645e88c84c754ca4969",
+    "semantic_hash": "81ec599e471d6645e88c84c754ca4969"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/toggle-group.tsx": {
+    "mtime": 1778758297.387198,
+    "ast_hash": "4e81bea74e40ba0c665ce5990ef2291e",
+    "semantic_hash": "4e81bea74e40ba0c665ce5990ef2291e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/toggle.tsx": {
+    "mtime": 1778758297.394425,
+    "ast_hash": "5e48c4194c17ede135b2a02181bca0ce",
+    "semantic_hash": "5e48c4194c17ede135b2a02181bca0ce"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/tooltip.tsx": {
+    "mtime": 1778758297.380165,
+    "ast_hash": "3285bcf24a499acd14eb7e8168686c11",
+    "semantic_hash": "3285bcf24a499acd14eb7e8168686c11"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/use-mobile.tsx": {
+    "mtime": 1778758297.3622897,
+    "ast_hash": "aeaddfd0234c8ad696e5bc96ad23ef25",
+    "semantic_hash": "aeaddfd0234c8ad696e5bc96ad23ef25"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/ui/use-toast.ts": {
+    "mtime": 1778758297.3816764,
+    "ast_hash": "567b2bd208a7dc4377ecacdaf928e434",
+    "semantic_hash": "567b2bd208a7dc4377ecacdaf928e434"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/components/your-work-in-sync.tsx": {
+    "mtime": 1778758297.4172866,
+    "ast_hash": "542938cfc8a4b48179aecd60b64ec47d",
+    "semantic_hash": "542938cfc8a4b48179aecd60b64ec47d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/hooks/use-mobile.ts": {
+    "mtime": 1778758297.4229913,
+    "ast_hash": "aeaddfd0234c8ad696e5bc96ad23ef25",
+    "semantic_hash": "aeaddfd0234c8ad696e5bc96ad23ef25"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/hooks/use-toast.ts": {
+    "mtime": 1778758297.423827,
+    "ast_hash": "567b2bd208a7dc4377ecacdaf928e434",
+    "semantic_hash": "567b2bd208a7dc4377ecacdaf928e434"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/lib/utils.ts": {
+    "mtime": 1778758297.4251995,
+    "ast_hash": "9a4cc6f9f3155ffdc1fa7c2c097f6429",
+    "semantic_hash": "9a4cc6f9f3155ffdc1fa7c2c097f6429"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/next-env.d.ts": {
+    "mtime": 1778758422.3714676,
+    "ast_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838",
+    "semantic_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/next.config.mjs": {
+    "mtime": 1778758297.4260812,
+    "ast_hash": "e36b6419c008f0a3d55bd789c4fabcf0",
+    "semantic_hash": "e36b6419c008f0a3d55bd789c4fabcf0"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/package.json": {
+    "mtime": 1778758343.1616569,
+    "ast_hash": "be3d06e2e20d51809a4ede493fd8ca05",
+    "semantic_hash": "be3d06e2e20d51809a4ede493fd8ca05"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/postcss.config.mjs": {
+    "mtime": 1778758297.428733,
+    "ast_hash": "f82d40129ab70e95110c0470895b366c",
+    "semantic_hash": "f82d40129ab70e95110c0470895b366c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/tailwind.config.ts": {
+    "mtime": 1778757130.4124138,
+    "ast_hash": "09fdf908dd33ad9e4443cd313183a30e",
+    "semantic_hash": "09fdf908dd33ad9e4443cd313183a30e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/tsconfig.json": {
+    "mtime": 1778758297.4905076,
+    "ast_hash": "38ecd4531c7b67c69f668ab912eb0052",
+    "semantic_hash": "38ecd4531c7b67c69f668ab912eb0052"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/globals.d.ts": {
+    "mtime": 1778758770.232423,
+    "ast_hash": "8a4938dee4503692d85c617fe83c4e92",
+    "semantic_hash": "8a4938dee4503692d85c617fe83c4e92"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/index.d.ts": {
+    "mtime": 1778758770.2325315,
+    "ast_hash": "a2ea10a55ebc086a25c900d47895375b",
+    "semantic_hash": "a2ea10a55ebc086a25c900d47895375b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/package.json": {
+    "mtime": 1778758770.2330337,
+    "ast_hash": "0f41828d3ca0126916a331ee86e62c94",
+    "semantic_hash": "0f41828d3ca0126916a331ee86e62c94"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz.config.ts": {
+    "mtime": 1778758874.6640153,
+    "ast_hash": "dbdc5841ed37091b14a86b7eac91ebaa",
+    "semantic_hash": "dbdc5841ed37091b14a86b7eac91ebaa"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz.layout.ts": {
+    "mtime": 1778758880.8487957,
+    "ast_hash": "1d82adc2a2bca81d1d50518584f9b790",
+    "semantic_hash": "1d82adc2a2bca81d1d50518584f9b790"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/.quartz-cache/transpiled-build.mjs": {
+    "mtime": 1778758888.3162692,
+    "ast_hash": "c53169ca67edc41ce1bd41ffcde2c2c2",
+    "semantic_hash": "c53169ca67edc41ce1bd41ffcde2c2c2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/bootstrap-cli.mjs": {
+    "mtime": 1778758770.233393,
+    "ast_hash": "27de182d6268dc77433959fd513127e7",
+    "semantic_hash": "27de182d6268dc77433959fd513127e7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/bootstrap-worker.mjs": {
+    "mtime": 1778758770.2334857,
+    "ast_hash": "a4568ef53c5d8e441b80940a2338585a",
+    "semantic_hash": "a4568ef53c5d8e441b80940a2338585a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/build.ts": {
+    "mtime": 1778758770.2336833,
+    "ast_hash": "861ec7607a5e647a9362296914df8a0e",
+    "semantic_hash": "861ec7607a5e647a9362296914df8a0e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/cfg.ts": {
+    "mtime": 1778758770.2337859,
+    "ast_hash": "972ea8748644c54f35f872bccf8cf3b2",
+    "semantic_hash": "972ea8748644c54f35f872bccf8cf3b2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/cli/args.js": {
+    "mtime": 1778758770.2339523,
+    "ast_hash": "ca86f01e63dc65ff7fd0be912f30644c",
+    "semantic_hash": "ca86f01e63dc65ff7fd0be912f30644c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/cli/constants.js": {
+    "mtime": 1778758770.2340462,
+    "ast_hash": "32c014d43fd0aed7eefecaf454decde6",
+    "semantic_hash": "32c014d43fd0aed7eefecaf454decde6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/cli/handlers.js": {
+    "mtime": 1778758770.2341669,
+    "ast_hash": "debc9ae5f494bcbf96dfa6a9bad06b9e",
+    "semantic_hash": "debc9ae5f494bcbf96dfa6a9bad06b9e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/cli/helpers.js": {
+    "mtime": 1778758770.2342863,
+    "ast_hash": "9ec7f4de0475c6160b13a4ae32952c56",
+    "semantic_hash": "9ec7f4de0475c6160b13a4ae32952c56"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/ArticleTitle.tsx": {
+    "mtime": 1778758770.2344706,
+    "ast_hash": "c3676bd09a83f641cf59a8c61658df7e",
+    "semantic_hash": "c3676bd09a83f641cf59a8c61658df7e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Backlinks.tsx": {
+    "mtime": 1778758770.2345693,
+    "ast_hash": "f0c48eb6a675c4aefd6eccbde4f3ebd6",
+    "semantic_hash": "f0c48eb6a675c4aefd6eccbde4f3ebd6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Body.tsx": {
+    "mtime": 1778758770.234654,
+    "ast_hash": "babe408c7da74dbf3f4ee33d7c3a9b1e",
+    "semantic_hash": "babe408c7da74dbf3f4ee33d7c3a9b1e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Breadcrumbs.tsx": {
+    "mtime": 1778758770.2348242,
+    "ast_hash": "0b78d2b0186d3b9541ef860064ccb267",
+    "semantic_hash": "0b78d2b0186d3b9541ef860064ccb267"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Comments.tsx": {
+    "mtime": 1778758770.2349153,
+    "ast_hash": "408de52eda30a141ccbbe31ace9effab",
+    "semantic_hash": "408de52eda30a141ccbbe31ace9effab"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/ConditionalRender.tsx": {
+    "mtime": 1778758770.2350152,
+    "ast_hash": "794513ac7a1f409e1ed6f443106dfa56",
+    "semantic_hash": "794513ac7a1f409e1ed6f443106dfa56"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/ContentMeta.tsx": {
+    "mtime": 1778758770.235122,
+    "ast_hash": "d9c6915dcf252b7cf496a1f5f09f129c",
+    "semantic_hash": "d9c6915dcf252b7cf496a1f5f09f129c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Darkmode.tsx": {
+    "mtime": 1778758770.2353501,
+    "ast_hash": "6a9ae38a80b2adcd2e7cbeebd0cd91be",
+    "semantic_hash": "6a9ae38a80b2adcd2e7cbeebd0cd91be"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Date.tsx": {
+    "mtime": 1778758770.2354472,
+    "ast_hash": "41d250b49254e97257ce0e0cfe8b2ea3",
+    "semantic_hash": "41d250b49254e97257ce0e0cfe8b2ea3"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/DesktopOnly.tsx": {
+    "mtime": 1778758770.2355394,
+    "ast_hash": "fbb65f062a07c0b9b4ef7a2929485675",
+    "semantic_hash": "fbb65f062a07c0b9b4ef7a2929485675"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Explorer.tsx": {
+    "mtime": 1778758770.2357728,
+    "ast_hash": "45d1e8daa09f7ad30456a2ace15f3cca",
+    "semantic_hash": "45d1e8daa09f7ad30456a2ace15f3cca"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Flex.tsx": {
+    "mtime": 1778758770.2359555,
+    "ast_hash": "bbf5d4ce862190a666e20d6d4d981a20",
+    "semantic_hash": "bbf5d4ce862190a666e20d6d4d981a20"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Footer.tsx": {
+    "mtime": 1778758770.236052,
+    "ast_hash": "235fe36a95188f026565ca1084b38f7d",
+    "semantic_hash": "235fe36a95188f026565ca1084b38f7d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Graph.tsx": {
+    "mtime": 1778758770.2361507,
+    "ast_hash": "faa6a01e51ad940fe78b66a88894e038",
+    "semantic_hash": "faa6a01e51ad940fe78b66a88894e038"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Head.tsx": {
+    "mtime": 1778758770.2363975,
+    "ast_hash": "a0ca8f8c40f4ee3b6f0f3ab510c5802b",
+    "semantic_hash": "a0ca8f8c40f4ee3b6f0f3ab510c5802b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Header.tsx": {
+    "mtime": 1778758770.2365074,
+    "ast_hash": "8e81f5a8295ee39a46924e19b25856ac",
+    "semantic_hash": "8e81f5a8295ee39a46924e19b25856ac"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/MobileOnly.tsx": {
+    "mtime": 1778758770.2366037,
+    "ast_hash": "464b90f150fe3b5796095e9b00e0e8ba",
+    "semantic_hash": "464b90f150fe3b5796095e9b00e0e8ba"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/OverflowList.tsx": {
+    "mtime": 1778758770.2367115,
+    "ast_hash": "8ad0dd1fa0a60e4c32469350e694f0c7",
+    "semantic_hash": "8ad0dd1fa0a60e4c32469350e694f0c7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/PageList.tsx": {
+    "mtime": 1778758770.2368176,
+    "ast_hash": "464cf79c6fb20fddbacf41bb85ab0286",
+    "semantic_hash": "464cf79c6fb20fddbacf41bb85ab0286"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/PageTitle.tsx": {
+    "mtime": 1778758770.2369204,
+    "ast_hash": "2cc36830d107c325e578814ee61c6f57",
+    "semantic_hash": "2cc36830d107c325e578814ee61c6f57"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/ReaderMode.tsx": {
+    "mtime": 1778758770.2370353,
+    "ast_hash": "278a3cad28548cfecb982254807178e9",
+    "semantic_hash": "278a3cad28548cfecb982254807178e9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/RecentNotes.tsx": {
+    "mtime": 1778758770.2371428,
+    "ast_hash": "c7902392b2273e337b869b90c00da6ff",
+    "semantic_hash": "c7902392b2273e337b869b90c00da6ff"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Search.tsx": {
+    "mtime": 1778758770.2372398,
+    "ast_hash": "7ee59f389a54c2e81aa425f2bfc69b5a",
+    "semantic_hash": "7ee59f389a54c2e81aa425f2bfc69b5a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/Spacer.tsx": {
+    "mtime": 1778758770.2373357,
+    "ast_hash": "bd27b6675b6868a0979e6c761f7df229",
+    "semantic_hash": "bd27b6675b6868a0979e6c761f7df229"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/TableOfContents.tsx": {
+    "mtime": 1778758770.2374928,
+    "ast_hash": "60b75ca66b3424f39c4b22a9537e7d9b",
+    "semantic_hash": "60b75ca66b3424f39c4b22a9537e7d9b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/TagList.tsx": {
+    "mtime": 1778758770.237585,
+    "ast_hash": "13581a34526e56b47158a8a25c802a0b",
+    "semantic_hash": "13581a34526e56b47158a8a25c802a0b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/index.ts": {
+    "mtime": 1778758770.2376876,
+    "ast_hash": "80eb223728d76a8afd4fe160f2d63a85",
+    "semantic_hash": "80eb223728d76a8afd4fe160f2d63a85"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/pages/404.tsx": {
+    "mtime": 1778758770.2378647,
+    "ast_hash": "90ecff41c2289d1e3ad1b0db892678d7",
+    "semantic_hash": "90ecff41c2289d1e3ad1b0db892678d7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/pages/Content.tsx": {
+    "mtime": 1778758770.2379625,
+    "ast_hash": "809eed6c96ae684efba229f4ec0bdccf",
+    "semantic_hash": "809eed6c96ae684efba229f4ec0bdccf"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/pages/FolderContent.tsx": {
+    "mtime": 1778758770.2380648,
+    "ast_hash": "df9860f5e0c811346e15610827e46b7c",
+    "semantic_hash": "df9860f5e0c811346e15610827e46b7c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/pages/TagContent.tsx": {
+    "mtime": 1778758770.238323,
+    "ast_hash": "807fbf7767f7f2fc0545272d90422fce",
+    "semantic_hash": "807fbf7767f7f2fc0545272d90422fce"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/renderPage.tsx": {
+    "mtime": 1778758770.238563,
+    "ast_hash": "7332722fc00d2ce4511f0240348a4b0d",
+    "semantic_hash": "7332722fc00d2ce4511f0240348a4b0d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/callout.inline.ts": {
+    "mtime": 1778758770.238765,
+    "ast_hash": "709f8484d0c37112f5451b0c8c61bb27",
+    "semantic_hash": "709f8484d0c37112f5451b0c8c61bb27"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/checkbox.inline.ts": {
+    "mtime": 1778758770.238869,
+    "ast_hash": "019fb82b340f4f37b14fded7ae9eb0ed",
+    "semantic_hash": "019fb82b340f4f37b14fded7ae9eb0ed"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/clipboard.inline.ts": {
+    "mtime": 1778758770.2389805,
+    "ast_hash": "e3ecac16e0cc2b720ebc3b8083df5415",
+    "semantic_hash": "e3ecac16e0cc2b720ebc3b8083df5415"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/comments.inline.ts": {
+    "mtime": 1778758770.2390795,
+    "ast_hash": "db914b4fca7561ec3c8145de0b7badac",
+    "semantic_hash": "db914b4fca7561ec3c8145de0b7badac"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/darkmode.inline.ts": {
+    "mtime": 1778758770.2391815,
+    "ast_hash": "b372759f38d419ea1b559b8d1775f860",
+    "semantic_hash": "b372759f38d419ea1b559b8d1775f860"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/explorer.inline.ts": {
+    "mtime": 1778758770.2393897,
+    "ast_hash": "0fc50b096e2794ea4f809822c3fc1c53",
+    "semantic_hash": "0fc50b096e2794ea4f809822c3fc1c53"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/graph.inline.ts": {
+    "mtime": 1778758770.2395244,
+    "ast_hash": "6b17f1b4a28c6723dce4a389dc3b314f",
+    "semantic_hash": "6b17f1b4a28c6723dce4a389dc3b314f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/mermaid.inline.ts": {
+    "mtime": 1778758770.239767,
+    "ast_hash": "7baab3de71a5466e5e17acdfd39910a7",
+    "semantic_hash": "7baab3de71a5466e5e17acdfd39910a7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/popover.inline.ts": {
+    "mtime": 1778758770.2400286,
+    "ast_hash": "2e735162b964974c3752210985b26d7b",
+    "semantic_hash": "2e735162b964974c3752210985b26d7b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/readermode.inline.ts": {
+    "mtime": 1778758770.2401419,
+    "ast_hash": "af1a0fc8b1079f97e45b19e2aebfe613",
+    "semantic_hash": "af1a0fc8b1079f97e45b19e2aebfe613"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/search.inline.ts": {
+    "mtime": 1778758770.2402565,
+    "ast_hash": "cf7f65b2a8011a0e3b1d6204f7dda327",
+    "semantic_hash": "cf7f65b2a8011a0e3b1d6204f7dda327"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/search.test.ts": {
+    "mtime": 1778758770.2405357,
+    "ast_hash": "d9d6b4feebb6c4029938814585f9a72e",
+    "semantic_hash": "d9d6b4feebb6c4029938814585f9a72e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/spa.inline.ts": {
+    "mtime": 1778758770.2407882,
+    "ast_hash": "b52a168328cd531b034b846563764b0a",
+    "semantic_hash": "b52a168328cd531b034b846563764b0a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/toc.inline.ts": {
+    "mtime": 1778758770.24089,
+    "ast_hash": "cb57592a04d7b7dd9c5021eea3749aeb",
+    "semantic_hash": "cb57592a04d7b7dd9c5021eea3749aeb"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/scripts/util.ts": {
+    "mtime": 1778758770.2409956,
+    "ast_hash": "51bec4a83cb5e865065e042669537470",
+    "semantic_hash": "51bec4a83cb5e865065e042669537470"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/components/types.ts": {
+    "mtime": 1778758770.2431564,
+    "ast_hash": "855d898740e2161baea77c73f4567b40",
+    "semantic_hash": "855d898740e2161baea77c73f4567b40"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/index.ts": {
+    "mtime": 1778758770.2433438,
+    "ast_hash": "165e5ee4da38ee1554eda7df102e422c",
+    "semantic_hash": "165e5ee4da38ee1554eda7df102e422c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ar-SA.ts": {
+    "mtime": 1778758770.2435026,
+    "ast_hash": "e8c10a9afed66fdd4f00fc481f08eed8",
+    "semantic_hash": "e8c10a9afed66fdd4f00fc481f08eed8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ca-ES.ts": {
+    "mtime": 1778758770.2436175,
+    "ast_hash": "577315ffab97241f510db829f3f810ba",
+    "semantic_hash": "577315ffab97241f510db829f3f810ba"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/cs-CZ.ts": {
+    "mtime": 1778758770.2437263,
+    "ast_hash": "33e71ed49a996b5ca62f93d5624b8461",
+    "semantic_hash": "33e71ed49a996b5ca62f93d5624b8461"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/de-DE.ts": {
+    "mtime": 1778758770.2438397,
+    "ast_hash": "e280f226ff71d5d10874c44c4befd63d",
+    "semantic_hash": "e280f226ff71d5d10874c44c4befd63d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/definition.ts": {
+    "mtime": 1778758770.2439337,
+    "ast_hash": "73d8c0ff69823803932894f7f2ec87ab",
+    "semantic_hash": "73d8c0ff69823803932894f7f2ec87ab"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/en-GB.ts": {
+    "mtime": 1778758770.2440305,
+    "ast_hash": "1d55c5b57d8ac7e14933b8c77ef75be8",
+    "semantic_hash": "1d55c5b57d8ac7e14933b8c77ef75be8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/en-US.ts": {
+    "mtime": 1778758770.244127,
+    "ast_hash": "73c81a51d3c3fc956218098a19f0468c",
+    "semantic_hash": "73c81a51d3c3fc956218098a19f0468c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/es-ES.ts": {
+    "mtime": 1778758770.244245,
+    "ast_hash": "fba48269466f716a3cf27272fec89660",
+    "semantic_hash": "fba48269466f716a3cf27272fec89660"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/fa-IR.ts": {
+    "mtime": 1778758770.2443633,
+    "ast_hash": "8f7c811ea2b5609085673795b0c88ec1",
+    "semantic_hash": "8f7c811ea2b5609085673795b0c88ec1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/fi-FI.ts": {
+    "mtime": 1778758770.244485,
+    "ast_hash": "97b010d493349db83e65446fa151539b",
+    "semantic_hash": "97b010d493349db83e65446fa151539b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/fr-FR.ts": {
+    "mtime": 1778758770.2446046,
+    "ast_hash": "fb6ad17ac499bdb2a3d42d721a56d8db",
+    "semantic_hash": "fb6ad17ac499bdb2a3d42d721a56d8db"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/he-IL.ts": {
+    "mtime": 1778758770.244711,
+    "ast_hash": "a885d5d1d6cb138ee3567969525520bd",
+    "semantic_hash": "a885d5d1d6cb138ee3567969525520bd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/hu-HU.ts": {
+    "mtime": 1778758770.2448177,
+    "ast_hash": "58aca22f2d363795b5c60c7e04ae04e1",
+    "semantic_hash": "58aca22f2d363795b5c60c7e04ae04e1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/id-ID.ts": {
+    "mtime": 1778758770.2449195,
+    "ast_hash": "ef2ec66f424a983a342a8fca17ac1392",
+    "semantic_hash": "ef2ec66f424a983a342a8fca17ac1392"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/it-IT.ts": {
+    "mtime": 1778758770.2450233,
+    "ast_hash": "180e6fb2d583e3df8336a45bb5348245",
+    "semantic_hash": "180e6fb2d583e3df8336a45bb5348245"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ja-JP.ts": {
+    "mtime": 1778758770.2451308,
+    "ast_hash": "f4a7242fd12079bf32dd5e9708a6bcbe",
+    "semantic_hash": "f4a7242fd12079bf32dd5e9708a6bcbe"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/kk-KZ.ts": {
+    "mtime": 1778758770.2452316,
+    "ast_hash": "67917321af036e6e527a65b8267a2fa8",
+    "semantic_hash": "67917321af036e6e527a65b8267a2fa8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ko-KR.ts": {
+    "mtime": 1778758770.2453449,
+    "ast_hash": "19914e0a0c2db6d380adb00e6ce00b41",
+    "semantic_hash": "19914e0a0c2db6d380adb00e6ce00b41"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/lt-LT.ts": {
+    "mtime": 1778758770.245458,
+    "ast_hash": "cd3752d718a1302998153c3058d53ce7",
+    "semantic_hash": "cd3752d718a1302998153c3058d53ce7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/nb-NO.ts": {
+    "mtime": 1778758770.2455647,
+    "ast_hash": "992e2fcd5e10b22cb639c6acf9944287",
+    "semantic_hash": "992e2fcd5e10b22cb639c6acf9944287"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/nl-NL.ts": {
+    "mtime": 1778758770.2456791,
+    "ast_hash": "d1a2fbcd91de810d69c96e1a5d4fd22b",
+    "semantic_hash": "d1a2fbcd91de810d69c96e1a5d4fd22b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/pl-PL.ts": {
+    "mtime": 1778758770.2457807,
+    "ast_hash": "e1d1b241d5b244f42e12d06d28a7aef2",
+    "semantic_hash": "e1d1b241d5b244f42e12d06d28a7aef2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/pt-BR.ts": {
+    "mtime": 1778758770.2458854,
+    "ast_hash": "5019637363e8cbf6c151766083af1734",
+    "semantic_hash": "5019637363e8cbf6c151766083af1734"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ro-RO.ts": {
+    "mtime": 1778758770.2459755,
+    "ast_hash": "95f4e6307bd05c274d8fd527129f03ef",
+    "semantic_hash": "95f4e6307bd05c274d8fd527129f03ef"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/ru-RU.ts": {
+    "mtime": 1778758770.246083,
+    "ast_hash": "f3cc20db8ec6ce2c104903e58edc6570",
+    "semantic_hash": "f3cc20db8ec6ce2c104903e58edc6570"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/th-TH.ts": {
+    "mtime": 1778758770.246186,
+    "ast_hash": "db731a68097b3bf876944d6f5dcaf17e",
+    "semantic_hash": "db731a68097b3bf876944d6f5dcaf17e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/tr-TR.ts": {
+    "mtime": 1778758770.246287,
+    "ast_hash": "f92772e835e34da7c60102f10eb5cf68",
+    "semantic_hash": "f92772e835e34da7c60102f10eb5cf68"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/uk-UA.ts": {
+    "mtime": 1778758770.2463887,
+    "ast_hash": "3d314c7151c5ba6d7f540314411887f8",
+    "semantic_hash": "3d314c7151c5ba6d7f540314411887f8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/vi-VN.ts": {
+    "mtime": 1778758770.246484,
+    "ast_hash": "45ce64338123163367c992af5e41f3b8",
+    "semantic_hash": "45ce64338123163367c992af5e41f3b8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/zh-CN.ts": {
+    "mtime": 1778758770.2465773,
+    "ast_hash": "5ab498ae4bb56c25631321c7ff1b8ae8",
+    "semantic_hash": "5ab498ae4bb56c25631321c7ff1b8ae8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/i18n/locales/zh-TW.ts": {
+    "mtime": 1778758770.246688,
+    "ast_hash": "d6325a796c50f2482261d94125a9c511",
+    "semantic_hash": "d6325a796c50f2482261d94125a9c511"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/404.tsx": {
+    "mtime": 1778758770.2470872,
+    "ast_hash": "725fd153b85fea5762d8043e39c64b88",
+    "semantic_hash": "725fd153b85fea5762d8043e39c64b88"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/aliases.ts": {
+    "mtime": 1778758770.247205,
+    "ast_hash": "f6e451ae4ea02d1bcbe6b4a8688e9a61",
+    "semantic_hash": "f6e451ae4ea02d1bcbe6b4a8688e9a61"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/assets.ts": {
+    "mtime": 1778758770.2473168,
+    "ast_hash": "46917a9bd326524649b1c31585899323",
+    "semantic_hash": "46917a9bd326524649b1c31585899323"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/cname.ts": {
+    "mtime": 1778758770.247424,
+    "ast_hash": "541c9bff0de2a7fd1785152bbd36296f",
+    "semantic_hash": "541c9bff0de2a7fd1785152bbd36296f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/componentResources.ts": {
+    "mtime": 1778758770.2476072,
+    "ast_hash": "12f266277145b19600b7a0b2515ca5dc",
+    "semantic_hash": "12f266277145b19600b7a0b2515ca5dc"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/contentIndex.tsx": {
+    "mtime": 1778758770.2478564,
+    "ast_hash": "0b27c578793408f2baa29cf924e17776",
+    "semantic_hash": "0b27c578793408f2baa29cf924e17776"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/contentPage.tsx": {
+    "mtime": 1778758770.2479758,
+    "ast_hash": "19cb2e65c3f339752ee65c1aa1077557",
+    "semantic_hash": "19cb2e65c3f339752ee65c1aa1077557"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/favicon.ts": {
+    "mtime": 1778758770.248074,
+    "ast_hash": "54a075543067bb08903d74b1a7f3c895",
+    "semantic_hash": "54a075543067bb08903d74b1a7f3c895"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/folderPage.tsx": {
+    "mtime": 1778758770.2483325,
+    "ast_hash": "fff067c3a8b418fb66d4988c6d9b0ff0",
+    "semantic_hash": "fff067c3a8b418fb66d4988c6d9b0ff0"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/helpers.ts": {
+    "mtime": 1778758770.2484396,
+    "ast_hash": "2d8f409d87ba05581c5da5c485eda954",
+    "semantic_hash": "2d8f409d87ba05581c5da5c485eda954"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/index.ts": {
+    "mtime": 1778758770.24854,
+    "ast_hash": "d2038b765d42997bb96693e0dbbbde5e",
+    "semantic_hash": "d2038b765d42997bb96693e0dbbbde5e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/ogImage.tsx": {
+    "mtime": 1778758770.2487984,
+    "ast_hash": "799a77d5245bb5f36f070d47ae0bfade",
+    "semantic_hash": "799a77d5245bb5f36f070d47ae0bfade"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/static.ts": {
+    "mtime": 1778758770.2488966,
+    "ast_hash": "b6e01e0a655f9f92ec32da98b586ca03",
+    "semantic_hash": "b6e01e0a655f9f92ec32da98b586ca03"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/emitters/tagPage.tsx": {
+    "mtime": 1778758770.2491462,
+    "ast_hash": "ad7869e0a76aabcdbd5977b48e0ef044",
+    "semantic_hash": "ad7869e0a76aabcdbd5977b48e0ef044"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/filters/draft.ts": {
+    "mtime": 1778758770.2493122,
+    "ast_hash": "08f63ee6fabb8932f9eabeb10767784f",
+    "semantic_hash": "08f63ee6fabb8932f9eabeb10767784f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/filters/explicit.ts": {
+    "mtime": 1778758770.2493937,
+    "ast_hash": "8f9704fe8dd175ea3505ef43c7a6624c",
+    "semantic_hash": "8f9704fe8dd175ea3505ef43c7a6624c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/filters/index.ts": {
+    "mtime": 1778758770.2494848,
+    "ast_hash": "55ee07ae19c6e2b1161cd037e4fc5e19",
+    "semantic_hash": "55ee07ae19c6e2b1161cd037e4fc5e19"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/index.ts": {
+    "mtime": 1778758770.2495763,
+    "ast_hash": "ea6ce7fb140200893d5560c1d4f42dd8",
+    "semantic_hash": "ea6ce7fb140200893d5560c1d4f42dd8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/citations.ts": {
+    "mtime": 1778758770.2497451,
+    "ast_hash": "7ffdb57e124a8422bcb571e740e6cf1d",
+    "semantic_hash": "7ffdb57e124a8422bcb571e740e6cf1d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/description.ts": {
+    "mtime": 1778758770.2498462,
+    "ast_hash": "18e253c1ab128fee51a872908fcf8c4b",
+    "semantic_hash": "18e253c1ab128fee51a872908fcf8c4b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/frontmatter.ts": {
+    "mtime": 1778758770.250096,
+    "ast_hash": "ed7f63e3113ee1a5c44c51205d585a1b",
+    "semantic_hash": "ed7f63e3113ee1a5c44c51205d585a1b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/gfm.ts": {
+    "mtime": 1778758770.2501996,
+    "ast_hash": "b01793c966332796b8140d6be23eb95a",
+    "semantic_hash": "b01793c966332796b8140d6be23eb95a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/index.ts": {
+    "mtime": 1778758770.2502954,
+    "ast_hash": "f51b81b7f9f46128885ea31e35db7ad7",
+    "semantic_hash": "f51b81b7f9f46128885ea31e35db7ad7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/lastmod.ts": {
+    "mtime": 1778758770.250402,
+    "ast_hash": "f465a2f32f00607b5cfd11fcf0dba1f4",
+    "semantic_hash": "f465a2f32f00607b5cfd11fcf0dba1f4"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/latex.ts": {
+    "mtime": 1778758770.250509,
+    "ast_hash": "631f0346858c0b6d751681095bf3cca5",
+    "semantic_hash": "631f0346858c0b6d751681095bf3cca5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/linebreaks.ts": {
+    "mtime": 1778758770.2505984,
+    "ast_hash": "e01696b6744afb9a2f248d2e218e4850",
+    "semantic_hash": "e01696b6744afb9a2f248d2e218e4850"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/links.ts": {
+    "mtime": 1778758770.2508721,
+    "ast_hash": "c6ba8af3785d6dc12ed8b2a14ee3eb14",
+    "semantic_hash": "c6ba8af3785d6dc12ed8b2a14ee3eb14"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/ofm.ts": {
+    "mtime": 1778758770.2510097,
+    "ast_hash": "667c605c66786b8975ed1974b86ed01c",
+    "semantic_hash": "667c605c66786b8975ed1974b86ed01c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/oxhugofm.ts": {
+    "mtime": 1778758770.2511535,
+    "ast_hash": "84619d6088f64798180685ff8a6b484b",
+    "semantic_hash": "84619d6088f64798180685ff8a6b484b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/roam.ts": {
+    "mtime": 1778758770.251397,
+    "ast_hash": "4ed1e496454a2de5f9e547de02319ed8",
+    "semantic_hash": "4ed1e496454a2de5f9e547de02319ed8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/syntax.ts": {
+    "mtime": 1778758770.2514992,
+    "ast_hash": "bb934b4f5a081c82e2c26b332c0ecccf",
+    "semantic_hash": "bb934b4f5a081c82e2c26b332c0ecccf"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/transformers/toc.ts": {
+    "mtime": 1778758770.251586,
+    "ast_hash": "a55bf20a2149675c4d63c5913a701cfd",
+    "semantic_hash": "a55bf20a2149675c4d63c5913a701cfd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/types.ts": {
+    "mtime": 1778758770.2517092,
+    "ast_hash": "03d730464727231b3d0d2591fb49882d",
+    "semantic_hash": "03d730464727231b3d0d2591fb49882d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/plugins/vfile.ts": {
+    "mtime": 1778758770.2518067,
+    "ast_hash": "65573f6eb4926e363945f3755cac9dd0",
+    "semantic_hash": "65573f6eb4926e363945f3755cac9dd0"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/processors/emit.ts": {
+    "mtime": 1778758770.251974,
+    "ast_hash": "e276609a127cde6f1e43728de34a400e",
+    "semantic_hash": "e276609a127cde6f1e43728de34a400e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/processors/filter.ts": {
+    "mtime": 1778758770.2520695,
+    "ast_hash": "2297b46b80282d047c2228b9a8dd0688",
+    "semantic_hash": "2297b46b80282d047c2228b9a8dd0688"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/processors/parse.ts": {
+    "mtime": 1778758770.2523081,
+    "ast_hash": "2f6da3277900661eeacdd081b3b66cbb",
+    "semantic_hash": "2f6da3277900661eeacdd081b3b66cbb"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/clone.ts": {
+    "mtime": 1778758770.2542248,
+    "ast_hash": "b4f7050df12ad14c0883425ce9148b01",
+    "semantic_hash": "b4f7050df12ad14c0883425ce9148b01"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/ctx.ts": {
+    "mtime": 1778758770.254314,
+    "ast_hash": "272b585ef19d639a2683f948d3b965a7",
+    "semantic_hash": "272b585ef19d639a2683f948d3b965a7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/emoji.ts": {
+    "mtime": 1778758770.2544045,
+    "ast_hash": "9942b5892fe088d4eef22369459f2e83",
+    "semantic_hash": "9942b5892fe088d4eef22369459f2e83"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/emojimap.json": {
+    "mtime": 1778758770.29766,
+    "ast_hash": "357f8ae7b601a75eef89474244a41d1f",
+    "semantic_hash": "357f8ae7b601a75eef89474244a41d1f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/escape.ts": {
+    "mtime": 1778758770.2979612,
+    "ast_hash": "690c8fb09d750746ebe279d9de3f94cb",
+    "semantic_hash": "690c8fb09d750746ebe279d9de3f94cb"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/fileTrie.test.ts": {
+    "mtime": 1778758770.298165,
+    "ast_hash": "34220cebe3c333401878875536e0a0fc",
+    "semantic_hash": "34220cebe3c333401878875536e0a0fc"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/fileTrie.ts": {
+    "mtime": 1778758770.2984285,
+    "ast_hash": "ab516b2d7ece712dd879afc2a0f653a5",
+    "semantic_hash": "ab516b2d7ece712dd879afc2a0f653a5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/glob.ts": {
+    "mtime": 1778758770.2985327,
+    "ast_hash": "df53de999e68987764436d87b7b25a03",
+    "semantic_hash": "df53de999e68987764436d87b7b25a03"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/jsx.tsx": {
+    "mtime": 1778758770.298644,
+    "ast_hash": "cea0c0dff994fa949c7b752ee590f69a",
+    "semantic_hash": "cea0c0dff994fa949c7b752ee590f69a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/lang.ts": {
+    "mtime": 1778758770.298754,
+    "ast_hash": "94bf51cbf94a3a44c7c87e48ab149a4a",
+    "semantic_hash": "94bf51cbf94a3a44c7c87e48ab149a4a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/log.ts": {
+    "mtime": 1778758770.298854,
+    "ast_hash": "6cec9de590665aeeddf98d02d8b02b0b",
+    "semantic_hash": "6cec9de590665aeeddf98d02d8b02b0b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/og.tsx": {
+    "mtime": 1778758770.2990599,
+    "ast_hash": "e3c92091722218be83fccdc2d836c06b",
+    "semantic_hash": "e3c92091722218be83fccdc2d836c06b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/path.test.ts": {
+    "mtime": 1778758770.299221,
+    "ast_hash": "2267d587a12bb346f059152f16adb7c8",
+    "semantic_hash": "2267d587a12bb346f059152f16adb7c8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/path.ts": {
+    "mtime": 1778758770.2994163,
+    "ast_hash": "539396500de7ecd0d4bf1b59e8b407f1",
+    "semantic_hash": "539396500de7ecd0d4bf1b59e8b407f1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/perf.ts": {
+    "mtime": 1778758770.2994976,
+    "ast_hash": "bdb417a9cfe49d5509bf116955513111",
+    "semantic_hash": "bdb417a9cfe49d5509bf116955513111"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/random.ts": {
+    "mtime": 1778758770.2995744,
+    "ast_hash": "01df28c2f5f3133e0f0b89527d4c8149",
+    "semantic_hash": "01df28c2f5f3133e0f0b89527d4c8149"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/resources.tsx": {
+    "mtime": 1778758770.299657,
+    "ast_hash": "a51a654d316a5bc2bcb5371d5c6679fe",
+    "semantic_hash": "a51a654d316a5bc2bcb5371d5c6679fe"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/sourcemap.ts": {
+    "mtime": 1778758770.2997487,
+    "ast_hash": "3378f2533abd7182f43ae33366afe093",
+    "semantic_hash": "3378f2533abd7182f43ae33366afe093"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/theme.ts": {
+    "mtime": 1778758770.2999806,
+    "ast_hash": "ee0d8871c626305774e1ab58420d1e75",
+    "semantic_hash": "ee0d8871c626305774e1ab58420d1e75"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/util/trace.ts": {
+    "mtime": 1778758770.3000665,
+    "ast_hash": "3841b07cdf8437c60bbef6df31b63e9b",
+    "semantic_hash": "3841b07cdf8437c60bbef6df31b63e9b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/worker.ts": {
+    "mtime": 1778758770.300152,
+    "ast_hash": "f7d3aadcb76ce5de30b1d5e87f1f21ac",
+    "semantic_hash": "f7d3aadcb76ce5de30b1d5e87f1f21ac"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/tsconfig.json": {
+    "mtime": 1778758770.3002427,
+    "ast_hash": "6aec0cec92c4f945a7e49a17e704654e",
+    "semantic_hash": "6aec0cec92c4f945a7e49a17e704654e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/.eslintrc.json": {
+    "mtime": 1779808188.1400006,
+    "ast_hash": "5cc89077d438e3d0d0a8308ab7e06a5a",
+    "semantic_hash": "5cc89077d438e3d0d0a8308ab7e06a5a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/components.json": {
+    "mtime": 1779808626.1172514,
+    "ast_hash": "d002b4f83a33aecfc99891ba8562641f",
+    "semantic_hash": "d002b4f83a33aecfc99891ba8562641f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/next-env.d.ts": {
+    "mtime": 1779808188.1611273,
+    "ast_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838",
+    "semantic_hash": "b5ed9dd8b4c5ba8e5ab8e6a379c15838"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/next.config.mjs": {
+    "mtime": 1780266633.177155,
+    "ast_hash": "7869134b8e4be9eeaafa7570607ff269",
+    "semantic_hash": "7869134b8e4be9eeaafa7570607ff269"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/package.json": {
+    "mtime": 1780315382.145367,
+    "ast_hash": "b2264457592a0060e2caffe42587525b",
+    "semantic_hash": "b2264457592a0060e2caffe42587525b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/postcss.config.mjs": {
+    "mtime": 1780263628.746422,
+    "ast_hash": "c56b5f3c12f777a86e2513f45daab56a",
+    "semantic_hash": "c56b5f3c12f777a86e2513f45daab56a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/public/manifest.json": {
+    "mtime": 1779808772.4642448,
+    "ast_hash": "9add7b39c642e1a968aa4ff0ab5c5b39",
+    "semantic_hash": "9add7b39c642e1a968aa4ff0ab5c5b39"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/public/sw.js": {
+    "mtime": 1780266132.437382,
+    "ast_hash": "61d1d7fe4510ad59362c480c4a228598",
+    "semantic_hash": "61d1d7fe4510ad59362c480c4a228598"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/booking/confirmed/page.tsx": {
+    "mtime": 1780262190.7287805,
+    "ast_hash": "5123f54548b7ead5475e8452bfdefeed",
+    "semantic_hash": "5123f54548b7ead5475e8452bfdefeed"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/emergency/page.tsx": {
+    "mtime": 1780236198.1074014,
+    "ast_hash": "e7516c63e042c9f23124c13960701a19",
+    "semantic_hash": "e7516c63e042c9f23124c13960701a19"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/inbox/[id]/page.tsx": {
+    "mtime": 1780347773.406624,
+    "ast_hash": "c79a924dd510a9d4024a67310b09e24a",
+    "semantic_hash": "c79a924dd510a9d4024a67310b09e24a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/inbox/page.tsx": {
+    "mtime": 1780347841.5529895,
+    "ast_hash": "c51c1957c21c9d1820de574af0ed1927",
+    "semantic_hash": "c51c1957c21c9d1820de574af0ed1927"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/intake/page.tsx": {
+    "mtime": 1780235030.6987884,
+    "ast_hash": "ee810358115a0b6e8c17d0dc04f7ac1e",
+    "semantic_hash": "ee810358115a0b6e8c17d0dc04f7ac1e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/layout.tsx": {
+    "mtime": 1780236228.9619927,
+    "ast_hash": "e50d2a12dde3da79b3c8ccb5ffa4278e",
+    "semantic_hash": "e50d2a12dde3da79b3c8ccb5ffa4278e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/my-sessions/[id]/cancel-button.tsx": {
+    "mtime": 1780267620.0243185,
+    "ast_hash": "7f4ebfa7ae57f8ff942e92b6580aaac2",
+    "semantic_hash": "7f4ebfa7ae57f8ff942e92b6580aaac2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/my-sessions/[id]/join-button.tsx": {
+    "mtime": 1780312894.849037,
+    "ast_hash": "bcb07a3545618da6279fd862a01d4f90",
+    "semantic_hash": "bcb07a3545618da6279fd862a01d4f90"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/my-sessions/[id]/page.tsx": {
+    "mtime": 1780312964.0615337,
+    "ast_hash": "d921fb2cc9f817457cef556834db09f7",
+    "semantic_hash": "d921fb2cc9f817457cef556834db09f7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/my-sessions/page.tsx": {
+    "mtime": 1780267591.457803,
+    "ast_hash": "2c66d75c5b55721f7f723365c08716db",
+    "semantic_hash": "2c66d75c5b55721f7f723365c08716db"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/page.tsx": {
+    "mtime": 1780235921.6382015,
+    "ast_hash": "93e385b222f10485a5dd53066d78311e",
+    "semantic_hash": "93e385b222f10485a5dd53066d78311e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/session/[id]/page.tsx": {
+    "mtime": 1780312914.1817088,
+    "ast_hash": "eaedf20070528bb093a84122e3af8e93",
+    "semantic_hash": "eaedf20070528bb093a84122e3af8e93"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/session/[id]/session-player.tsx": {
+    "mtime": 1780312925.5510743,
+    "ast_hash": "a65e90a2a6648dd17f29351c48eeb544",
+    "semantic_hash": "a65e90a2a6648dd17f29351c48eeb544"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/therapists/[id]/book/booking-form.tsx": {
+    "mtime": 1780267684.9772663,
+    "ast_hash": "1684aa05a26f6f153873237a419f1771",
+    "semantic_hash": "1684aa05a26f6f153873237a419f1771"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/therapists/[id]/book/page.tsx": {
+    "mtime": 1780267458.5991163,
+    "ast_hash": "7db12d9d8545b679c12c182dad5ba767",
+    "semantic_hash": "7db12d9d8545b679c12c182dad5ba767"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(client)/therapists/[id]/page.tsx": {
+    "mtime": 1780267654.99545,
+    "ast_hash": "1717d194f68f3c046149df5e8bacd192",
+    "semantic_hash": "1717d194f68f3c046149df5e8bacd192"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/[id]/session-actions.tsx": {
+    "mtime": 1780312996.667198,
+    "ast_hash": "450def1a359b188cdee48b7a2b211993",
+    "semantic_hash": "450def1a359b188cdee48b7a2b211993"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/clients/[id]/page.tsx": {
+    "mtime": 1780315666.4894319,
+    "ast_hash": "f3c1213e1b163251353b8c3096c439e1",
+    "semantic_hash": "f3c1213e1b163251353b8c3096c439e1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/clients/client-list-search.tsx": {
+    "mtime": 1780315563.4786634,
+    "ast_hash": "d9d071fa2e34c14d555c657213afd8c5",
+    "semantic_hash": "d9d071fa2e34c14d555c657213afd8c5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/clients/page.tsx": {
+    "mtime": 1780315713.1862736,
+    "ast_hash": "5aa80105819e6497980d5d49adc00338",
+    "semantic_hash": "5aa80105819e6497980d5d49adc00338"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/earnings/page.tsx": {
+    "mtime": 1780262372.232625,
+    "ast_hash": "c3712a5eb1294849de4936fe67796f7b",
+    "semantic_hash": "c3712a5eb1294849de4936fe67796f7b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/inbox/page.tsx": {
+    "mtime": 1780347848.5090003,
+    "ast_hash": "e00f5778e4649d4c627d130333056ad5",
+    "semantic_hash": "e00f5778e4649d4c627d130333056ad5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/page.tsx": {
+    "mtime": 1780347807.0035915,
+    "ast_hash": "b029432889299efcd611f4cceaf19522",
+    "semantic_hash": "b029432889299efcd611f4cceaf19522"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/schedule/page.tsx": {
+    "mtime": 1780235952.2998898,
+    "ast_hash": "03688e94e866741a69ce0c92537827a9",
+    "semantic_hash": "03688e94e866741a69ce0c92537827a9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/dashboard/settings/page.tsx": {
+    "mtime": 1780313260.75322,
+    "ast_hash": "041513707fb39f89c1475b051a18bab3",
+    "semantic_hash": "041513707fb39f89c1475b051a18bab3"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/layout.tsx": {
+    "mtime": 1780236229.3605752,
+    "ast_hash": "7dc8e1c1af737e3d7132629356796717",
+    "semantic_hash": "7dc8e1c1af737e3d7132629356796717"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/session/[id]/page.tsx": {
+    "mtime": 1780313009.8157241,
+    "ast_hash": "e29e1c5ecb9b9cb40f6f776d4c91cbc7",
+    "semantic_hash": "e29e1c5ecb9b9cb40f6f776d4c91cbc7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/(therapist)/session/[id]/session-player.tsx": {
+    "mtime": 1780313020.5248287,
+    "ast_hash": "e5ff640720604cd8e2c63c2f4431fb07",
+    "semantic_hash": "e5ff640720604cd8e2c63c2f4431fb07"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/auth.ts": {
+    "mtime": 1780183669.6779804,
+    "ast_hash": "87538b088b4cdb30cb7b67bc173e369e",
+    "semantic_hash": "87538b088b4cdb30cb7b67bc173e369e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/booking.ts": {
+    "mtime": 1780312847.6366148,
+    "ast_hash": "7898eab1cb52249c55f9eb736becc1d3",
+    "semantic_hash": "7898eab1cb52249c55f9eb736becc1d3"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/cal.ts": {
+    "mtime": 1780240613.886318,
+    "ast_hash": "ff4e62c0e3178cb83002f01f2565365f",
+    "semantic_hash": "ff4e62c0e3178cb83002f01f2565365f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/intake.ts": {
+    "mtime": 1780183692.9477239,
+    "ast_hash": "f80e869fdba08a2cc505d998fe6e4157",
+    "semantic_hash": "f80e869fdba08a2cc505d998fe6e4157"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/messaging.ts": {
+    "mtime": 1780347687.7010243,
+    "ast_hash": "13bb958ac26ec33d5347086b5a94a3a6",
+    "semantic_hash": "13bb958ac26ec33d5347086b5a94a3a6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/notes.ts": {
+    "mtime": 1780315725.5413945,
+    "ast_hash": "ecf2126ca8738d6ebd4ac39763fc663a",
+    "semantic_hash": "ecf2126ca8738d6ebd4ac39763fc663a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/session-types.ts": {
+    "mtime": 1780267342.1498146,
+    "ast_hash": "fa1d1ee163ce9cfd2843f1b076a8941e",
+    "semantic_hash": "fa1d1ee163ce9cfd2843f1b076a8941e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/session.ts": {
+    "mtime": 1780313105.4807713,
+    "ast_hash": "75b30d31c7a02d1f1da31945f457e667",
+    "semantic_hash": "75b30d31c7a02d1f1da31945f457e667"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/stripe.ts": {
+    "mtime": 1780262478.7099524,
+    "ast_hash": "b3db0850657b5118b8199fc22898d3e2",
+    "semantic_hash": "b3db0850657b5118b8199fc22898d3e2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/actions/therapist.ts": {
+    "mtime": 1780240743.4346874,
+    "ast_hash": "c2c284b30c6a89c367141d3290ee5491",
+    "semantic_hash": "c2c284b30c6a89c367141d3290ee5491"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/api/health/route.ts": {
+    "mtime": 1780264147.8243282,
+    "ast_hash": "ff9e49f8f6a17f663a774ca8f82bb1c8",
+    "semantic_hash": "ff9e49f8f6a17f663a774ca8f82bb1c8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/api/webhooks/cal/route.ts": {
+    "mtime": 1780240923.6545608,
+    "ast_hash": "c6039994d5824c8828d4f9711f24d130",
+    "semantic_hash": "c6039994d5824c8828d4f9711f24d130"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/api/webhooks/stripe/route.ts": {
+    "mtime": 1780312870.7447093,
+    "ast_hash": "9b32390764f090a3fc15a4b2bd268656",
+    "semantic_hash": "9b32390764f090a3fc15a4b2bd268656"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/auth/callback/route.ts": {
+    "mtime": 1779899421.6793926,
+    "ast_hash": "6918bfac7f87b3dbc52820fc0b6fbee9",
+    "semantic_hash": "6918bfac7f87b3dbc52820fc0b6fbee9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/complete-profile/page.tsx": {
+    "mtime": 1780180897.975025,
+    "ast_hash": "f1739d2f8ded47f547753c2ab6d72200",
+    "semantic_hash": "f1739d2f8ded47f547753c2ab6d72200"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/layout.tsx": {
+    "mtime": 1779830945.261939,
+    "ast_hash": "e9da45b0476988aa9ca9992f90609b50",
+    "semantic_hash": "e9da45b0476988aa9ca9992f90609b50"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/login/page.tsx": {
+    "mtime": 1779899431.6008348,
+    "ast_hash": "53a271d72e09301be3a1e2224054c692",
+    "semantic_hash": "53a271d72e09301be3a1e2224054c692"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/onboarding/page.tsx": {
+    "mtime": 1780241148.0131001,
+    "ast_hash": "3fceb0f5921f189f76e7c1cb3aa7df82",
+    "semantic_hash": "3fceb0f5921f189f76e7c1cb3aa7df82"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/app/sw.ts": {
+    "mtime": 1779808779.8711321,
+    "ast_hash": "d62cdda33d4847f319a6babe978aaf8a",
+    "semantic_hash": "d62cdda33d4847f319a6babe978aaf8a"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/layout/bottom-nav.tsx": {
+    "mtime": 1779830639.1064785,
+    "ast_hash": "bfd5b31a4a7fc6d403182c8ac9df34f5",
+    "semantic_hash": "bfd5b31a4a7fc6d403182c8ac9df34f5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/layout/bottom-sheet.tsx": {
+    "mtime": 1779830665.2894378,
+    "ast_hash": "842b5c5c28076717566624da36ada023",
+    "semantic_hash": "842b5c5c28076717566624da36ada023"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/layout/page-container.tsx": {
+    "mtime": 1779830717.7735214,
+    "ast_hash": "cabde28c3341aeb46396231be8be78f3",
+    "semantic_hash": "cabde28c3341aeb46396231be8be78f3"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/layout/top-bar.tsx": {
+    "mtime": 1779830651.4694746,
+    "ast_hash": "ecd9166823aa77c6637e6d50f3d1f5dd",
+    "semantic_hash": "ecd9166823aa77c6637e6d50f3d1f5dd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/nav/client-nav.tsx": {
+    "mtime": 1780236216.4288008,
+    "ast_hash": "ceb0f30e706bc89008d0809383e356c5",
+    "semantic_hash": "ceb0f30e706bc89008d0809383e356c5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/nav/therapist-nav.tsx": {
+    "mtime": 1780347790.5918624,
+    "ast_hash": "3d27c9f22ae9755e1bd8d4c15b159597",
+    "semantic_hash": "3d27c9f22ae9755e1bd8d4c15b159597"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/avatar.tsx": {
+    "mtime": 1779830621.9045765,
+    "ast_hash": "0008445bf0b90f231d702bcd9141726c",
+    "semantic_hash": "0008445bf0b90f231d702bcd9141726c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/badge.tsx": {
+    "mtime": 1779830621.9523365,
+    "ast_hash": "d418e7d17e73d698299284a0e46e3e9f",
+    "semantic_hash": "d418e7d17e73d698299284a0e46e3e9f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/button.tsx": {
+    "mtime": 1779808678.8284214,
+    "ast_hash": "4870ecf032591e7dc71cd4e3c36bb683",
+    "semantic_hash": "4870ecf032591e7dc71cd4e3c36bb683"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/card.tsx": {
+    "mtime": 1779830621.8618746,
+    "ast_hash": "9f1da48791217371e13fa28ce90ae444",
+    "semantic_hash": "9f1da48791217371e13fa28ce90ae444"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/empty-state.tsx": {
+    "mtime": 1779831137.162781,
+    "ast_hash": "fc5404a62582d55010572e9d6d908704",
+    "semantic_hash": "fc5404a62582d55010572e9d6d908704"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/input.tsx": {
+    "mtime": 1779830621.6399937,
+    "ast_hash": "962daebde14319230f0cbf88a8472f70",
+    "semantic_hash": "962daebde14319230f0cbf88a8472f70"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/select.tsx": {
+    "mtime": 1779830621.7583027,
+    "ast_hash": "b28efb55176b23dabb444cf88fe0a184",
+    "semantic_hash": "b28efb55176b23dabb444cf88fe0a184"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/skeleton.tsx": {
+    "mtime": 1779831141.9022138,
+    "ast_hash": "c16d8ac1e08656426fb248b601772ad1",
+    "semantic_hash": "c16d8ac1e08656426fb248b601772ad1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/sonner.tsx": {
+    "mtime": 1779830938.481481,
+    "ast_hash": "a157568d79b91074aa83d2fed08ec223",
+    "semantic_hash": "a157568d79b91074aa83d2fed08ec223"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/switch.tsx": {
+    "mtime": 1779830621.8107543,
+    "ast_hash": "bf0598ce90aaee824ec8669c93522779",
+    "semantic_hash": "bf0598ce90aaee824ec8669c93522779"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/components/ui/textarea.tsx": {
+    "mtime": 1779830621.6952102,
+    "ast_hash": "28a5b8c2caa9c86b73ca82fab179c356",
+    "semantic_hash": "28a5b8c2caa9c86b73ca82fab179c356"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/cal.ts": {
+    "mtime": 1780240581.5636296,
+    "ast_hash": "d8a794ec518d67904e16787dedfb17e2",
+    "semantic_hash": "d8a794ec518d67904e16787dedfb17e2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/cal.types.ts": {
+    "mtime": 1780240560.579872,
+    "ast_hash": "920b5dd63cc56fd70a9a34b811035edd",
+    "semantic_hash": "920b5dd63cc56fd70a9a34b811035edd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/env.ts": {
+    "mtime": 1780312649.7231183,
+    "ast_hash": "3051095b0823bd2e7fb4acdce88c661d",
+    "semantic_hash": "3051095b0823bd2e7fb4acdce88c661d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/mirotalk.ts": {
+    "mtime": 1780313302.513391,
+    "ast_hash": "648c86945cdc6e5792152ec5b1f1f66e",
+    "semantic_hash": "648c86945cdc6e5792152ec5b1f1f66e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/mirotalk.types.ts": {
+    "mtime": 1780312768.3196306,
+    "ast_hash": "45eba50be0d99dbe7ba0e112a0a2f661",
+    "semantic_hash": "45eba50be0d99dbe7ba0e112a0a2f661"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/resend.ts": {
+    "mtime": 1780313194.031765,
+    "ast_hash": "2f71888453143277d43f58555ff3becd",
+    "semantic_hash": "2f71888453143277d43f58555ff3becd"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/stripe.ts": {
+    "mtime": 1780262705.0556808,
+    "ast_hash": "d41204337835679188f29f67b565cb97",
+    "semantic_hash": "d41204337835679188f29f67b565cb97"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/stripe.types.ts": {
+    "mtime": 1780262022.7144277,
+    "ast_hash": "d991f41e6bce361c28e76f92ea2506ff",
+    "semantic_hash": "d991f41e6bce361c28e76f92ea2506ff"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/supabase/admin.ts": {
+    "mtime": 1779901932.091497,
+    "ast_hash": "d99ac4c8b6cfbe75b1989bb237495eb9",
+    "semantic_hash": "d99ac4c8b6cfbe75b1989bb237495eb9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/supabase/client.ts": {
+    "mtime": 1779901930.5489292,
+    "ast_hash": "5453d99289cf630306e5030428c0fc33",
+    "semantic_hash": "5453d99289cf630306e5030428c0fc33"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/supabase/server.ts": {
+    "mtime": 1779901908.6145546,
+    "ast_hash": "3c6e0f8d3cea960a101ba3d94f758543",
+    "semantic_hash": "3c6e0f8d3cea960a101ba3d94f758543"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/lib/utils.ts": {
+    "mtime": 1779808629.5869405,
+    "ast_hash": "5a6fd53fdcf2be529e9cc0b718fde352",
+    "semantic_hash": "5a6fd53fdcf2be529e9cc0b718fde352"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/middleware.ts": {
+    "mtime": 1780235883.2513611,
+    "ast_hash": "63bdab55617a60b95afb7775fec99f99",
+    "semantic_hash": "63bdab55617a60b95afb7775fec99f99"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/src/types/database.ts": {
+    "mtime": 1780347648.7170286,
+    "ast_hash": "86b0539ca820bd0312148c584ce6209f",
+    "semantic_hash": "86b0539ca820bd0312148c584ce6209f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00001_initial_schema.sql": {
+    "mtime": 1779899393.8790054,
+    "ast_hash": "690698a4c8e91df616974b0aed6943e7",
+    "semantic_hash": "690698a4c8e91df616974b0aed6943e7"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00002_fix_trigger.sql": {
+    "mtime": 1780181467.7201679,
+    "ast_hash": "54cee8e4acbdeb3636cbed0225eacc8b",
+    "semantic_hash": "54cee8e4acbdeb3636cbed0225eacc8b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00003_phase2_booking.sql": {
+    "mtime": 1780234950.4187083,
+    "ast_hash": "d2603a62ab261713e427be23dfeef6ea",
+    "semantic_hash": "d2603a62ab261713e427be23dfeef6ea"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00004_phase3_booking_extras.sql": {
+    "mtime": 1780267280.9528847,
+    "ast_hash": "252a84f630ed5a8882c5d345b81e3425",
+    "semantic_hash": "252a84f630ed5a8882c5d345b81e3425"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00005_phase4_session_management.sql": {
+    "mtime": 1780312645.9686306,
+    "ast_hash": "a3248486a8e1ef54c447acaa7f9e6155",
+    "semantic_hash": "a3248486a8e1ef54c447acaa7f9e6155"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00006_phase6_notes_soft_delete.sql": {
+    "mtime": 1780315372.7837787,
+    "ast_hash": "83a6b6b9aaaf0e2d4e3e135505fe369e",
+    "semantic_hash": "83a6b6b9aaaf0e2d4e3e135505fe369e"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/migrations/00007_phase7_messaging.sql": {
+    "mtime": 1780347611.314167,
+    "ast_hash": "abe5696ebdf4ee5da6e7f053eaabfb88",
+    "semantic_hash": "abe5696ebdf4ee5da6e7f053eaabfb88"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/supabase/seed.sql": {
+    "mtime": 1779899402.9331658,
+    "ast_hash": "e5b36cd15addb9dac9d39f4998a80750",
+    "semantic_hash": "e5b36cd15addb9dac9d39f4998a80750"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/tailwind.config.ts": {
+    "mtime": 1779808566.6622586,
+    "ast_hash": "82c13cb4c64fa78801fa4fae9bc4f89d",
+    "semantic_hash": "82c13cb4c64fa78801fa4fae9bc4f89d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/tsconfig.json": {
+    "mtime": 1779809000.4923086,
+    "ast_hash": "d56fc1bf594fc557e42281f8a685b70f",
+    "semantic_hash": "d56fc1bf594fc557e42281f8a685b70f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/tsconfig.sw.json": {
+    "mtime": 1779808999.4229162,
+    "ast_hash": "fdf9e48049b83c060eddc2a8666bf9d4",
+    "semantic_hash": "fdf9e48049b83c060eddc2a8666bf9d4"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/.github/workflows/deploy-docs.yml": {
+    "mtime": 1778760054.814991,
+    "ast_hash": "c56cb0e850b23dccc098ba16184751b0",
+    "semantic_hash": "c56cb0e850b23dccc098ba16184751b0"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/PRD.md": {
+    "mtime": 1778598872.2271388,
+    "ast_hash": "e9d3434b64eda27ab51bf454ba5f6795",
+    "semantic_hash": "e9d3434b64eda27ab51bf454ba5f6795"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Features/Group Breathwork Classes.md": {
+    "mtime": 1778950930.3309991,
+    "ast_hash": "ae1dbd33a425f73f7860f81ec0c55236",
+    "semantic_hash": "ae1dbd33a425f73f7860f81ec0c55236"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Product Requirement Document/Product Requirements Document.md": {
+    "mtime": 1778758449.198673,
+    "ast_hash": "c659597d5094f1480fccefe7106bd429",
+    "semantic_hash": "c659597d5094f1480fccefe7106bd429"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Research/Somatic Therapy Platform Research Report.md": {
+    "mtime": 1778758134.2931378,
+    "ast_hash": "39d94b9cce492e3070d7a59f3d496d0b",
+    "semantic_hash": "39d94b9cce492e3070d7a59f3d496d0b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Chat and Support Roadmap.md": {
+    "mtime": 1778758143.7292378,
+    "ast_hash": "d9aab57e8d9ff829c15e36225ddb6d21",
+    "semantic_hash": "d9aab57e8d9ff829c15e36225ddb6d21"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Group Sessions Roadmap.md": {
+    "mtime": 1778951002.1982503,
+    "ast_hash": "11aeae7746b3b66aa3a4e5a72b843190",
+    "semantic_hash": "11aeae7746b3b66aa3a4e5a72b843190"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Master Platform Roadmap.md": {
+    "mtime": 1778758435.743263,
+    "ast_hash": "eeba545b5ead3db02c0bc89c3a4d36d1",
+    "semantic_hash": "eeba545b5ead3db02c0bc89c3a4d36d1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Payment System Roadmap.md": {
+    "mtime": 1778758143.7351975,
+    "ast_hash": "c3be91288e7683df8436c3d00e10daef",
+    "semantic_hash": "c3be91288e7683df8436c3d00e10daef"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Scheduling System Roadmap.md": {
+    "mtime": 1778758143.7401385,
+    "ast_hash": "65ceafdff3de2261da1069af950e792b",
+    "semantic_hash": "65ceafdff3de2261da1069af950e792b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Video Call Roadmap.md": {
+    "mtime": 1778758435.747515,
+    "ast_hash": "58dc4ba00a49a70e092552e731609441",
+    "semantic_hash": "58dc4ba00a49a70e092552e731609441"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Welcome.md": {
+    "mtime": 1778951024.2876096,
+    "ast_hash": "4abd96045b1b849d8193346c27f3601b",
+    "semantic_hash": "4abd96045b1b849d8193346c27f3601b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/index.md": {
+    "mtime": 1778951015.6168299,
+    "ast_hash": "ac982fe76d513b637109e1f6ee4981b6",
+    "semantic_hash": "ac982fe76d513b637109e1f6ee4981b6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/CHAT_AND_SUPPORT_ROADMAP.md": {
+    "mtime": 1778594696.8507586,
+    "ast_hash": "d9aab57e8d9ff829c15e36225ddb6d21",
+    "semantic_hash": "d9aab57e8d9ff829c15e36225ddb6d21"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/MASTER_PLATFORM_ROADMAP.md": {
+    "mtime": 1778598118.1958609,
+    "ast_hash": "700a309d2a37d82284ac771dd4122341",
+    "semantic_hash": "700a309d2a37d82284ac771dd4122341"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/PAYMENT_SYSTEM_ROADMAP.md": {
+    "mtime": 1778594585.004283,
+    "ast_hash": "c3be91288e7683df8436c3d00e10daef",
+    "semantic_hash": "c3be91288e7683df8436c3d00e10daef"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/SCHEDULING_SYSTEM_ROADMAP.md": {
+    "mtime": 1778594727.5648525,
+    "ast_hash": "65ceafdff3de2261da1069af950e792b",
+    "semantic_hash": "65ceafdff3de2261da1069af950e792b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Documentation/plan/VIDEO_CALL_ROADMAP.md": {
+    "mtime": 1778597080.1016037,
+    "ast_hash": "2ed17ac8cfd836e655ff23a0ed402b64",
+    "semantic_hash": "2ed17ac8cfd836e655ff23a0ed402b64"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/LANDING_PAGE_PLAN.md": {
+    "mtime": 1778525307.7117398,
+    "ast_hash": "098449ac60cb7f9547a7a89f52304bb5",
+    "semantic_hash": "098449ac60cb7f9547a7a89f52304bb5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/README.md": {
+    "mtime": 1778525361.323996,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/README.md": {
+    "mtime": 1778757130.4049757,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/FUNDING.yml": {
+    "mtime": 1778758770.2142828,
+    "ast_hash": "a97f425135db9ae541515c91020a9d5f",
+    "semantic_hash": "a97f425135db9ae541515c91020a9d5f"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/ISSUE_TEMPLATE/bug_report.md": {
+    "mtime": 1778758770.2144842,
+    "ast_hash": "2da8504b4770320fcdcbae5e64622fca",
+    "semantic_hash": "2da8504b4770320fcdcbae5e64622fca"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/ISSUE_TEMPLATE/feature_request.md": {
+    "mtime": 1778758770.214603,
+    "ast_hash": "a60fa8d32902e86de6b87e86eef0995c",
+    "semantic_hash": "a60fa8d32902e86de6b87e86eef0995c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/dependabot.yml": {
+    "mtime": 1778758770.214715,
+    "ast_hash": "14194e20ca9c30082b2ecc4e25f8eaf9",
+    "semantic_hash": "14194e20ca9c30082b2ecc4e25f8eaf9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/pull_request_template.md": {
+    "mtime": 1778758770.2148473,
+    "ast_hash": "beec24c7f76e03393b3be00331355f80",
+    "semantic_hash": "beec24c7f76e03393b3be00331355f80"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/build-preview.yaml": {
+    "mtime": 1778758770.2150824,
+    "ast_hash": "624dc3e49d20a9099237d14881492542",
+    "semantic_hash": "624dc3e49d20a9099237d14881492542"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/ci.yaml": {
+    "mtime": 1778758770.2152076,
+    "ast_hash": "e6b8d404db574d14af2e84a90dcc5289",
+    "semantic_hash": "e6b8d404db574d14af2e84a90dcc5289"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/deploy-preview.yaml": {
+    "mtime": 1778758770.2153225,
+    "ast_hash": "057da7a794c2a5c888cea89830526a3c",
+    "semantic_hash": "057da7a794c2a5c888cea89830526a3c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/.github/workflows/docker-build-push.yaml": {
+    "mtime": 1778758770.2154355,
+    "ast_hash": "332983372598e2f93c346f41119e1310",
+    "semantic_hash": "332983372598e2f93c346f41119e1310"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/CODE_OF_CONDUCT.md": {
+    "mtime": 1778758770.2162127,
+    "ast_hash": "9bc7828b6a2906b05841f82b9546b05b",
+    "semantic_hash": "9bc7828b6a2906b05841f82b9546b05b"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/LICENSE.txt": {
+    "mtime": 1778758770.216477,
+    "ast_hash": "db99912204d44bbfaa34f4eb8f04603c",
+    "semantic_hash": "db99912204d44bbfaa34f4eb8f04603c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/README.md": {
+    "mtime": 1778758770.2165797,
+    "ast_hash": "9f64bb5eb8c0c57d14195b86568df9bf",
+    "semantic_hash": "9f64bb5eb8c0c57d14195b86568df9bf"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/README.md": {
+    "mtime": 1779808188.1465745,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/b,acm8681457.png": {
+    "mtime": 1778872826.309213,
+    "ast_hash": "2295ecab8e17f4b37429b45762f374d2",
+    "semantic_hash": "2295ecab8e17f4b37429b45762f374d2"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/bac8681457.png": {
+    "mtime": 1778872810.7362757,
+    "ast_hash": "80fee47642261cd658cd54f24a9f7c9c",
+    "semantic_hash": "80fee47642261cd658cd54f24a9f7c9c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/crest.png": {
+    "mtime": 1778760511.5431068,
+    "ast_hash": "34152909e9df45dd23fcb03fa1a7de67",
+    "semantic_hash": "34152909e9df45dd23fcb03fa1a7de67"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/logo.png": {
+    "mtime": 1778762816.1218674,
+    "ast_hash": "83de931eb145376e21c69be64c5917f6",
+    "semantic_hash": "83de931eb145376e21c69be64c5917f6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/logo.webp": {
+    "mtime": 1778762857.803926,
+    "ast_hash": "903864ee5238221a1dc7c8a045b7ea84",
+    "semantic_hash": "903864ee5238221a1dc7c8a045b7ea84"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/Assets/test_design.png": {
+    "mtime": 1778783702.7591603,
+    "ast_hash": "24e2a660274a993b54e521810d814474",
+    "semantic_hash": "24e2a660274a993b54e521810d814474"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/apple-icon.png": {
+    "mtime": 1778758297.4587996,
+    "ast_hash": "734ce6c878789fcd5843e8a7963e0756",
+    "semantic_hash": "734ce6c878789fcd5843e8a7963e0756"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/crest.png": {
+    "mtime": 1778760599.6421783,
+    "ast_hash": "34152909e9df45dd23fcb03fa1a7de67",
+    "semantic_hash": "34152909e9df45dd23fcb03fa1a7de67"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon-dark-32x32.png": {
+    "mtime": 1778758297.4549427,
+    "ast_hash": "abd5ebe9e287ca0a89f4fd3da2b5cf9c",
+    "semantic_hash": "abd5ebe9e287ca0a89f4fd3da2b5cf9c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon-light-32x32.png": {
+    "mtime": 1778758297.4495158,
+    "ast_hash": "53426c910bcab7d3e5213cc64aa1b2c5",
+    "semantic_hash": "53426c910bcab7d3e5213cc64aa1b2c5"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/icon.svg": {
+    "mtime": 1778758297.4632595,
+    "ast_hash": "6e5d88c5f7e97d26ac4ad47e703bf9de",
+    "semantic_hash": "6e5d88c5f7e97d26ac4ad47e703bf9de"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/logo.png": {
+    "mtime": 1778763263.668954,
+    "ast_hash": "83de931eb145376e21c69be64c5917f6",
+    "semantic_hash": "83de931eb145376e21c69be64c5917f6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/logo.webp": {
+    "mtime": 1778763042.684364,
+    "ast_hash": "903864ee5238221a1dc7c8a045b7ea84",
+    "semantic_hash": "903864ee5238221a1dc7c8a045b7ea84"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/mask-group-pattern.svg": {
+    "mtime": 1778758297.4806163,
+    "ast_hash": "e200d819189c42b7a0f213696489bb7c",
+    "semantic_hash": "e200d819189c42b7a0f213696489bb7c"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/modern-dashboard-interface-for-schedule-planning-w.jpg": {
+    "mtime": 1778758297.4576921,
+    "ast_hash": "71bc88db6ced7dccb249d32fd39d991d",
+    "semantic_hash": "71bc88db6ced7dccb249d32fd39d991d"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/mainpage/public/modern-dashboard-interface-with-data-visualization.jpg": {
+    "mtime": 1778758297.4311185,
+    "ast_hash": "092f72ce9569f5a44438c2e1f237fad1",
+    "semantic_hash": "092f72ce9569f5a44438c2e1f237fad1"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/static/icon.png": {
+    "mtime": 1778758770.2530425,
+    "ast_hash": "f03c27d75fac3d5968b7b155a6ec52f8",
+    "semantic_hash": "f03c27d75fac3d5968b7b155a6ec52f8"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/quartz/quartz/static/og-image.png": {
+    "mtime": 1778758770.2533395,
+    "ast_hash": "9a0df0e1725d0e140867041059c29ee9",
+    "semantic_hash": "9a0df0e1725d0e140867041059c29ee9"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/public/icons/icon-192x192.png": {
+    "mtime": 1779808789.3155053,
+    "ast_hash": "83de931eb145376e21c69be64c5917f6",
+    "semantic_hash": "83de931eb145376e21c69be64c5917f6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/web/public/icons/icon-512x512.png": {
+    "mtime": 1779808789.3259752,
+    "ast_hash": "83de931eb145376e21c69be64c5917f6",
+    "semantic_hash": "83de931eb145376e21c69be64c5917f6"
+  },
+  "/Users/victorbendas/Documents/GitHub/Somove/cleolenzea/bg.mp4": {
+    "mtime": 1778530629.739536,
+    "ast_hash": "f51315b2159c91905c711af623acd93e",
+    "semantic_hash": "f51315b2159c91905c711af623acd93e"
+  }
+}

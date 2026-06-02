@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarDays, Users, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import SessionActions from "./[id]/session-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -34,11 +35,20 @@ export default async function DashboardPage() {
     .eq("therapist_id", user.id)
     .eq("status", "completed");
 
-  const { data: unreadConversations } = await supabase
-    .from("conversations")
-    .select("id")
-    .eq("therapist_id", user.id)
-    .is("last_message_at", null);
+  const { count: unreadMessages } = await supabase
+    .from("messages")
+    .select("id", { count: "exact", head: true })
+    .neq("sender_id", user.id)
+    .is("read_at", null)
+    .in(
+      "conversation_id",
+      (
+        await supabase
+          .from("conversations")
+          .select("id")
+          .eq("therapist_id", user.id)
+      ).data?.map((c) => c.id) || []
+    );
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,9 +80,9 @@ export default async function DashboardPage() {
             <CardContent className="flex flex-col items-center p-4">
               <MessageSquare className="mb-1 h-5 w-5 text-primary" />
               <p className="text-2xl font-medium text-foreground">
-                {unreadConversations?.length || 0}
+                {unreadMessages || 0}
               </p>
-              <p className="text-xs text-warm-gray">Messages</p>
+              <p className="text-xs text-warm-gray">Unread</p>
             </CardContent>
           </Card>
         </div>
@@ -103,28 +113,35 @@ export default async function DashboardPage() {
                 const scheduledAt = new Date(session.scheduled_at);
                 return (
                   <Card key={session.id}>
-                    <CardContent className="flex items-center justify-between p-4">
-                      <div>
-                        <p className="font-medium text-foreground">
-                          {(client as unknown as { name: string })?.name || "Client"}
-                        </p>
-                        <p className="text-sm text-warm-gray">
-                          {scheduledAt.toLocaleTimeString("en-GB", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}{" "}
-                          · {session.duration_min} min
-                        </p>
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <p className="font-medium text-foreground">
+                            {(client as unknown as { name: string })?.name || "Client"}
+                          </p>
+                          <p className="text-sm text-warm-gray">
+                            {scheduledAt.toLocaleTimeString("en-GB", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}{" "}
+                            · {session.duration_min} min
+                          </p>
+                        </div>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-medium ${
+                            session.status === "active"
+                              ? "bg-accent/10 text-accent"
+                              : "bg-light-moss text-foreground"
+                          }`}
+                        >
+                          {session.status === "active" ? "In Progress" : "Confirmed"}
+                        </span>
                       </div>
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                          session.status === "active"
-                            ? "bg-accent/10 text-accent"
-                            : "bg-light-moss text-foreground"
-                        }`}
-                      >
-                        {session.status === "active" ? "In Progress" : "Confirmed"}
-                      </span>
+                      <SessionActions
+                        sessionId={session.id}
+                        status={session.status}
+                        scheduledAt={session.scheduled_at}
+                      />
                     </CardContent>
                   </Card>
                 );

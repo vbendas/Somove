@@ -34,6 +34,29 @@ export interface CreateCheckoutParams {
   metadata?: Record<string, string>;
 }
 
+export interface CreateConnectedCheckoutParams {
+  amount: number;
+  currency: string;
+  connectedAccountId: string;
+  applicationFeeAmount: number;
+  metadata: Record<string, string>;
+  successUrl: string;
+  cancelUrl: string;
+  customerEmail?: string;
+  productName: string;
+  productDescription?: string;
+}
+
+export interface AccountStatusResult {
+  chargesEnabled: boolean;
+  payoutsEnabled: boolean;
+  requirements: {
+    currently_due: string[];
+    eventually_due: string[];
+    past_due: string[];
+  };
+}
+
 export interface StripeApiError {
   message: string;
   statusCode?: number;

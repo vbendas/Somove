@@ -33,13 +33,16 @@ export async function POST(request: Request) {
       const somoveSessionId = session.metadata?.somove_session_id;
       if (!somoveSessionId) break;
 
+      const platformFee = parseInt(session.metadata?.somove_platform_fee || "0", 10);
+      const totalAmount = session.amount_total || 0;
+
       await supabase
         .from("sessions")
         .update({
           payment_status: "paid",
           status: "confirmed",
           stripe_payment_intent_id: session.payment_intent as string,
-          amount_paid_cents: session.amount_total || 0,
+          amount_paid_cents: totalAmount,
         })
         .eq("id", somoveSessionId);
 
@@ -47,12 +50,18 @@ export async function POST(request: Request) {
         client_id: session.metadata?.somove_client_id,
         therapist_id: session.metadata?.somove_therapist_id,
         session_id: somoveSessionId,
-        amount_cents: session.amount_total || 0,
+        amount_cents: totalAmount,
+        platform_fee_cents: platformFee,
+        therapist_net_cents: totalAmount - platformFee,
         currency: session.currency || "eur",
         method: "stripe",
         status: "confirmed",
         stripe_payment_intent_id: session.payment_intent as string,
       });
+
+      const { createSessionRoom } = await import("@/app/actions/session");
+      createSessionRoom(somoveSessionId).catch(() => {});
+
       break;
     }
 
@@ -117,6 +126,21 @@ export async function POST(request: Request) {
         .update({ status: "refunded" })
         .eq("stripe_payment_intent_id", paymentIntentId)
         .eq("session_id", session.id);
+      break;
+    }
+
+    case "account.updated": {
+      const account = event.data.object as Stripe.Account;
+
+      await supabase
+        .from("therapist_profile")
+        .update({
+          stripe_onboarding_done:
+            (account.charges_enabled ?? false) &&
+            (account.payouts_enabled ?? false),
+          stripe_payouts_enabled: account.payouts_enabled ?? false,
+        })
+        .eq("stripe_account_id", account.id);
       break;
     }
   }

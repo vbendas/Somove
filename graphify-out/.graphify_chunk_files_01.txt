@@ -1,0 +1,11 @@
+/Users/victorbendas/Documents/GitHub/Somove/.github/workflows/deploy-docs.yml
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/PRD.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Features/Group Breathwork Classes.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Product Requirement Document/Product Requirements Document.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Research/Somatic Therapy Platform Research Report.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Chat and Support Roadmap.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Group Sessions Roadmap.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Master Platform Roadmap.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Payment System Roadmap.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Scheduling System Roadmap.md
+/Users/victorbendas/Documents/GitHub/Somove/Documentation/Somove/Roadmap/Video Call Roadmap.md

@@ -37,23 +37,6 @@ async function getTherapists() {
 
 export default async function Home() {
   const userData = await getUserData();
-
-  if (userData.role === "therapist") {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background p-4">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <h1 className="font-heading text-4xl font-medium text-foreground">
-            Welcome, {userData.name}
-          </h1>
-          <p className="text-warm-gray">Your therapist dashboard is coming soon.</p>
-          <Link href="/dashboard">
-            <Button>Go to Dashboard</Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   const therapists = await getTherapists();
 
   if (therapists.length === 0) {
@@ -64,7 +47,7 @@ export default async function Home() {
             Welcome, {userData.name}
           </h1>
           <p className="max-w-md text-warm-gray">
-            No therapists are available yet. Check back soon!
+            No professionals are available yet. Check back soon!
           </p>
           <form action={signOut}>
             <Button variant="outline">Sign Out</Button>
@@ -79,13 +62,22 @@ export default async function Home() {
       <div className="mx-auto max-w-4xl px-5 py-8">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="font-heading text-3xl font-medium text-foreground">
-            Find Your Therapist
+            Find a Professional
           </h1>
-          <form action={signOut}>
-            <Button variant="ghost" size="sm">
-              Sign Out
-            </Button>
-          </form>
+          <div className="flex items-center gap-2">
+            {userData.role === "therapist" && (
+              <Link href="/dashboard">
+                <Button variant="outline" size="sm">
+                  Dashboard
+                </Button>
+              </Link>
+            )}
+            <form action={signOut}>
+              <Button variant="ghost" size="sm">
+                Sign Out
+              </Button>
+            </form>
+          </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -101,7 +93,7 @@ export default async function Home() {
                   </div>
                   <div>
                     <h2 className="font-heading text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                      {therapist.users?.name || "Therapist"}
+                      {therapist.users?.name || "Professional"}
                     </h2>
                     {therapist.modalities && therapist.modalities.length > 0 && (
                       <p className="text-sm text-warm-gray">

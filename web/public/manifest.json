@@ -1,8 +1,10 @@
 {
-  "name": "Somove — Somatic Therapy Platform",
+  "name": "Somove — Professional Session Platform",
   "short_name": "Somove",
-  "description": "Book somatic therapy sessions with certified practitioners. Full-body video calls with contactless gesture controls.",
+  "description": "Book sessions with certified professionals. Video calls, secure messaging, and practice management.",
+  "id": "somove-app",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FFFDF5",
@@ -21,7 +23,19 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "medical", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "View Sessions",
+      "url": "/my-sessions",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Messages",
+      "url": "/inbox",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["productivity", "business", "education"],
   "lang": "en",
   "dir": "ltr"
 }

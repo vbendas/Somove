@@ -7,6 +7,29 @@ import { createClient } from "@/lib/supabase/server";
 export async function signInWithMagicLink(email: string) {
   const supabase = createClient();
 
+  // Check if registration is open (allow existing users always)
+  const { data: existingUser } = await supabase
+    .from("users")
+    .select("id")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (!existingUser) {
+    // New user — check if registration is open
+    const { data: settings } = await supabase
+      .from("platform_settings")
+      .select("open_registration")
+      .eq("id", 1)
+      .single();
+
+    if (settings && !settings.open_registration) {
+      return {
+        error:
+          "Registration is currently closed. Please contact the platform administrator for an invitation.",
+      };
+    }
+  }
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {

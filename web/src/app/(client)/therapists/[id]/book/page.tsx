@@ -38,6 +38,49 @@ async function hasClientBookedBefore(clientId: string, therapistId: string) {
   return (count || 0) > 0;
 }
 
+async function getSessionTypes(therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("session_types")
+    .select("*")
+    .eq("therapist_id", therapistId)
+    .eq("is_active", true)
+    .order("created_at", { ascending: true });
+  return data || [];
+}
+
+async function getClientCredits(clientId: string, therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("session_credits")
+    .select("id, remaining_credits, total_credits")
+    .eq("client_id", clientId)
+    .eq("therapist_id", therapistId)
+    .gt("remaining_credits", 0);
+  return data || [];
+}
+
+async function getTherapistToS(therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("therapist_profile")
+    .select("tos_text, tos_version")
+    .eq("user_id", therapistId)
+    .single();
+  return data;
+}
+
+async function hasAcceptedToS(clientId: string, therapistId: string, tosVersion: number) {
+  const supabase = createClient();
+  const { count } = await supabase
+    .from("terms_acceptances")
+    .select("id", { count: "exact", head: true })
+    .eq("client_id", clientId)
+    .eq("therapist_id", therapistId)
+    .eq("tos_version", tosVersion);
+  return (count || 0) > 0;
+}
+
 async function fetchCalSlots(apiKey: string, eventTypeId: string) {
   const calClient = new CalClient(apiKey);
   const now = new Date();
@@ -76,6 +119,14 @@ export default async function BookSessionPage({
 
   const userName = (therapist.users as unknown as { name: string })?.name;
 
+  const sessionTypes = await getSessionTypes(params.id);
+  const clientCredits = await getClientCredits(user.id, params.id);
+  const totalCredits = clientCredits.reduce((sum, c) => sum + c.remaining_credits, 0);
+
+  const therapistTos = await getTherapistToS(params.id);
+  const hasTos = !!(therapistTos?.tos_text && therapistTos.tos_text.trim());
+  const tosAccepted = hasTos ? await hasAcceptedToS(user.id, params.id, therapistTos.tos_version) : true;
+
   const hasCalIntegration = !!(therapist.cal_api_key && therapist.cal_event_type_id);
   let calSlots = null;
   let calError = null;
@@ -108,19 +159,26 @@ export default async function BookSessionPage({
         <p className="mb-8 text-warm-gray">with {userName}</p>
 
         <div className="mb-6 space-y-3">
-          <div className="flex items-center gap-3 rounded-card border border-border bg-card p-4">
-            <CreditCard className="h-5 w-5 text-primary" />
-            <div>
-              <p className="font-medium text-foreground">
-                {canUseFreeSession
-                  ? "Free First Session"
-                  : `€${((therapist.session_price_cents || 0) / 100).toFixed(0)}`}
-              </p>
-              <p className="text-sm text-warm-gray">
-                {therapist.default_session_duration} min session
-              </p>
+          {canUseFreeSession && (
+            <div className="flex items-center gap-3 rounded-card border border-accent/30 bg-accent/5 p-4">
+              <CreditCard className="h-5 w-5 text-accent" />
+              <div>
+                <p className="font-medium text-foreground">Free First Session</p>
+                <p className="text-sm text-warm-gray">Available for your first booking</p>
+              </div>
             </div>
-          </div>
+          )}
+          {totalCredits > 0 && (
+            <div className="flex items-center gap-3 rounded-card border border-border bg-card p-4">
+              <CreditCard className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium text-foreground">
+                  {totalCredits} {totalCredits === 1 ? "Session Credit" : "Session Credits"}
+                </p>
+                <p className="text-sm text-warm-gray">Use credits instead of paying</p>
+              </div>
+            </div>
+          )}
         </div>
 
         {calError && (
@@ -144,6 +202,12 @@ export default async function BookSessionPage({
           timezone={therapist.timezone || "Europe/Lisbon"}
           calSlots={calSlots}
           useCalIntegration={hasCalIntegration && !calError}
+          sessionTypes={sessionTypes}
+          availableCredits={totalCredits}
+          hasTos={hasTos}
+          tosAccepted={tosAccepted}
+          tosText={therapistTos?.tos_text || null}
+          tosVersion={therapistTos?.tos_version || 1}
         />
       </div>
     </div>
