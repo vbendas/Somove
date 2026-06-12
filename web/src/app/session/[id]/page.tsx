@@ -18,7 +18,7 @@ export default async function SessionVideoPage({
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("id, client_id, therapist_id, mirotalk_room_url, status")
+    .select("id, client_id, therapist_id, mirotalk_room_url, daily_room_url, status")
     .eq("id", params.id)
     .single();
 

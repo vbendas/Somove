@@ -10,9 +10,12 @@ function generatePassword(): string {
 }
 
 export async function createSessionRoom(
-  sessionId: string
+  sessionId: string,
+  useAdmin = false
 ): Promise<{ joinUrl: string } | { error: string }> {
-  const supabase = createClient();
+  const supabase = useAdmin
+    ? (await import("@/lib/supabase/admin")).createAdminClient()
+    : createClient();
 
   const { data: session, error: fetchError } = await supabase
     .from("sessions")

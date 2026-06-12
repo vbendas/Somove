@@ -129,9 +129,10 @@ export async function createSession(input: CreateSessionInput) {
       users: { name: string } | null;
     };
 
-    if (profile?.stripe_secret_key) {
+    const stripeKey = profile?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
+    if (stripeKey) {
       const { StripeClient } = await import("@/lib/stripe");
-      const stripeClient = new StripeClient(profile.stripe_secret_key);
+      const stripeClient = new StripeClient(stripeKey);
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -335,9 +336,10 @@ export async function cancelSession(sessionId: string) {
       .eq("user_id", session.therapist_id)
       .single();
 
-    if (therapistProfile?.stripe_secret_key) {
+    const refundStripeKey = therapistProfile?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
+    if (refundStripeKey) {
       const { StripeClient } = await import("@/lib/stripe");
-      const stripeClient = new StripeClient(therapistProfile.stripe_secret_key);
+      const stripeClient = new StripeClient(refundStripeKey);
       await stripeClient.createRefund(session.stripe_payment_intent_id);
     }
 

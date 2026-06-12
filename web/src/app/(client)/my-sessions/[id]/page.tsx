@@ -43,7 +43,7 @@ export default async function SessionDetailPage({
   const isActive = session.status === "active";
   const isCompleted = session.status === "completed";
   const isCancelled = session.status === "cancelled";
-  const canJoin = (isUpcoming || isActive) && session.mirotalk_room_url;
+  const canJoin = (isUpcoming || isActive) && (session.daily_room_url || session.mirotalk_room_url);
 
   return (
     <div className="min-h-screen bg-background">

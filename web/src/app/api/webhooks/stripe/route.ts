@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       });
 
       const { createSessionRoom } = await import("@/app/actions/session");
-      createSessionRoom(somoveSessionId).catch(() => {});
+      createSessionRoom(somoveSessionId, true).catch(() => {});
 
       break;
     }
