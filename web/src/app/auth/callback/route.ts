@@ -2,10 +2,17 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+const SUPPORTED_LOCALES = ["pt", "en", "es", "fr", "de", "it", "nl", "pt-BR", "pt-PT"];
+const LOCALE_PATTERN = new RegExp(`^/(${SUPPORTED_LOCALES.join("|")})(?=/|$)`);
+
+function stripLocale(path: string): string {
+  return path.replace(LOCALE_PATTERN, "") || "/";
+}
+
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  const next = stripLocale(searchParams.get("next") ?? "/");
 
   if (code) {
     const cookieStore = cookies();

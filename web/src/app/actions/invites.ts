@@ -199,6 +199,35 @@ export async function acceptInvite(token: string, name: string, password: string
     .update({ accepted_at: new Date().toISOString() })
     .eq("id", invite!.id);
 
+  // Auto-create a basic therapist profile so they appear in listings
+  // and can edit details from their dashboard
+  if (invite!.role === "therapist") {
+    const defaultAvailability = {
+      weekly: {
+        monday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+        tuesday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+        wednesday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+        thursday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+        friday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      },
+      overrides: {},
+      bufferMinutes: 15,
+      timezone: "Europe/Lisbon",
+    };
+
+    await adminClient.from("therapist_profile").insert({
+      user_id: authData.user.id,
+      bio: "",
+      credentials: [],
+      modalities: [],
+      session_price_cents: 9000,
+      default_session_duration: 60,
+      free_first_session: false,
+      availability_rules: defaultAvailability,
+      status: "active",
+    });
+  }
+
   return { success: true, role: invite!.role };
 }
 

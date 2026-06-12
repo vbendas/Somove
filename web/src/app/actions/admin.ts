@@ -147,6 +147,65 @@ export async function updateTherapistStatus(therapistId: string, status: string)
   return { success: true };
 }
 
+export async function createTherapistProfileForUser(therapistId: string) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated." };
+
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (userData?.role !== "admin") return { error: "Only admins can create profiles." };
+
+  const adminClient = createAdminClient();
+
+  const { data: existing } = await adminClient
+    .from("therapist_profile")
+    .select("id")
+    .eq("user_id", therapistId)
+    .limit(1)
+    .maybeSingle();
+
+  if (existing) return { error: "Profile already exists." };
+
+  const defaultAvailability = {
+    weekly: {
+      monday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      tuesday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      wednesday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      thursday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      friday: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+    },
+    overrides: {},
+    bufferMinutes: 15,
+    timezone: "Europe/Lisbon",
+  };
+
+  const { error } = await adminClient.from("therapist_profile").insert({
+    user_id: therapistId,
+    bio: "",
+    credentials: [],
+    modalities: [],
+    session_price_cents: 9000,
+    default_session_duration: 60,
+    free_first_session: false,
+    availability_rules: defaultAvailability,
+    status: "active",
+  });
+
+  if (error) return { error: `Failed to create profile: ${error.message}` };
+
+  revalidatePath("/admin/therapists", "page");
+  return { success: true };
+}
+
 export async function deleteUser(userId: string) {
   const supabase = createClient();
 

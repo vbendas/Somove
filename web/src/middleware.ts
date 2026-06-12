@@ -1,8 +1,26 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const SUPPORTED_LOCALES = ["pt", "en", "es", "fr", "de", "it", "nl", "pt-BR", "pt-PT"];
+const LOCALE_PATTERN = new RegExp(`^/(${SUPPORTED_LOCALES.join("|")})(?=/|$)`);
+
+function stripLocale(pathname: string): string {
+  return pathname.replace(LOCALE_PATTERN, "") || "/";
+}
+
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname: rawPathname } = request.nextUrl;
+  const pathname = stripLocale(rawPathname);
+
+  // Redirect locale-prefixed URLs to non-prefixed versions
+  // (the app doesn't have [locale] routing — these are leftover URLs
+  // from Supabase or bookmarks)
+  if (rawPathname !== pathname) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname;
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url);
+  }
 
   const publicRoutes = [
     "/login",
@@ -66,11 +84,26 @@ export async function middleware(request: NextRequest) {
     .eq("id", user.id)
     .single();
 
+  // Check if therapist has completed onboarding (has a therapist_profile)
+  let hasTherapistProfile = false;
+  if (userData?.role === "therapist") {
+    const { data: profile } = await supabase
+      .from("therapist_profile")
+      .select("id")
+      .eq("user_id", user.id)
+      .limit(1)
+      .maybeSingle();
+    hasTherapistProfile = !!profile;
+  }
+
   if (pathname === "/login") {
     if (userData?.role === "admin") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
     if (userData?.role === "therapist") {
+      if (!hasTherapistProfile) {
+        return NextResponse.redirect(new URL("/onboarding", request.url));
+      }
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
     return NextResponse.redirect(new URL("/", request.url));
@@ -82,6 +115,11 @@ export async function middleware(request: NextRequest) {
 
   if (!userData?.name && pathname !== "/complete-profile") {
     return NextResponse.redirect(new URL("/complete-profile", request.url));
+  }
+
+  // Therapists without a profile must complete onboarding
+  if (userData?.role === "therapist" && !hasTherapistProfile && pathname !== "/onboarding") {
+    return NextResponse.redirect(new URL("/onboarding", request.url));
   }
 
   if (pathname === "/onboarding" && userData?.role !== "therapist") {

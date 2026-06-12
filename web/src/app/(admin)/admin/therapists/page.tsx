@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getTherapists, updateTherapistStatus, deleteUser } from "@/app/actions/admin";
+import { getTherapists, updateTherapistStatus, createTherapistProfileForUser, deleteUser } from "@/app/actions/admin";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -66,6 +66,17 @@ export default function TherapistsPage() {
     }
   }
 
+  async function handleCreateProfile(userId: string) {
+    const result = await createTherapistProfileForUser(userId);
+
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Profile created. They can edit details from their dashboard.");
+      loadTherapists();
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -107,7 +118,7 @@ export default function TherapistsPage() {
                       <p className="font-medium">{therapist.name || "Unnamed"}</p>
                       <p className="text-sm text-muted-foreground">{therapist.email}</p>
                       <div className="flex gap-2 text-xs text-muted-foreground">
-                        <span className="capitalize">{status}</span>
+                        <span className="capitalize">{therapist.therapist_profile ? status : "no profile"}</span>
                         {price != null && (
                           <span>• ${(price / 100).toFixed(0)}/session</span>
                         )}
@@ -115,13 +126,23 @@ export default function TherapistsPage() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleStatusToggle(therapist.id, status)}
-                      >
-                        {status === "active" ? "Deactivate" : "Activate"}
-                      </Button>
+                      {!therapist.therapist_profile ? (
+                        <Button
+                          variant="default"
+                          size="sm"
+                          onClick={() => handleCreateProfile(therapist.id)}
+                        >
+                          Create Profile
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleStatusToggle(therapist.id, status)}
+                        >
+                          {status === "active" ? "Deactivate" : "Activate"}
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         size="sm"
