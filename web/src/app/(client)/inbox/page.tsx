@@ -75,6 +75,23 @@ export default function ClientInboxPage() {
     fetchConversations();
   }, [fetchConversations]);
 
+  useEffect(() => {
+    const channel = supabase
+      .channel("messages-inbox")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        () => {
+          fetchConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, fetchConversations]);
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl px-5 py-8">

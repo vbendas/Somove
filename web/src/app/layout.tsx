@@ -55,7 +55,6 @@ export async function generateViewport(): Promise<Viewport> {
     themeColor: settings.primary_color,
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
   };
 }
 

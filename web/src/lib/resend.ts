@@ -126,6 +126,32 @@ export class ResendClient {
     });
   }
 
+  async sendNewMessage(params: {
+    to: string;
+    recipientName: string;
+    senderName: string;
+    messagePreview: string;
+    conversationUrl: string;
+  }): Promise<{ id: string } | { error: string }> {
+    const html = `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #2D2A26; font-size: 24px;">New Message</h1>
+        <p style="color: #9A9590;">Hi ${params.recipientName},</p>
+        <p style="color: #9A9590;">${params.senderName} sent you a message:</p>
+        <div style="background: #FFF5E1; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <p style="margin: 0; color: #2D2A26;">${params.messagePreview}</p>
+        </div>
+        <a href="${params.conversationUrl}" style="display: inline-block; background: #D4A574; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">View Message</a>
+      </div>
+    `;
+
+    return this.send({
+      to: params.to,
+      subject: `New message from ${params.senderName}`,
+      html,
+    });
+  }
+
   async sendCancellationNotice(params: {
     to: string;
     recipientName: string;

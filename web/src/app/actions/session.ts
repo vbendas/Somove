@@ -269,12 +269,12 @@ export async function rescheduleSession(
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("id, therapist_id, status, cal_booking_uid")
+    .select("id, therapist_id, client_id, status, cal_booking_uid")
     .eq("id", sessionId)
     .single();
 
   if (!session) return { error: "Session not found" };
-  if (session.therapist_id !== user.id) return { error: "Unauthorized" };
+  if (session.therapist_id !== user.id && session.client_id !== user.id) return { error: "Unauthorized" };
   if (!["confirmed", "pending_payment"].includes(session.status)) {
     return { error: "Only confirmed or pending sessions can be rescheduled" };
   }

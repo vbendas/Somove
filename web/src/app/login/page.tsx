@@ -59,7 +59,9 @@ export default function LoginPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
                 <Input
+                  id="email"
                   type="email"
                   placeholder="you@example.com"
                   value={email}

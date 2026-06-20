@@ -115,6 +115,59 @@ export interface Database {
           created_at?: string;
         };
       };
+      therapist_secrets: {
+        Row: {
+          id: string;
+          user_id: string;
+          cal_api_key: string | null;
+          cal_event_type_id: string | null;
+          stripe_secret_key: string | null;
+          stripe_webhook_secret: string | null;
+          stripe_account_id: string | null;
+          stripe_onboarding_done: boolean;
+          stripe_payouts_enabled: boolean;
+          daily_api_key: string | null;
+          resend_api_key: string | null;
+          mirotalk_api_key: string | null;
+          mirotalk_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          cal_api_key?: string | null;
+          cal_event_type_id?: string | null;
+          stripe_secret_key?: string | null;
+          stripe_webhook_secret?: string | null;
+          stripe_account_id?: string | null;
+          stripe_onboarding_done?: boolean;
+          stripe_payouts_enabled?: boolean;
+          daily_api_key?: string | null;
+          resend_api_key?: string | null;
+          mirotalk_api_key?: string | null;
+          mirotalk_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          cal_api_key?: string | null;
+          cal_event_type_id?: string | null;
+          stripe_secret_key?: string | null;
+          stripe_webhook_secret?: string | null;
+          stripe_account_id?: string | null;
+          stripe_onboarding_done?: boolean;
+          stripe_payouts_enabled?: boolean;
+          daily_api_key?: string | null;
+          resend_api_key?: string | null;
+          mirotalk_api_key?: string | null;
+          mirotalk_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       session_types: {
         Row: {
           id: string;
@@ -176,6 +229,7 @@ export interface Database {
           amount_paid_cents: number | null;
           currency: string;
           tos_version: number | null;
+          credit_id: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -198,6 +252,7 @@ export interface Database {
           amount_paid_cents?: number | null;
           currency?: string;
           tos_version?: number | null;
+          credit_id?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -220,6 +275,7 @@ export interface Database {
           amount_paid_cents?: number | null;
           currency?: string;
           tos_version?: number | null;
+          credit_id?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -423,6 +479,35 @@ export interface Database {
           stripe_payment_intent_id?: string | null;
           purchased_at?: string;
           expires_at?: string | null;
+          created_at?: string;
+        };
+      };
+      reviews: {
+        Row: {
+          id: string;
+          therapist_id: string;
+          client_id: string;
+          session_id: string;
+          rating: number;
+          body: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          therapist_id: string;
+          client_id: string;
+          session_id: string;
+          rating: number;
+          body?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          therapist_id?: string;
+          client_id?: string;
+          session_id?: string;
+          rating?: number;
+          body?: string | null;
           created_at?: string;
         };
       };
@@ -634,6 +719,30 @@ export interface Database {
           accepted_at?: string | null;
           expires_at?: string;
           created_at?: string;
+        };
+      };
+    };
+    Views: {
+      therapist_public: {
+        Row: {
+          id: string;
+          name: string | null;
+          email: string;
+          profile_image_url: string | null;
+          bio: string | null;
+          credentials: string[] | null;
+          modalities: string[] | null;
+          session_price_cents: number | null;
+          free_first_session: boolean;
+          default_session_duration: number;
+          availability_rules: Record<string, unknown> | null;
+          mute_hours: Record<string, unknown> | null;
+          timezone: string | null;
+          status: string;
+          video_provider: string;
+          tos_text: string | null;
+          tos_version: number;
+          created_at: string;
         };
       };
     };

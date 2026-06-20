@@ -71,6 +71,7 @@ export default function ClientDetailPage() {
   const [showFab, setShowFab] = useState(false);
   const [newNoteBody, setNewNoteBody] = useState("");
   const [newNoteSessionId, setNewNoteSessionId] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   const [saving, setSaving] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -137,6 +138,12 @@ export default function ClientDetailPage() {
 
     setSessions(sessionsData || []);
   }, [clientId, supabase]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -249,17 +256,22 @@ export default function ClientDetailPage() {
   };
 
   const deleteNoteHandler = async (noteId: string) => {
-    if (!confirm("Delete this note?")) return;
+    setConfirmDelete(noteId);
+  };
+
+  const confirmDeleteHandler = async () => {
+    if (!confirmDelete) return;
     try {
       await supabase
         .from("client_notes")
         .update({ deleted_at: new Date().toISOString() })
-        .eq("id", noteId);
+        .eq("id", confirmDelete);
       toast.success("Note deleted");
       fetchData();
     } catch {
       toast.error("Failed to delete note");
     }
+    setConfirmDelete(null);
   };
 
   const addNewNote = async () => {
@@ -460,6 +472,7 @@ export default function ClientDetailPage() {
               <button
                 onClick={() => setShowFab(!showFab)}
                 className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-dark transition-colors"
+                aria-label={showFab ? "Close menu" : "Add note"}
               >
                 {showFab ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
               </button>
@@ -553,6 +566,34 @@ export default function ClientDetailPage() {
             )}
           </div>
         )}
+
+        {confirmDelete && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/50" onClick={() => setConfirmDelete(null)} />
+            <div
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="confirm-delete-title"
+              aria-describedby="confirm-delete-desc"
+              className="relative mx-4 w-full max-w-sm rounded-card border border-border bg-card p-6 shadow-lg"
+            >
+              <h2 id="confirm-delete-title" className="font-heading text-lg font-medium text-foreground">
+                Delete Note
+              </h2>
+              <p id="confirm-delete-desc" className="mt-2 text-sm text-warm-gray">
+                Are you sure you want to delete this note? This action cannot be undone.
+              </p>
+              <div className="mt-4 flex gap-2 justify-end">
+                <Button variant="outline" size="sm" onClick={() => setConfirmDelete(null)}>
+                  Cancel
+                </Button>
+                <Button variant="destructive" size="sm" onClick={confirmDeleteHandler}>
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -632,6 +673,7 @@ function SessionNoteGroup({
                       <button
                         onClick={() => onStartEdit(note)}
                         className="text-warm-gray hover:text-foreground"
+                        aria-label="Edit note"
                       >
                         <Edit3 className="h-3.5 w-3.5" />
                       </button>
@@ -639,6 +681,7 @@ function SessionNoteGroup({
                     <button
                       onClick={() => onDelete(note.id)}
                       className="text-warm-gray hover:text-red-500"
+                      aria-label="Delete note"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

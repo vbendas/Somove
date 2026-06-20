@@ -84,16 +84,21 @@ export default function OnboardingPage() {
     setCalConnectionStatus("testing");
     setCalErrorMsg("");
 
-    const result = await testCalConnection(calApiKey);
+    const result = await testCalConnection();
 
-    if (result.error) {
+    if ("data" in result) {
+      if (result.error) {
+        setCalConnectionStatus("error");
+        setCalErrorMsg(result.error.message);
+        return;
+      }
+      setCalConnectionStatus("connected");
+      setCalConnectedName(result.data?.name || result.data?.email || "Connected");
+    } else {
       setCalConnectionStatus("error");
-      setCalErrorMsg(result.error.message);
+      setCalErrorMsg(typeof result.error === "string" ? result.error : "Unknown error");
       return;
     }
-
-    setCalConnectionStatus("connected");
-    setCalConnectedName(result.data?.name || result.data?.email || "Connected");
     setUseCalCom(true);
 
     toast.success("Cal.com connected successfully!");
@@ -103,7 +108,7 @@ export default function OnboardingPage() {
     if (!calApiKey || calConnectionStatus !== "connected") return null;
 
     const slug = `somove-${Date.now().toString(36)}`;
-    const result = await createCalEventType(calApiKey, {
+    const result = await createCalEventType({
       title: "Session",
       slug,
       lengthInMinutes: duration,
@@ -112,12 +117,16 @@ export default function OnboardingPage() {
       afterEventBuffer: 15,
     });
 
-    if (result.error) {
-      toast.error(`Failed to create event type: ${result.error.message}`);
+    if ("error" in result && result.error) {
+      const msg = typeof result.error === "string" ? result.error : result.error.message;
+      toast.error(`Failed to create event type: ${msg}`);
       return null;
     }
 
-    return result.data?.id || null;
+    if ("data" in result) {
+      return result.data?.id || null;
+    }
+    return null;
   };
 
   const handleSubmit = async () => {
@@ -179,8 +188,9 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">About You</label>
+                <label htmlFor="bio" className="text-sm font-medium text-foreground">About You</label>
                 <Textarea
+                  id="bio"
                   placeholder="Describe your approach, what clients can expect, and your philosophy..."
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
@@ -189,8 +199,8 @@ export default function OnboardingPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Credentials</label>
-                <div className="flex flex-wrap gap-2">
+                <label htmlFor="credentials" className="text-sm font-medium text-foreground">Credentials</label>
+                <div id="credentials" className="flex flex-wrap gap-2" role="group">
                   {CREDENTIALS_OPTIONS.map((cred) => (
                     <button
                       key={cred}
@@ -208,8 +218,8 @@ export default function OnboardingPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Modalities</label>
-                <div className="flex flex-wrap gap-2">
+                <label htmlFor="modalities" className="text-sm font-medium text-foreground">Modalities</label>
+                <div id="modalities" className="flex flex-wrap gap-2" role="group">
                   {MODALITIES_OPTIONS.map((mod) => (
                     <button
                       key={mod}
@@ -231,12 +241,13 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="price" className="text-sm font-medium text-foreground">
                   Session Price (EUR)
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray">€</span>
                   <Input
+                    id="price"
                     type="number"
                     min={0}
                     value={(priceCents / 100).toFixed(0)}
@@ -247,8 +258,8 @@ export default function OnboardingPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Session Duration</label>
-                <div className="grid grid-cols-5 gap-2">
+                <label htmlFor="duration" className="text-sm font-medium text-foreground">Session Duration</label>
+                <div id="duration" className="grid grid-cols-5 gap-2" role="radiogroup">
                   {DURATION_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -296,7 +307,9 @@ export default function OnboardingPage() {
 
                 {calConnectionStatus !== "connected" && (
                   <div className="space-y-3">
+                    <label htmlFor="cal-api-key" className="text-sm font-medium text-foreground sr-only">Cal.com API Key</label>
                     <Input
+                      id="cal-api-key"
                       type="password"
                       placeholder="Enter your Cal.com API Key"
                       value={calApiKey}

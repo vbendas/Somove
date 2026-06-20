@@ -122,7 +122,7 @@ export default function ConversationPage() {
   return (
     <div className="flex h-screen flex-col bg-background">
       <div className="flex items-center gap-3 border-b border-border px-4 py-3">
-        <Button variant="ghost" size="sm" onClick={() => router.push("/inbox")}>
+        <Button variant="ghost" size="sm" onClick={() => router.push("/inbox")} aria-label="Back to inbox">
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <p className="font-medium text-foreground">Conversation</p>
@@ -181,7 +181,7 @@ export default function ConversationPage() {
 
       <div className="border-t border-border px-4 py-3">
         <div className="flex items-end gap-2">
-          <label className="flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-card border border-border text-warm-gray hover:text-foreground">
+          <label className="flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-card border border-border text-warm-gray hover:text-foreground" aria-label="Attach file">
             <Paperclip className="h-4 w-4" />
             <input
               type="file"
@@ -208,6 +208,7 @@ export default function ConversationPage() {
             className="h-10 w-10 flex-shrink-0"
             onClick={handleSend}
             disabled={!newMessage.trim() || sending}
+            aria-label="Send message"
           >
             <Send className="h-4 w-4" />
           </Button>

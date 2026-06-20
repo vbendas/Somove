@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { getPlatformSettings as fetchPlatformSettings, invalidateSettingsCache, type PlatformSettings } from "@/lib/platform";
 
 export async function getPlatformSettings(): Promise<PlatformSettings> {
@@ -31,7 +32,13 @@ export async function completeSetup(formData: {
   adminName: string;
   adminPassword: string;
   openRegistration?: boolean;
+  bootstrapToken: string;
 }) {
+  // Verify bootstrap token
+  if (formData.bootstrapToken !== process.env.SETUP_BOOTSTRAP_TOKEN) {
+    return { error: "Invalid setup token." };
+  }
+
   const supabase = createAdminClient();
 
   // 1. Check if setup is already complete
@@ -109,9 +116,25 @@ export async function updatePlatformSettings(settings: {
   terms_of_service?: string;
   privacy_policy?: string;
 }) {
-  const supabase = createAdminClient();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated." };
 
-  const { error } = await supabase
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (userData?.role !== "admin") {
+    return { error: "Admin access required." };
+  }
+
+  const admin = createAdminClient();
+
+  const { error } = await admin
     .from("platform_settings")
     .upsert({
       id: 1,

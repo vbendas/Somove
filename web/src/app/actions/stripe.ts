@@ -241,11 +241,22 @@ export async function processRefund(sessionId: string) {
 
   const { data: session } = await supabase
     .from("sessions")
-    .select("stripe_payment_intent_id, therapist_id")
+    .select("id, therapist_id, client_id, stripe_payment_intent_id, payment_status")
     .eq("id", sessionId)
     .single();
 
   if (!session) return { error: "Session not found" };
+
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (session.therapist_id !== user.id && userData?.role !== "admin") {
+    return { error: "Only the therapist or admin can issue refunds." };
+  }
+
   if (!session.stripe_payment_intent_id) return { error: "No payment to refund" };
 
   const refundResult = await stripe.createRefund(session.stripe_payment_intent_id);

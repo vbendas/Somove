@@ -163,13 +163,11 @@ ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
 
--- Users: users can read their own data, therapists can read all users
+-- Users: users can read their own data (no self-referencing to avoid recursion)
 DROP POLICY IF EXISTS "Users can view own data" ON users;
 CREATE POLICY "Users can view own data"
   ON users FOR SELECT
-  USING (auth.uid() = id OR EXISTS (
-    SELECT 1 FROM users WHERE id = auth.uid() AND role = 'therapist'
-  ));
+  USING (auth.uid() = id);
 
 DROP POLICY IF EXISTS "Users can update own data" ON users;
 CREATE POLICY "Users can update own data"

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CalClient } from "@/lib/cal";
 
 interface CreateSessionInput {
@@ -27,6 +28,47 @@ export async function createSession(input: CreateSessionInput) {
     return { error: "Not authenticated." };
   }
 
+  // Validate scheduledAt is in the future
+  if (new Date(input.scheduledAt) <= new Date()) {
+    return { error: "Cannot book a session in the past." };
+  }
+
+  // Validate therapist has an active therapist profile
+  const { data: therapistProfile } = await supabase
+    .from("therapist_profile")
+    .select("session_price_cents, status, users!inner(name)")
+    .eq("user_id", input.therapistId)
+    .single();
+
+  if (!therapistProfile || therapistProfile.status !== "active") {
+    return { error: "Therapist profile not found or inactive." };
+  }
+
+  const therapistNameRaw = therapistProfile.users as unknown as
+    | { name: string }
+    | { name: string }[]
+    | null;
+  const therapistName =
+    (Array.isArray(therapistNameRaw) ? therapistNameRaw[0]?.name : therapistNameRaw?.name) ||
+    "Professional";
+
+  // Server-side price validation: derive canonical price, never trust client
+  let canonicalPriceCents: number;
+  if (input.sessionTypeId) {
+    const { data: sessionType } = await supabase
+      .from("session_types")
+      .select("price_cents, is_active")
+      .eq("id", input.sessionTypeId)
+      .eq("therapist_id", input.therapistId)
+      .single();
+    if (!sessionType || !sessionType.is_active) {
+      return { error: "Invalid session type." };
+    }
+    canonicalPriceCents = sessionType.price_cents;
+  } else {
+    canonicalPriceCents = therapistProfile.session_price_cents || 0;
+  }
+
   const { data: clientUser } = await supabase
     .from("users")
     .select("name, email")
@@ -42,23 +84,39 @@ export async function createSession(input: CreateSessionInput) {
     ? "confirmed"
     : "pending_payment";
 
+  // Fetch therapist secrets via admin client (secrets no longer on therapist_profile)
+  const admin = createAdminClient();
+  const { data: secrets } = await admin
+    .from("therapist_secrets")
+    .select("cal_api_key, cal_event_type_id, stripe_secret_key, daily_api_key, resend_api_key, mirotalk_api_key, mirotalk_url")
+    .eq("user_id", input.therapistId)
+    .single();
+
+  // Atomically decrement credit if useCredits; fail if no credit available
+  let creditId: string | null = null;
   if (input.useCredits) {
-    const { data: credit } = await supabase
+    const { data: creditOk, error: creditError } = await supabase.rpc(
+      "decrement_credit",
+      {
+        p_client_id: user.id,
+        p_therapist_id: input.therapistId,
+      }
+    );
+
+    if (creditError || !creditOk) {
+      return { error: "No session credits available." };
+    }
+
+    const { data: usedCredit } = await supabase
       .from("session_credits")
-      .select("id, used_credits")
+      .select("id")
       .eq("client_id", user.id)
       .eq("therapist_id", input.therapistId)
       .gt("remaining_credits", 0)
       .order("purchased_at", { ascending: true })
       .limit(1)
-      .single();
-
-    if (credit) {
-      await supabase
-        .from("session_credits")
-        .update({ used_credits: credit.used_credits + 1 })
-        .eq("id", credit.id);
-    }
+      .maybeSingle();
+    creditId = usedCredit?.id || null;
   }
 
   const { data: session, error } = await supabase
@@ -71,7 +129,7 @@ export async function createSession(input: CreateSessionInput) {
       duration_min: input.durationMin,
       status,
       payment_status: paymentStatus,
-      amount_paid_cents: paymentStatus === "free_first_session" || paymentStatus === "paid" ? 0 : input.priceCents,
+      amount_paid_cents: paymentStatus === "free_first_session" || paymentStatus === "paid" ? 0 : canonicalPriceCents,
       currency: "EUR",
       tos_version: null,
     })
@@ -79,23 +137,37 @@ export async function createSession(input: CreateSessionInput) {
     .single();
 
   if (error) {
+    // Roll back credit decrement on insert failure
+    if (input.useCredits) {
+      await supabase.rpc("restore_credit", {
+        p_client_id: user.id,
+        p_therapist_id: input.therapistId,
+      });
+    }
     return { error: error.message };
   }
 
-  const { data: therapistProfile } = await supabase
-    .from("therapist_profile")
-    .select("cal_api_key, cal_event_type_id, stripe_secret_key, users!inner(name)")
-    .eq("user_id", input.therapistId)
-    .single();
+  if (input.useCredits && creditId) {
+    await supabase.from("sessions").update({ credit_id: creditId }).eq("id", session.id);
+  }
 
-  if (
-    therapistProfile?.cal_api_key &&
-    therapistProfile?.cal_event_type_id
-  ) {
-    const calClient = new CalClient(therapistProfile.cal_api_key);
+  // Roll back credit decrement if anything downstream fails
+  let rolledBackCredit = false;
+  const rollbackCredit = async () => {
+    if (input.useCredits && !rolledBackCredit) {
+      rolledBackCredit = true;
+      await supabase.rpc("restore_credit", {
+        p_client_id: user.id,
+        p_therapist_id: input.therapistId,
+      });
+    }
+  };
+
+  if (secrets?.cal_api_key && secrets?.cal_event_type_id) {
+    const calClient = new CalClient(secrets.cal_api_key);
 
     const calBookingResult = await calClient.createBooking({
-      eventTypeId: parseInt(therapistProfile.cal_event_type_id),
+      eventTypeId: parseInt(secrets.cal_event_type_id),
       start: new Date(input.scheduledAt).toISOString(),
       attendee: {
         name: clientUser?.name || "Client",
@@ -110,6 +182,7 @@ export async function createSession(input: CreateSessionInput) {
 
     if (calBookingResult.error) {
       await supabase.from("sessions").delete().eq("id", session.id);
+      await rollbackCredit();
       return {
         error: `Booking failed: ${calBookingResult.error.message}. Please try again.`,
       };
@@ -124,19 +197,14 @@ export async function createSession(input: CreateSessionInput) {
   }
 
   if (input.sessionType !== "free_first_session" && !input.useCredits) {
-    const profile = therapistProfile as unknown as {
-      stripe_secret_key: string | null;
-      users: { name: string } | null;
-    };
-
-    const stripeKey = profile?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
+    const stripeKey = secrets?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
     if (stripeKey) {
       const { StripeClient } = await import("@/lib/stripe");
       const stripeClient = new StripeClient(stripeKey);
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-      let productName = `Session with ${profile.users?.name || "Professional"}`;
+      let productName = `Session with ${therapistName}`;
       if (input.sessionTypeId) {
         const { data: sessionType } = await supabase
           .from("session_types")
@@ -157,9 +225,9 @@ export async function createSession(input: CreateSessionInput) {
               currency: "eur",
               productData: {
                 name: productName,
-                description: `${input.durationMin} min session with ${profile.users?.name || "Professional"}`,
+                description: `${input.durationMin} min session with ${therapistName}`,
               },
-              unitAmount: input.priceCents,
+              unitAmount: canonicalPriceCents,
             },
             quantity: 1,
           },
@@ -179,6 +247,7 @@ export async function createSession(input: CreateSessionInput) {
 
       if (checkoutResult.error) {
         await supabase.from("sessions").delete().eq("id", session.id);
+        await rollbackCredit();
         return { error: `Payment setup failed: ${checkoutResult.error.message}` };
       }
 
@@ -302,76 +371,96 @@ export async function cancelSession(sessionId: string) {
 
   if (!user) return { error: "Not authenticated." };
 
-  const { data: session } = await supabase
+  // Fetch session with ownership scoping — authorization happens BEFORE side effects
+  const { data: session, error: fetchError } = await supabase
     .from("sessions")
-    .select("cal_booking_uid, stripe_payment_intent_id, payment_status, therapist_id, session_type_id")
+    .select("cal_booking_uid, stripe_payment_intent_id, payment_status, therapist_id, client_id, session_type_id, scheduled_at, status")
     .eq("id", sessionId)
+    .or(`client_id.eq.${user.id},therapist_id.eq.${user.id}`)
     .single();
 
+  if (fetchError || !session) {
+    return { error: "Session not found or you don't have permission to cancel it." };
+  }
+
+  // Don't allow cancelling already-completed or cancelled sessions
+  if (session.status === "completed" || session.status === "cancelled") {
+    return { error: "This session cannot be cancelled." };
+  }
+
+  // Now safe to proceed with update and side effects
   const { error } = await supabase
     .from("sessions")
     .update({ status: "cancelled" })
-    .eq("id", sessionId)
-    .or(`client_id.eq.${user.id},therapist_id.eq.${user.id}`);
+    .eq("id", sessionId);
 
   if (error) return { error: error.message };
 
-  if (session?.cal_booking_uid) {
-    const { data: therapistProfile } = await supabase
-      .from("therapist_profile")
-      .select("cal_api_key")
-      .eq("user_id", session.therapist_id)
-      .single();
+  // Fetch therapist secrets via admin client for API calls
+  const admin = createAdminClient();
+  const { data: secrets } = await admin
+    .from("therapist_secrets")
+    .select("cal_api_key, stripe_secret_key")
+    .eq("user_id", session.therapist_id)
+    .single();
 
-    if (therapistProfile?.cal_api_key) {
-      const calClient = new CalClient(therapistProfile.cal_api_key);
+  if (session?.cal_booking_uid) {
+    if (secrets?.cal_api_key) {
+      const calClient = new CalClient(secrets.cal_api_key);
       await calClient.cancelBooking(session.cal_booking_uid);
     }
   }
 
-  if (session?.stripe_payment_intent_id && session.payment_status === "paid") {
-    const { data: therapistProfile } = await supabase
-      .from("therapist_profile")
-      .select("stripe_secret_key")
-      .eq("user_id", session.therapist_id)
-      .single();
+  // 24-hour refund policy
+  const sessionDate = new Date(session.scheduled_at);
+  const hoursUntil = (sessionDate.getTime() - Date.now()) / (1000 * 60 * 60);
+  const isTherapistCancelling = session.therapist_id === user.id;
 
-    const refundStripeKey = therapistProfile?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
+  // Therapist cancels: always full refund
+  // Client cancels >24h: full refund
+  // Client cancels <24h: no refund
+  const eligibleForRefund = isTherapistCancelling || hoursUntil > 24;
+
+  // Only refund via Stripe if session was paid with Stripe (not credits)
+  if (
+    eligibleForRefund &&
+    session?.stripe_payment_intent_id &&
+    session.payment_status === "paid"
+  ) {
+    const refundStripeKey = secrets?.stripe_secret_key || process.env.STRIPE_SECRET_KEY;
     if (refundStripeKey) {
       const { StripeClient } = await import("@/lib/stripe");
       const stripeClient = new StripeClient(refundStripeKey);
-      await stripeClient.createRefund(session.stripe_payment_intent_id);
+      const refundResult = await stripeClient.createRefund(session.stripe_payment_intent_id);
+      if (refundResult.error) {
+        console.error("Refund failed:", refundResult.error);
+        // Don't mark as refunded, but session is still cancelled
+      } else {
+        await supabase
+          .from("sessions")
+          .update({ payment_status: "refunded" })
+          .eq("id", sessionId);
+
+        await supabase
+          .from("payments")
+          .update({ status: "refunded" })
+          .eq("session_id", sessionId)
+          .eq("stripe_payment_intent_id", session.stripe_payment_intent_id);
+      }
     }
-
-    await supabase
-      .from("sessions")
-      .update({ payment_status: "refunded" })
-      .eq("id", sessionId);
-
-    await supabase
-      .from("payments")
-      .update({ status: "refunded" })
-      .eq("session_id", sessionId)
-      .eq("stripe_payment_intent_id", session.stripe_payment_intent_id);
   }
 
-  if (session?.payment_status === "paid" && session.session_type_id) {
-    const { data: credit } = await supabase
-      .from("session_credits")
-      .select("id, used_credits")
-      .eq("client_id", user.id)
-      .eq("therapist_id", session.therapist_id)
-      .gt("used_credits", 0)
-      .order("purchased_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    if (credit) {
-      await supabase
-        .from("session_credits")
-        .update({ used_credits: credit.used_credits - 1 })
-        .eq("id", credit.id);
-    }
+  // Only restore credit if session was paid with credits (not Stripe)
+  if (
+    eligibleForRefund &&
+    session?.payment_status === "paid" &&
+    session?.session_type_id &&
+    !session?.stripe_payment_intent_id
+  ) {
+    await supabase.rpc("restore_credit", {
+      p_client_id: user.id,
+      p_therapist_id: session.therapist_id,
+    });
   }
 
   const { notifySessionCancelled } = await import("@/app/actions/notifications");

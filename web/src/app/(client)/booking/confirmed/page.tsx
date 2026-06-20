@@ -54,16 +54,6 @@ export default async function BookingConfirmedPage({
 
   const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Session+with+${encodeURIComponent(therapistName)}&dates=${scheduledAt.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${new Date(scheduledAt.getTime() + session.duration_min * 60000).toISOString().replace(/[-:]/g, "").split(".")[0]}Z`;
 
-  const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-DTSTART:${scheduledAt.toISOString().replace(/[-:]/g, "").split(".")[0]}Z
-DTEND:${new Date(scheduledAt.getTime() + session.duration_min * 60000).toISOString().replace(/[-:]/g, "").split(".")[0]}Z
-SUMMARY:Session with ${therapistName}
-DESCRIPTION:Session via Somove
-END:VEVENT
-END:VCALENDAR`;
-
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-md px-5 py-16 text-center">
@@ -166,8 +156,7 @@ END:VCALENDAR`;
                 </Button>
               </a>
               <a
-                href={`data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`}
-                download="session.ics"
+                href={`/api/calendar/${searchParams.sessionId}`}
                 className="flex-1"
               >
                 <Button variant="outline" className="w-full" size="sm">

@@ -444,6 +444,7 @@ export default function BookingForm({
                 className="h-8 w-8"
                 onClick={() => setMonthOffset((m) => Math.max(0, m - 1))}
                 disabled={monthOffset === 0}
+                aria-label="Previous month"
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
@@ -453,6 +454,7 @@ export default function BookingForm({
                 className="h-8 w-8"
                 onClick={() => setMonthOffset((m) => Math.min(2, m + 1))}
                 disabled={monthOffset >= 2}
+                aria-label="Next month"
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -536,8 +538,9 @@ export default function BookingForm({
             </div>
           </div>
 
-          <label className="flex items-start gap-3 rounded-card border border-border p-4 cursor-pointer">
+          <label htmlFor="tos-agree" className="flex items-start gap-3 rounded-card border border-border p-4 cursor-pointer">
             <input
+              id="tos-agree"
               type="checkbox"
               checked={tosAgreed}
               onChange={(e) => setTosAgreed(e.target.checked)}

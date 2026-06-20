@@ -24,6 +24,22 @@ interface ActionResult<T = void> {
   error: { message: string } | null;
 }
 
+async function verifyConversationMembership(
+  supabase: ReturnType<typeof createClient>,
+  conversationId: string,
+  userId: string
+) {
+  const { data: conv, error } = await supabase
+    .from("conversations")
+    .select("client_id, therapist_id")
+    .eq("id", conversationId)
+    .single();
+
+  if (error || !conv) return null;
+  if (conv.client_id !== userId && conv.therapist_id !== userId) return null;
+  return conv;
+}
+
 export async function getConversations(filters?: {
   status?: string;
   search?: string;
@@ -39,7 +55,7 @@ export async function getConversations(filters?: {
     let query = supabase
       .from("conversations")
       .select(
-        "*, client:users!conversations_client_id_fkey(id, name, email)"
+        "*, client:users!conversations_client_id_fkey(id, name, email), conversation_tags(tag_id, tags(id, name, colour))"
       )
       .eq("therapist_id", user.id)
       .order("last_message_at", { ascending: false, nullsFirst: true });
@@ -57,48 +73,70 @@ export async function getConversations(filters?: {
     const { data: conversations, error } = await query;
     if (error) return { data: null, error: { message: error.message } };
 
-    const enriched: ConversationWithDetails[] = [];
+    const convList = conversations || [];
+    const convIds = convList.map((c) => c.id);
 
-    for (const conv of conversations || []) {
-      const { data: lastMsg } = await supabase
-        .from("messages")
-        .select("content, sent_at, sender_id")
-        .eq("conversation_id", conv.id)
-        .order("sent_at", { ascending: false })
-        .limit(1)
-        .single();
+    const lastMessageMap = new Map<
+      string,
+      { content: string; sent_at: string; sender_id: string }
+    >();
+    const unreadCountMap = new Map<string, number>();
 
-      const { count: unreadCount } = await supabase
-        .from("messages")
-        .select("id", { count: "exact", head: true })
-        .eq("conversation_id", conv.id)
-        .neq("sender_id", user.id)
-        .is("read_at", null);
+    if (convIds.length > 0) {
+      const [{ data: lastMessages }, { data: unreadRows }] = await Promise.all([
+        supabase
+          .from("messages")
+          .select("id, conversation_id, content, sender_id, sent_at")
+          .in("conversation_id", convIds)
+          .order("sent_at", { ascending: false }),
+        supabase
+          .from("messages")
+          .select("conversation_id")
+          .neq("sender_id", user.id)
+          .is("read_at", null)
+          .in("conversation_id", convIds),
+      ]);
 
-      let tags: Tag[] = [];
-      const { data: tagLinks } = await supabase
-        .from("conversation_tags")
-        .select("tag_id")
-        .eq("conversation_id", conv.id);
-
-      if (tagLinks && tagLinks.length > 0) {
-        const tagIds = tagLinks.map((t) => t.tag_id);
-        const { data: tagData } = await supabase
-          .from("tags")
-          .select("*")
-          .in("id", tagIds);
-        tags = tagData || [];
+      for (const msg of lastMessages || []) {
+        if (!lastMessageMap.has(msg.conversation_id)) {
+          lastMessageMap.set(msg.conversation_id, {
+            content: msg.content,
+            sent_at: msg.sent_at,
+            sender_id: msg.sender_id,
+          });
+        }
       }
 
-      enriched.push({
+      for (const row of unreadRows || []) {
+        unreadCountMap.set(
+          row.conversation_id,
+          (unreadCountMap.get(row.conversation_id) || 0) + 1
+        );
+      }
+    }
+
+    const enriched: ConversationWithDetails[] = convList.map((conv) => {
+      const tagLinks =
+        (conv as unknown as {
+          conversation_tags?: {
+            tag_id: string;
+            tags: { id: string; name: string; colour: string } | null;
+          }[];
+        }).conversation_tags || [];
+      const tags = tagLinks
+        .map((t) => t.tags)
+        .filter((t): t is { id: string; name: string; colour: string } => t !== null)
+        .map((t) => ({ id: t.id, name: t.name, colour: t.colour }) as unknown as Tag);
+      const lastMsg = lastMessageMap.get(conv.id);
+      return {
         ...conv,
         lastMessage: lastMsg
           ? { body: lastMsg.content, sent_at: lastMsg.sent_at, sender_id: lastMsg.sender_id }
           : null,
         tags,
-        unreadCount: unreadCount || 0,
-      });
-    }
+        unreadCount: unreadCountMap.get(conv.id) || 0,
+      };
+    });
 
     if (filters?.tagId) {
       return {
@@ -126,27 +164,30 @@ export async function getMessages(
     } = await supabase.auth.getUser();
     if (!user) return { data: null, error: { message: "Not authenticated" } };
 
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
+
     const { data: messages, error } = await supabase
       .from("messages")
-      .select("*")
+      .select("*, attachments(*)")
       .eq("conversation_id", conversationId)
       .order("sent_at", { ascending: true });
 
     if (error) return { data: null, error: { message: error.message } };
 
-    const enriched: MessageWithAttachments[] = [];
-
-    for (const msg of messages || []) {
-      const { data: attachments } = await supabase
-        .from("attachments")
-        .select("*")
-        .eq("message_id", msg.id);
-
-      enriched.push({
-        ...msg,
-        attachments: attachments || [],
-      });
-    }
+    const enriched: MessageWithAttachments[] = (messages || []).map((msg) => {
+      const attachments =
+        (msg as unknown as { attachments?: Attachment[] }).attachments || [];
+      return { ...(msg as Message), attachments };
+    });
 
     return { data: enriched, error: null };
   } catch (e) {
@@ -168,6 +209,17 @@ export async function sendMessage(
     } = await supabase.auth.getUser();
     if (!user) return { data: null, error: { message: "Not authenticated" } };
 
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
+
     const { data: message, error } = await supabase
       .from("messages")
       .insert({
@@ -184,6 +236,50 @@ export async function sendMessage(
       .from("conversations")
       .update({ last_message_at: new Date().toISOString() })
       .eq("id", conversationId);
+
+    const { getResendClient } = await import("@/lib/resend");
+    const resend = getResendClient();
+    if (resend) {
+      const recipientId =
+        conv.client_id === user.id ? conv.therapist_id : conv.client_id;
+
+      const [{ data: recipientData }, { data: senderData }] =
+        await Promise.all([
+          supabase
+            .from("users")
+            .select("name, email")
+            .eq("id", recipientId)
+            .single(),
+          supabase
+            .from("users")
+            .select("name")
+            .eq("id", user.id)
+            .single(),
+        ]);
+
+      if (recipientData && senderData) {
+        const { data: prefs } = await supabase
+          .from("notification_preferences")
+          .select("email_new_message")
+          .eq("user_id", recipientId)
+          .single();
+
+        if (!prefs || prefs.email_new_message) {
+          try {
+            await resend.sendNewMessage({
+              to: recipientData.email,
+              recipientName: recipientData.name || "there",
+              senderName: senderData.name || "Someone",
+              messagePreview:
+                body.length > 150 ? body.slice(0, 150) + "..." : body,
+              conversationUrl: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/inbox/${conversationId}`,
+            });
+          } catch (e) {
+            console.error("Failed to send message email notification:", e);
+          }
+        }
+      }
+    }
 
     return { data: message, error: null };
   } catch (e) {
@@ -203,6 +299,17 @@ export async function markAsRead(
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
 
     const { error } = await supabase
       .from("messages")
@@ -308,6 +415,22 @@ export async function addTagToConversation(
 ): Promise<ActionResult> {
   try {
     const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
+
     const { error } = await supabase
       .from("conversation_tags")
       .insert({ conversation_id: conversationId, tag_id: tagId });
@@ -328,6 +451,22 @@ export async function removeTagFromConversation(
 ): Promise<ActionResult> {
   try {
     const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
+
     const { error } = await supabase
       .from("conversation_tags")
       .delete()
@@ -350,6 +489,22 @@ export async function updateConversationStatus(
 ): Promise<ActionResult> {
   try {
     const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      conversationId,
+      user.id
+    );
+    if (!conv)
+      return {
+        data: null,
+        error: { message: "Conversation not found or access denied." },
+      };
+
     const { error } = await supabase
       .from("conversations")
       .update({ status })
@@ -376,7 +531,24 @@ export async function uploadAttachment(
     } = await supabase.auth.getUser();
     if (!user) return { data: null, error: { message: "Not authenticated" } };
 
-    const filePath = `${messageId}/${Date.now()}-${file.name}`;
+    const { data: message } = await supabase
+      .from("messages")
+      .select("conversation_id")
+      .eq("id", messageId)
+      .single();
+
+    if (!message)
+      return { data: null, error: { message: "Message not found." } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      message.conversation_id,
+      user.id
+    );
+    if (!conv) return { data: null, error: { message: "Access denied." } };
+
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const filePath = `${messageId}/${Date.now()}-${sanitizedName}`;
     const { error: uploadError } = await supabase.storage
       .from("message-attachments")
       .upload(filePath, file);
@@ -410,6 +582,31 @@ export async function getSignedUrl(
 ): Promise<ActionResult<string>> {
   try {
     const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const messageId = filePath.split("/")[0];
+    if (!messageId)
+      return { data: null, error: { message: "Invalid file path." } };
+
+    const { data: message } = await supabase
+      .from("messages")
+      .select("conversation_id")
+      .eq("id", messageId)
+      .single();
+
+    if (!message)
+      return { data: null, error: { message: "Message not found." } };
+
+    const conv = await verifyConversationMembership(
+      supabase,
+      message.conversation_id,
+      user.id
+    );
+    if (!conv) return { data: null, error: { message: "Access denied." } };
+
     const { data, error } = await supabase.storage
       .from("message-attachments")
       .createSignedUrl(filePath, 3600);

@@ -9,12 +9,13 @@ export const dynamic = "force-dynamic";
 
 async function getTherapist(id: string) {
   const supabase = createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("therapist_profile")
     .select("*, users!inner(id, name, email)")
     .eq("user_id", id)
     .eq("status", "active")
     .single();
+  if (error || !data) notFound();
   return data;
 }
 

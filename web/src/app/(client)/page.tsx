@@ -6,8 +6,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarDays, CreditCard, MessageSquare } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
+import TherapistFilters from "@/components/directory/therapist-filters";
 
 export const dynamic = "force-dynamic";
+
+function formatAvailability(rules: Record<string, unknown> | null): string {
+  if (!rules) return "";
+  const days = Object.keys(rules);
+  if (days.length === 0) return "";
+  const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const availableDays = days
+    .filter((d) => (rules[d] as Record<string, unknown>)?.available)
+    .map((d) => dayNames[parseInt(d)] || d)
+    .filter(Boolean);
+  if (availableDays.length === 0) return "";
+  if (availableDays.length <= 2) return availableDays.join(" & ");
+  return `${availableDays[0]}\u2013${availableDays[availableDays.length - 1]}`;
+}
 
 async function getUserData() {
   const supabase = createClient();
@@ -122,14 +137,26 @@ async function getTherapists() {
   }));
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { modality?: string };
+}) {
   const userData = await getUserData();
-  const [therapists, upcomingSessions, totalCredits, unreadCount] = await Promise.all([
+  const [allTherapists, upcomingSessions, totalCredits, unreadCount] = await Promise.all([
     getTherapists(),
     getUpcomingSessions(userData.id),
     getTotalCredits(userData.id),
     getUnreadCount(userData.id),
   ]);
+
+  const allModalities = Array.from(
+    new Set(allTherapists.flatMap((t) => t.modalities || []))
+  ).sort();
+
+  const therapists = searchParams.modality
+    ? allTherapists.filter((t) => t.modalities?.includes(searchParams.modality))
+    : allTherapists;
 
   return (
     <div className="min-h-screen bg-background">
@@ -260,7 +287,11 @@ export default async function Home() {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <>
+              {allModalities.length > 1 && (
+                <TherapistFilters modalities={allModalities} />
+              )}
+              <div className="grid gap-6 sm:grid-cols-2">
               {therapists.map((therapist) => (
                 <Link
                   key={therapist.user_id}
@@ -309,6 +340,12 @@ export default async function Home() {
                       )}
                     </div>
 
+                    {therapist.availability_rules && formatAvailability(therapist.availability_rules as Record<string, unknown>) && (
+                      <p className="mt-2 text-xs text-warm-gray">
+                        Typically available {formatAvailability(therapist.availability_rules as Record<string, unknown>)}
+                      </p>
+                    )}
+
                     {therapist.credentials && therapist.credentials.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
                         {(therapist.credentials as string[]).slice(0, 3).map((cred: string) => (
@@ -325,6 +362,7 @@ export default async function Home() {
                 </Link>
               ))}
             </div>
+            </>
           )}
         </div>
       </div>

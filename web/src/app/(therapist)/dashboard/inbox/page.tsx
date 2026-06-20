@@ -76,6 +76,23 @@ export default function InboxPage() {
     fetchConversations();
   }, [fetchConversations]);
 
+  useEffect(() => {
+    const channel = supabase
+      .channel("messages-inbox")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        () => {
+          fetchConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, fetchConversations]);
+
   const fetchMessages = useCallback(async (convId: string) => {
     try {
       const { getMessages, markAsRead } = await import("@/app/actions/messaging");
@@ -277,6 +294,7 @@ export default function InboxPage() {
                     size="sm"
                     className="md:hidden"
                     onClick={() => setSelectedId(null)}
+                    aria-label="Back to conversations"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -347,7 +365,7 @@ export default function InboxPage() {
                 </div>
 
                 <div className="mt-3 flex items-end gap-2">
-                  <label className="flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-card border border-border text-warm-gray hover:text-foreground">
+                  <label className="flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-card border border-border text-warm-gray hover:text-foreground" aria-label="Attach file">
                     <Paperclip className="h-4 w-4" />
                     <input
                       type="file"
@@ -374,6 +392,7 @@ export default function InboxPage() {
                     className="h-10 w-10 flex-shrink-0"
                     onClick={handleSend}
                     disabled={!newMessage.trim() || sending}
+                    aria-label="Send message"
                   >
                     <Send className="h-4 w-4" />
                   </Button>

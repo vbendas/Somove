@@ -1126,14 +1126,19 @@ function CalIntegrationCard({
     setErrorMsg("");
 
     const { testCalConnection } = await import("@/app/actions/cal");
-    const result = await testCalConnection(calApiKey);
+    const result = await testCalConnection();
 
-    if (result.error) {
-      setStatus("error");
-      setErrorMsg(result.error.message);
+    if ("data" in result) {
+      if (result.error) {
+        setStatus("error");
+        setErrorMsg(result.error.message);
+      } else {
+        setStatus("connected");
+        setConnectedName(result.data?.name || result.data?.email || "Connected");
+      }
     } else {
-      setStatus("connected");
-      setConnectedName(result.data?.name || result.data?.email || "Connected");
+      setStatus("error");
+      setErrorMsg(typeof result.error === "string" ? result.error : "Unknown error");
     }
   };
 

@@ -3,8 +3,10 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock, CreditCard } from "lucide-react";
-import CancelSessionButton from "./cancel-button";
+import CancelButton from "@/components/sessions/cancel-button";
 import JoinButton from "./join-button";
+import RescheduleButton from "./reschedule-button";
+import ReviewForm from "./review-form";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,16 @@ async function getSession(sessionId: string) {
     .eq("id", sessionId)
     .single();
   return session;
+}
+
+async function getExistingReview(sessionId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("reviews")
+    .select("id, rating, body")
+    .eq("session_id", sessionId)
+    .maybeSingle();
+  return data;
 }
 
 export default async function SessionDetailPage({
@@ -44,6 +56,8 @@ export default async function SessionDetailPage({
   const isCompleted = session.status === "completed";
   const isCancelled = session.status === "cancelled";
   const canJoin = (isUpcoming || isActive) && (session.daily_room_url || session.mirotalk_room_url);
+
+  const existingReview = isCompleted ? await getExistingReview(params.id) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,13 +146,21 @@ export default async function SessionDetailPage({
           </div>
 
           {canJoin && (
-            <JoinButton
-              sessionId={session.id}
-              userId={user.id}
-              role="client"
-              isStartable={false}
-              disabled={false}
-            />
+            <div className="space-y-3">
+              <JoinButton
+                sessionId={session.id}
+                userId={user.id}
+                role="client"
+                isStartable={false}
+                disabled={false}
+              />
+              {isUpcoming && (
+                <div className="flex gap-3">
+                  <RescheduleButton sessionId={session.id} />
+                  <CancelButton sessionId={session.id} scheduledAt={session.scheduled_at} />
+                </div>
+              )}
+            </div>
           )}
 
           {isUpcoming && !isCancelled && !canJoin && (
@@ -148,8 +170,18 @@ export default async function SessionDetailPage({
                   Book Again
                 </Button>
               </Link>
-              <CancelSessionButton sessionId={session.id} />
+              <RescheduleButton sessionId={session.id} />
+              <CancelButton sessionId={session.id} scheduledAt={session.scheduled_at} />
             </div>
+          )}
+
+          {isCompleted && (
+            <ReviewForm
+              sessionId={session.id}
+              therapistId={therapistUserId}
+              clientId={user.id}
+              existingReview={existingReview}
+            />
           )}
 
           {isCancelled && (

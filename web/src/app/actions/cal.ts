@@ -2,30 +2,65 @@
 
 import { CalClient } from "@/lib/cal";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-export async function testCalConnection(apiKey: string) {
+async function getTherapistCalKey(userId: string) {
+  const admin = createAdminClient();
+  const { data: secrets } = await admin
+    .from("therapist_secrets")
+    .select("cal_api_key")
+    .eq("user_id", userId)
+    .single();
+  return secrets?.cal_api_key || null;
+}
+
+export async function testCalConnection() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated." };
+
+  const apiKey = await getTherapistCalKey(user.id);
+  if (!apiKey) return { error: "Cal.com API key not configured." };
+
   const calClient = new CalClient(apiKey);
   const result = await calClient.testConnection();
   return result;
 }
 
-export async function fetchCalEventTypes(apiKey: string) {
+export async function fetchCalEventTypes() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated." };
+
+  const apiKey = await getTherapistCalKey(user.id);
+  if (!apiKey) return { error: "Cal.com API key not configured." };
+
   const calClient = new CalClient(apiKey);
   const result = await calClient.getEventTypes();
   return result;
 }
 
-export async function createCalEventType(
-  apiKey: string,
-  data: {
-    title: string;
-    slug: string;
-    lengthInMinutes: number;
-    description?: string;
-    minimumBookingNotice?: number;
-    afterEventBuffer?: number;
-  }
-) {
+export async function createCalEventType(data: {
+  title: string;
+  slug: string;
+  lengthInMinutes: number;
+  description?: string;
+  minimumBookingNotice?: number;
+  afterEventBuffer?: number;
+}) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated." };
+
+  const apiKey = await getTherapistCalKey(user.id);
+  if (!apiKey) return { error: "Cal.com API key not configured." };
+
   const calClient = new CalClient(apiKey);
   const result = await calClient.createEventType({
     title: data.title,

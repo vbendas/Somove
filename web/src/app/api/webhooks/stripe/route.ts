@@ -26,9 +26,21 @@ export async function POST(request: Request) {
   }
 
   const supabase = createAdminClient();
+  const eventId = event.id;
+  const eventType = event.type;
 
   switch (event.type) {
     case "checkout.session.completed": {
+      const { data: existingEvent } = await supabase
+        .from("stripe_events")
+        .select("id")
+        .eq("id", eventId)
+        .single();
+
+      if (existingEvent) {
+        return NextResponse.json({ received: true });
+      }
+
       const session = event.data.object as Stripe.Checkout.Session;
       const somoveSessionId = session.metadata?.somove_session_id;
       if (!somoveSessionId) break;
@@ -46,18 +58,28 @@ export async function POST(request: Request) {
         })
         .eq("id", somoveSessionId);
 
-      await supabase.from("payments").insert({
-        client_id: session.metadata?.somove_client_id,
-        therapist_id: session.metadata?.somove_therapist_id,
-        session_id: somoveSessionId,
-        amount_cents: totalAmount,
-        platform_fee_cents: platformFee,
-        therapist_net_cents: totalAmount - platformFee,
-        currency: session.currency || "eur",
-        method: "stripe",
-        status: "confirmed",
-        stripe_payment_intent_id: session.payment_intent as string,
-      });
+      const { data: existingPayment } = await supabase
+        .from("payments")
+        .select("id")
+        .eq("session_id", somoveSessionId)
+        .maybeSingle();
+
+      if (!existingPayment) {
+        await supabase.from("payments").insert({
+          client_id: session.metadata?.somove_client_id,
+          therapist_id: session.metadata?.somove_therapist_id,
+          session_id: somoveSessionId,
+          amount_cents: totalAmount,
+          platform_fee_cents: platformFee,
+          therapist_net_cents: totalAmount - platformFee,
+          currency: session.currency || "eur",
+          method: "stripe",
+          status: "confirmed",
+          stripe_payment_intent_id: session.payment_intent as string,
+        });
+      }
+
+      await supabase.from("stripe_events").insert({ id: eventId, type: eventType });
 
       const { createSessionRoom } = await import("@/app/actions/session");
       createSessionRoom(somoveSessionId, true).catch(() => {});
@@ -113,19 +135,27 @@ export async function POST(request: Request) {
 
       if (!session) break;
 
-      await supabase
-        .from("sessions")
-        .update({
-          payment_status: "refunded",
-          status: "cancelled",
-        })
-        .eq("id", session.id);
+      if (charge.amount_refunded >= charge.amount_captured) {
+        await supabase
+          .from("sessions")
+          .update({
+            payment_status: "refunded",
+            status: "cancelled",
+          })
+          .eq("id", session.id);
 
-      await supabase
-        .from("payments")
-        .update({ status: "refunded" })
-        .eq("stripe_payment_intent_id", paymentIntentId)
-        .eq("session_id", session.id);
+        await supabase
+          .from("payments")
+          .update({ status: "refunded" })
+          .eq("stripe_payment_intent_id", paymentIntentId)
+          .eq("session_id", session.id);
+      } else {
+        await supabase
+          .from("payments")
+          .update({ status: "partially_refunded" })
+          .eq("stripe_payment_intent_id", paymentIntentId)
+          .eq("session_id", session.id);
+      }
       break;
     }
 

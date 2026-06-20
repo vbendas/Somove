@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CreditCard } from "lucide-react";
+import { CreditCard, Star } from "lucide-react";
 
 async function getTherapist(id: string) {
   const supabase = createClient();
@@ -29,6 +29,42 @@ async function getClientCredits(clientId: string, therapistId: string) {
   return data?.reduce((sum, c) => sum + c.remaining_credits, 0) || 0;
 }
 
+async function getReviews(therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("reviews")
+    .select("id, rating, body, created_at, client_id")
+    .eq("therapist_id", therapistId)
+    .order("created_at", { ascending: false })
+    .limit(3);
+  return data || [];
+}
+
+async function getAverageRating(therapistId: string) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("reviews")
+    .select("rating")
+    .eq("therapist_id", therapistId);
+  if (!data || data.length === 0) return { avg: null, count: 0 };
+  const avg = data.reduce((sum, r) => sum + r.rating, 0) / data.length;
+  return { avg, count: data.length };
+}
+
+async function getClientNames(clientIds: string[]) {
+  if (clientIds.length === 0) return {};
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("users")
+    .select("id, name")
+    .in("id", clientIds);
+  const map: Record<string, string> = {};
+  (data || []).forEach((u) => {
+    map[u.id] = u.name || "Client";
+  });
+  return map;
+}
+
 export default async function TherapistProfilePage({
   params,
 }: {
@@ -49,6 +85,11 @@ export default async function TherapistProfilePage({
   const name = userObj?.name || "Professional";
 
   const credits = user ? await getClientCredits(user.id, params.id) : 0;
+  const [reviews, ratingInfo] = await Promise.all([
+    getReviews(params.id),
+    getAverageRating(params.id),
+  ]);
+  const clientNames = await getClientNames(reviews.map((r) => r.client_id));
 
   return (
     <div className="min-h-screen bg-background">
@@ -114,6 +155,73 @@ export default async function TherapistProfilePage({
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {ratingInfo.avg !== null && (
+            <div className="mb-6">
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+                  Reviews
+                </h2>
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-4 w-4 ${
+                          star <= Math.round(ratingInfo.avg!)
+                            ? "fill-accent text-accent"
+                            : "text-warm-gray"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium text-foreground">
+                    {ratingInfo.avg!.toFixed(1)}
+                  </span>
+                  <span className="text-xs text-warm-gray">
+                    ({ratingInfo.count})
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {reviews.map((review) => (
+                  <div
+                    key={review.id}
+                    className="rounded-card border border-border bg-surface p-4"
+                  >
+                    <div className="mb-1 flex items-center justify-between">
+                      <p className="text-sm font-medium text-foreground">
+                        {clientNames[review.client_id] || "Client"}
+                      </p>
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-3 w-3 ${
+                              star <= review.rating
+                                ? "fill-accent text-accent"
+                                : "text-warm-gray"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    {review.body && (
+                      <p className="text-sm text-foreground/80">{review.body}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href={`/therapists/${params.id}/reviews`}
+                className="mt-3 block text-center text-sm text-primary hover:underline"
+              >
+                See all reviews
+              </Link>
             </div>
           )}
 

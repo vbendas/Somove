@@ -14,7 +14,7 @@ import {
 import { toast } from "sonner";
 import { completeSetup } from "@/app/actions/setup";
 
-const STEPS = ["welcome", "branding", "admin", "smtp", "launch"];
+const STEPS = ["welcome", "branding", "admin", "smtp", "stripe", "launch"];
 
 export default function SetupPage() {
   const router = useRouter();
@@ -43,6 +43,7 @@ export default function SetupPage() {
       adminName,
       adminPassword,
       openRegistration,
+      bootstrapToken: "",
     });
 
     if (result.error) {
@@ -74,14 +75,16 @@ export default function SetupPage() {
             {step === 1 && "Brand Your Platform"}
             {step === 2 && "Create Admin Account"}
             {step === 3 && "Email Settings"}
-            {step === 4 && "Launch!"}
+            {step === 4 && "Connect Payments"}
+            {step === 5 && "Launch!"}
           </CardTitle>
           <CardDescription>
             {step === 0 && "Let's get your session platform set up in a few steps."}
             {step === 1 && "Customize the look and feel of your platform."}
             {step === 2 && "Create the administrator account."}
             {step === 3 && "Configure email notifications (optional)."}
-            {step === 4 && "You're all set to start using Somove."}
+            {step === 4 && "Set up Stripe to receive payments from clients."}
+            {step === 5 && "You're all set to start using Somove."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -249,8 +252,40 @@ export default function SetupPage() {
             </div>
           )}
 
-          {/* Step 4: Launch */}
+          {/* Step 4: Stripe Connect */}
           {step === 4 && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Connect your Stripe account to receive payments from clients.
+                You&apos;ll be redirected to Stripe to complete setup.
+              </p>
+              <a
+                href="/api/stripe/connect"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-md bg-[#635BFF] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#635BFF]/90 transition-colors"
+              >
+                Connect Stripe Account
+              </a>
+              <p className="text-xs text-muted-foreground">
+                You can skip this and set up payments later in Settings.
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setStep(3)}
+                  className="flex-1 h-12"
+                >
+                  Back
+                </Button>
+                <Button onClick={() => setStep(5)} className="flex-1 h-12">
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 5: Launch */}
+          {step === 5 && (
             <div className="space-y-4">
               <div className="rounded-lg bg-accent/10 p-4 text-center">
                 <p className="text-sm">
@@ -261,7 +296,7 @@ export default function SetupPage() {
               <div className="flex gap-3">
                 <Button
                   variant="outline"
-                  onClick={() => setStep(3)}
+                  onClick={() => setStep(4)}
                   className="flex-1 h-12"
                 >
                   Back

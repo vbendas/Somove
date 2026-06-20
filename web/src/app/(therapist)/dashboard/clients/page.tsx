@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function ClientsPage({
   searchParams,
 }: {
-  searchParams: { q?: string };
+  searchParams: { q?: string; page?: string };
 }) {
   const supabase = createClient();
   const {
@@ -18,11 +18,15 @@ export default async function ClientsPage({
 
   if (!user) redirect("/login");
 
+  const page = parseInt(searchParams.page || "0");
+  const pageSize = 50;
+
   const { data: sessions } = await supabase
     .from("sessions")
     .select("client_id, users!sessions_client_id_fkey(name, email), scheduled_at, status")
     .eq("therapist_id", user.id)
-    .order("scheduled_at", { ascending: false });
+    .order("scheduled_at", { ascending: false })
+    .range(page * pageSize, (page + 1) * pageSize - 1);
 
   const clientsMap = new Map<
     string,
@@ -58,22 +62,29 @@ export default async function ClientsPage({
 
   const clientIds = Array.from(clientsMap.keys());
 
-  for (const cId of clientIds) {
-    const { data: note } = await supabase
+  if (clientIds.length > 0) {
+    const { data: latestNotes } = await supabase
       .from("client_notes")
-      .select("body")
-      .eq("client_id", cId)
+      .select("client_id, body, updated_at")
       .eq("therapist_id", user.id)
       .is("deleted_at", null)
-      .order("updated_at", { ascending: false })
-      .limit(1)
-      .single();
+      .in("client_id", clientIds)
+      .order("updated_at", { ascending: false });
 
-    if (note?.body) {
-      const client = clientsMap.get(cId);
-      if (client) {
-        const firstLine = note.body.split("\n")[0];
-        client.lastNote = firstLine.length > 60 ? firstLine.slice(0, 60) + "..." : firstLine;
+    if (latestNotes) {
+      const noteMap = new Map<string, string>();
+      for (const note of latestNotes) {
+        if (!noteMap.has(note.client_id) && note.body) {
+          const firstLine = note.body.split("\n")[0];
+          noteMap.set(
+            note.client_id,
+            firstLine.length > 60 ? firstLine.slice(0, 60) + "..." : firstLine
+          );
+        }
+      }
+      for (const [cId, client] of Array.from(clientsMap.entries())) {
+        const note = noteMap.get(cId);
+        if (note) client.lastNote = note;
       }
     }
   }
@@ -138,6 +149,17 @@ export default async function ClientsPage({
                 </Card>
               </Link>
             ))}
+          </div>
+        )}
+
+        {sessions && sessions.length === pageSize && (
+          <div className="mt-6 text-center">
+            <Link
+              href={`/dashboard/clients?page=${page + 1}${searchParams.q ? `&q=${encodeURIComponent(searchParams.q)}` : ""}`}
+              className="text-sm text-primary hover:underline"
+            >
+              Load more
+            </Link>
           </div>
         )}
       </div>

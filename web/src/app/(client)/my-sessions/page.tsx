@@ -6,13 +6,20 @@ import { CalendarDays } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function MySessionsPage() {
+export default async function MySessionsPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  const page = parseInt(searchParams.page || "0");
+  const pageSize = 50;
 
   const { data: upcomingSessions } = await supabase
     .from("sessions")
@@ -26,7 +33,8 @@ export default async function MySessionsPage() {
     .select("*, therapist_profile!sessions_therapist_id_fkey(*, users!inner(name))")
     .eq("client_id", user.id)
     .in("status", ["completed", "cancelled", "no_show"])
-    .order("scheduled_at", { ascending: false });
+    .order("scheduled_at", { ascending: false })
+    .range(page * pageSize, (page + 1) * pageSize - 1);
 
   return (
     <div className="min-h-screen bg-background">
@@ -141,6 +149,16 @@ export default async function MySessionsPage() {
                 );
               })}
             </div>
+            {pastSessions && pastSessions.length === pageSize && (
+              <div className="mt-6 text-center">
+                <Link
+                  href={`/my-sessions?page=${page + 1}`}
+                  className="text-sm text-primary hover:underline"
+                >
+                  Load more
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>
