@@ -78,22 +78,29 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const { data: userData } = await supabase
-    .from("users")
-    .select("role, name")
-    .eq("id", user.id)
-    .single();
-
-  // Check if therapist has completed onboarding (has a therapist_profile)
+  let userData: { role: string; name: string } | null = null;
   let hasTherapistProfile = false;
-  if (userData?.role === "therapist") {
-    const { data: profile } = await supabase
-      .from("therapist_profile")
-      .select("id")
-      .eq("user_id", user.id)
-      .limit(1)
-      .maybeSingle();
-    hasTherapistProfile = !!profile;
+
+  try {
+    const { data } = await supabase
+      .from("users")
+      .select("role, name")
+      .eq("id", user.id)
+      .single();
+    userData = data;
+
+    if (userData?.role === "therapist") {
+      const { data: profile } = await supabase
+        .from("therapist_profile")
+        .select("id")
+        .eq("user_id", user.id)
+        .limit(1)
+        .maybeSingle();
+      hasTherapistProfile = !!profile;
+    }
+  } catch {
+    // If DB queries fail (migrations not applied, etc.),
+    // let the request through — page-level auth will handle it
   }
 
   if (pathname === "/login") {
