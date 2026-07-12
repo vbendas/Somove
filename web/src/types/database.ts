@@ -748,3 +748,34 @@ export interface Database {
     };
   };
 }
+
+// New tables for visual editors (Phases 5-6)
+export interface SiteSection {
+  id: string;
+  key: string;
+  title: string | null;
+  content: unknown[]; // Block[]
+  draft_content: unknown[]; // Block[] — working copy edited in the builder (added in 00027_cms_v2.sql)
+  is_published: boolean;
+  sort_order: number;
+  published_at: string | null;
+  updated_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TherapistPage {
+  id: string;
+  therapist_id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  content: unknown[]; // Block[]
+  draft_content: unknown[]; // Block[] — working copy edited in the builder (added in 00027_cms_v2.sql)
+  status: 'draft' | 'published';
+  seo_title: string | null;
+  seo_description: string | null;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
