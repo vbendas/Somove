@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const SUPPORTED_LOCALES = ["pt", "en", "es", "fr", "de", "it", "nl", "pt-BR", "pt-PT"];
+// eslint-disable-next-line security/detect-non-literal-regexp
 const LOCALE_PATTERN = new RegExp(`^/(${SUPPORTED_LOCALES.join("|")})(?=/|$)`);
 
 function stripLocale(pathname: string): string {
@@ -20,6 +21,13 @@ export async function middleware(request: NextRequest) {
     url.pathname = pathname;
     url.search = request.nextUrl.search;
     return NextResponse.redirect(url);
+  }
+
+  // The marketing page only exists to be served at "/" for unauthenticated
+  // visitors (see the rewrite below) — direct hits on /landing always
+  // canonicalize to "/", regardless of auth state.
+  if (pathname === "/landing") {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   const publicRoutes = [
@@ -72,6 +80,17 @@ export async function middleware(request: NextRequest) {
   if (!user && isPublicRoute) return supabaseResponse;
 
   if (!user) {
+    // Unauthenticated visitors to "/" get the public marketing landing page
+    // rendered in place (URL stays "/", no redirect flicker) instead of
+    // being bounced to /login.
+    if (pathname === "/") {
+      const rewriteResponse = NextResponse.rewrite(new URL("/landing", request.url), { request });
+      supabaseResponse.cookies.getAll().forEach((cookie) => {
+        rewriteResponse.cookies.set(cookie.name, cookie.value);
+      });
+      return rewriteResponse;
+    }
+
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", pathname);
