@@ -3,19 +3,27 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 const SUPPORTED_LOCALES = ["pt", "en", "es", "fr", "de", "it", "nl", "pt-BR", "pt-PT"];
+// eslint-disable-next-line security/detect-non-literal-regexp
 const LOCALE_PATTERN = new RegExp(`^/(${SUPPORTED_LOCALES.join("|")})(?=/|$)`);
 
 function stripLocale(path: string): string {
   return path.replace(LOCALE_PATTERN, "") || "/";
 }
 
+// Only accept site-relative paths ("/foo") — rejects absolute URLs and
+// protocol-relative paths ("//evil.com") to prevent open redirects.
+function safeNextPath(raw: string | null): string {
+  const candidate = stripLocale(raw ?? "/");
+  return /^\/(?!\/)/.test(candidate) ? candidate : "/";
+}
+
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = stripLocale(searchParams.get("next") ?? "/");
+  const next = safeNextPath(searchParams.get("next"));
 
   if (code) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookieJar: { name: string; value: string; options: Record<string, unknown> }[] = [];
 
     const supabase = createServerClient(
