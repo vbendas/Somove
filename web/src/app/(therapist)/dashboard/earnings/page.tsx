@@ -3,11 +3,14 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Euro, CreditCard } from "lucide-react";
+import { bucketRevenueByMonth, bucketSessionsByWeek } from "@/lib/earnings";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { EarningsCharts } from "./earnings-charts";
 
 export const dynamic = "force-dynamic";
 
 export default async function EarningsPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -17,10 +20,23 @@ export default async function EarningsPage() {
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
+  const CHART_MONTHS_BACK = 12;
+  const CHART_WEEKS_BACK = 12;
+  const chartPaymentsSince = new Date(
+    now.getFullYear(),
+    now.getMonth() - CHART_MONTHS_BACK + 1,
+    1
+  ).toISOString();
+  const chartSessionsSince = new Date(
+    now.getTime() - CHART_WEEKS_BACK * 7 * 24 * 60 * 60 * 1000
+  ).toISOString();
+
   const [
     { data: monthlyPayments },
     { data: recentPayments },
     { data: allPayments },
+    { data: chartPayments },
+    { data: chartSessions },
   ] = await Promise.all([
     supabase
       .from("payments")
@@ -41,7 +57,20 @@ export default async function EarningsPage() {
       .select("therapist_net_cents, amount_cents")
       .eq("therapist_id", user.id)
       .eq("status", "confirmed"),
+    supabase
+      .from("payments")
+      .select("created_at, amount_cents, platform_fee_cents, therapist_net_cents, status")
+      .eq("therapist_id", user.id)
+      .gte("created_at", chartPaymentsSince),
+    supabase
+      .from("sessions")
+      .select("scheduled_at, status")
+      .eq("therapist_id", user.id)
+      .gte("scheduled_at", chartSessionsSince),
   ]);
+
+  const revenueByMonth = bucketRevenueByMonth(chartPayments || [], CHART_MONTHS_BACK, now);
+  const sessionsByWeek = bucketSessionsByWeek(chartSessions || [], CHART_WEEKS_BACK, now);
 
   const monthlyFees = (monthlyPayments || []).reduce((sum, p) => sum + (p.platform_fee_cents || 0), 0);
   const monthlyNet = (monthlyPayments || []).reduce((sum, p) => sum + (p.therapist_net_cents || p.amount_cents), 0);
@@ -94,12 +123,14 @@ export default async function EarningsPage() {
           Earnings
         </h1>
 
+        <EarningsCharts revenueByMonth={revenueByMonth} sessionsByWeek={sessionsByWeek} />
+
         <div className="mb-6 grid grid-cols-3 gap-3">
           <Card>
             <CardContent className="flex flex-col items-center p-4">
               <Euro className="mb-1 h-5 w-5 text-primary" />
               <p className="text-2xl font-medium text-foreground">
-                €{(monthlyNet / 100).toFixed(0)}
+                {formatCurrency(monthlyNet)}
               </p>
               <p className="text-xs text-warm-gray">This month</p>
             </CardContent>
@@ -107,7 +138,7 @@ export default async function EarningsPage() {
           <Card>
             <CardContent className="flex flex-col items-center p-4">
               <p className="text-lg font-medium text-primary">
-                €{(monthlyFees / 100).toFixed(0)}
+                {formatCurrency(monthlyFees)}
               </p>
               <p className="text-xs text-warm-gray">Fees (10%)</p>
             </CardContent>
@@ -115,7 +146,7 @@ export default async function EarningsPage() {
           <Card>
             <CardContent className="flex flex-col items-center p-4">
               <p className="text-lg font-medium text-foreground">
-                €{(allTimeNet / 100).toFixed(0)}
+                {formatCurrency(allTimeNet)}
               </p>
               <p className="text-xs text-warm-gray">All time</p>
             </CardContent>
@@ -160,7 +191,7 @@ export default async function EarningsPage() {
                 </div>
               </div>
               <Button variant="outline" size="sm" asChild>
-                <a href="/dashboard/settings" target="_self">Manage</a>
+                <a href="/dashboard/settings/integrations" target="_self">Manage</a>
               </Button>
             </CardContent>
           </Card>
@@ -187,20 +218,16 @@ export default async function EarningsPage() {
                             {client?.name || "Client"}
                           </p>
                           <p className="text-xs text-warm-gray">
-                            {new Date(payment.created_at).toLocaleDateString("en-GB", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                            })}
+                            {formatDate(payment.created_at, "medium")}
                           </p>
                         </div>
                         <div className="text-right">
                           <p className="font-medium text-foreground">
-                            €{(net / 100).toFixed(2)}
+                            {formatCurrency(net, { showCents: true })}
                           </p>
                           {fee > 0 && (
                             <p className="text-xs text-warm-gray">
-                              Gross €{(payment.amount_cents / 100).toFixed(2)} · Fee €{(fee / 100).toFixed(2)}
+                              Gross {formatCurrency(payment.amount_cents, { showCents: true })} · Fee {formatCurrency(fee, { showCents: true })}
                             </p>
                           )}
                         </div>

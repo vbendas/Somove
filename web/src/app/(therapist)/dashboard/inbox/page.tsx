@@ -13,6 +13,10 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { toast } from "sonner";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { formatTime } from "@/lib/format";
 
 interface Conversation {
   id: string;
@@ -180,13 +184,10 @@ export default function InboxPage() {
   const selectedConv = conversations.find((c) => c.id === selectedId);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-5 py-8">
-        <h1 className="mb-6 font-heading text-3xl font-medium text-foreground">
-          Inbox
-        </h1>
+    <PageContainer width="full">
+      <PageHeader title="Inbox" />
 
-        <div className="flex flex-col md:flex-row gap-4 md:h-[calc(100vh-200px)]">
+      <div className="flex flex-col md:flex-row gap-4 md:h-[calc(100vh-200px)]">
           <div
             className={`w-full md:w-80 flex-shrink-0 flex flex-col ${
               selectedId ? "hidden md:flex" : "flex"
@@ -207,6 +208,7 @@ export default function InboxPage() {
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
+                  aria-pressed={statusFilter === s}
                   className={`flex-1 rounded-button px-2 py-1.5 text-xs font-medium transition-colors capitalize ${
                     statusFilter === s
                       ? "bg-background text-foreground shadow-sm"
@@ -226,15 +228,13 @@ export default function InboxPage() {
                   ))}
                 </div>
               ) : conversations.length === 0 ? (
-                <div className="py-12 text-center">
-                  <MessageSquare className="mx-auto mb-2 h-8 w-8 text-warm-gray" />
-                  <p className="text-sm text-warm-gray">No conversations</p>
-                </div>
+                <EmptyState icon={MessageSquare} title="No conversations" />
               ) : (
                 conversations.map((conv) => (
                   <button
                     key={conv.id}
                     onClick={() => setSelectedId(conv.id)}
+                    aria-pressed={selectedId === conv.id}
                     className={`w-full rounded-card p-3 text-left transition-all ${
                       selectedId === conv.id
                         ? "bg-primary/10 border border-primary/30"
@@ -281,10 +281,7 @@ export default function InboxPage() {
           >
             {!selectedId ? (
               <div className="flex-1 flex items-center justify-center">
-                <div className="text-center">
-                  <MessageSquare className="mx-auto mb-2 h-12 w-12 text-warm-gray" />
-                  <p className="text-warm-gray">Select a conversation</p>
-                </div>
+                <EmptyState icon={MessageSquare} title="Select a conversation" />
               </div>
             ) : (
               <>
@@ -306,6 +303,7 @@ export default function InboxPage() {
                   </div>
                   <div className="ml-auto flex items-center gap-2">
                     <select
+                      aria-label="Conversation status"
                       value={selectedConv?.status || "open"}
                       onChange={async (e) => {
                         const { updateConversationStatus } = await import("@/app/actions/messaging");
@@ -352,10 +350,7 @@ export default function InboxPage() {
                                 : "text-warm-gray"
                             }`}
                           >
-                            {new Date(msg.sent_at).toLocaleTimeString("en-GB", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
+                            {formatTime(msg.sent_at)}
                           </p>
                         </div>
                       </div>
@@ -401,7 +396,6 @@ export default function InboxPage() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    </PageContainer>
   );
 }

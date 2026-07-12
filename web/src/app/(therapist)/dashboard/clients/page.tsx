@@ -3,22 +3,28 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import ClientListSearch from "./client-list-search";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Users } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function ClientsPage({
   searchParams,
 }: {
-  searchParams: { q?: string; page?: string };
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const supabase = createClient();
+  const sp = await searchParams;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
 
-  const page = parseInt(searchParams.page || "0");
+  const page = parseInt(sp.page || "0");
   const pageSize = 50;
 
   const { data: sessions } = await supabase
@@ -89,80 +95,62 @@ export default async function ClientsPage({
     }
   }
 
-  const q = searchParams.q?.toLowerCase() || "";
+  const q = sp.q?.toLowerCase() || "";
   const clients = Array.from(clientsMap.entries()).filter(
     ([, c]) => !q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-2xl px-5 py-8">
-        <h1 className="mb-6 font-heading text-3xl font-medium text-foreground">
-          Clients
-        </h1>
+    <PageContainer width="narrow">
+      <PageHeader title="Clients" />
 
-        <ClientListSearch initialQuery={q} />
+      <ClientListSearch initialQuery={q} />
 
-        {clients.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-warm-gray">
-                {q ? "No clients match your search" : "No clients yet"}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-3">
-            {clients.map(([clientId, client]) => (
-              <Link key={clientId} href={`/dashboard/clients/${clientId}`}>
-                <Card className="cursor-pointer transition-all hover:border-primary/30 hover:shadow-sm">
-                  <CardContent className="flex items-center gap-4 p-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-medium text-primary">
-                      {client.name.charAt(0)}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-foreground">{client.name}</p>
-                      <p className="truncate text-sm text-warm-gray">
-                        Last:{" "}
-                        {new Date(client.lastSession).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                        })}
-                        {client.nextSession && (
-                          <>
-                            {" "}
-                            · Next:{" "}
-                            {new Date(client.nextSession).toLocaleDateString("en-GB", {
-                              day: "numeric",
-                              month: "short",
-                            })}
-                          </>
-                        )}
-                      </p>
-                      {client.lastNote && (
-                        <p className="mt-0.5 truncate text-xs text-warm-gray/70 italic">
-                          {client.lastNote}
-                        </p>
+      {clients.length === 0 ? (
+        <EmptyState
+          icon={Users}
+          title={q ? "No clients match your search" : "No clients yet"}
+        />
+      ) : (
+        <div className="space-y-3">
+          {clients.map(([clientId, client]) => (
+            <Link key={clientId} href={`/dashboard/clients/${clientId}`}>
+              <Card className="cursor-pointer transition-all hover:border-primary/30 hover:shadow-sm">
+                <CardContent className="flex items-center gap-4 p-4">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-medium text-primary">
+                    {client.name.charAt(0)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-foreground">{client.name}</p>
+                    <p className="truncate text-sm text-warm-gray">
+                      Last: {formatDate(client.lastSession, "short")}
+                      {client.nextSession && (
+                        <> · Next: {formatDate(client.nextSession, "short")}</>
                       )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {sessions && sessions.length === pageSize && (
-          <div className="mt-6 text-center">
-            <Link
-              href={`/dashboard/clients?page=${page + 1}${searchParams.q ? `&q=${encodeURIComponent(searchParams.q)}` : ""}`}
-              className="text-sm text-primary hover:underline"
-            >
-              Load more
+                    </p>
+                    {client.lastNote && (
+                      <p className="mt-0.5 truncate text-xs text-warm-gray/70 italic">
+                        {client.lastNote}
+                      </p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
-          </div>
-        )}
-      </div>
-    </div>
+          ))}
+        </div>
+      )}
+
+      {sessions && sessions.length === pageSize && (
+        <div className="mt-6 text-center">
+          <Link
+            href={`/dashboard/clients?page=${page + 1}${sp.q ? `&q=${encodeURIComponent(sp.q)}` : ""}`}
+            className="text-sm text-primary hover:underline"
+          >
+            Load more
+          </Link>
+        </div>
+      )}
+    </PageContainer>
   );
 }

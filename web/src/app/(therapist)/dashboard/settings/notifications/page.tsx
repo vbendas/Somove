@@ -185,8 +185,9 @@ export default function TherapistNotificationPreferencesPage() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium">Start</label>
+              <label htmlFor="quietHoursStart" className="text-sm font-medium">Start</label>
               <input
+                id="quietHoursStart"
                 type="time"
                 value={prefs.quiet_hours_start || ""}
                 onChange={(e) =>
@@ -196,8 +197,9 @@ export default function TherapistNotificationPreferencesPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">End</label>
+              <label htmlFor="quietHoursEnd" className="text-sm font-medium">End</label>
               <input
+                id="quietHoursEnd"
                 type="time"
                 value={prefs.quiet_hours_end || ""}
                 onChange={(e) =>

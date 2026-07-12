@@ -1,56 +1,23 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  Trash2,
-  Plus,
-  ChevronDown,
-  ChevronRight,
-  Edit3,
-  X,
-  Calendar,
-  Clock,
-  CreditCard,
-} from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
-import * as Collapsible from "@radix-ui/react-collapsible";
-
-interface ClientNote {
-  id: string;
-  body: string | null;
-  session_id: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-interface ClientProfile {
-  id: string;
-  name: string;
-  email: string;
-}
-
-interface SessionInfo {
-  id: string;
-  scheduled_at: string;
-  duration_min: number;
-  status: string;
-}
-
-interface SessionGroup {
-  session: SessionInfo;
-  notes: ClientNote[];
-}
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { formatDate, formatTime } from "@/lib/format";
+import { ClientHeader, type ClientProfile } from "./client-header";
+import { SessionHistoryList, type SessionInfo } from "./session-history-list";
+import { SessionNoteGroup, type ClientNote, type SessionGroup } from "./session-note-group";
 
 export default function ClientDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const clientId = params.id as string;
 
   const [client, setClient] = useState<ClientProfile | null>(null);
@@ -182,9 +149,7 @@ export default function ClientDetailPage() {
           }
 
           const now = new Date();
-          setLastSaved(
-            `Saved ${now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`
-          );
+          setLastSaved(`Saved ${formatTime(now)}`);
         } catch {
           toast.error("Failed to save note");
         } finally {
@@ -228,7 +193,7 @@ export default function ClientDetailPage() {
       }
 
       const now = new Date();
-      setLastSaved(`Saved ${now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`);
+      setLastSaved(`Saved ${formatTime(now)}`);
     } catch {
       toast.error("Failed to save note");
     } finally {
@@ -308,413 +273,218 @@ export default function ClientDetailPage() {
   })).filter((g) => g.notes.length > 0);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-2xl px-5 py-8">
+    <PageContainer width="narrow">
+      <PageHeader
+        title={client?.name || "Client"}
+        description={client?.email}
+        backHref="/dashboard/clients"
+      />
+
+      {client && (
+        <ClientHeader
+          client={client}
+          firstSessionDate={firstSessionDate}
+          sessionsCount={sessions.length}
+          remainingCredits={remainingCredits}
+        />
+      )}
+
+      <div className="mb-6 flex gap-1 rounded-card bg-surface p-1">
         <button
-          onClick={() => router.back()}
-          className="mb-6 inline-flex items-center text-sm text-warm-gray hover:text-foreground"
+          onClick={() => setActiveTab("notes")}
+          aria-pressed={activeTab === "notes"}
+          className={`flex-1 rounded-button py-2 text-sm font-medium transition-colors ${
+            activeTab === "notes"
+              ? "bg-background text-foreground shadow-sm"
+              : "text-warm-gray hover:text-foreground"
+          }`}
         >
-          <ArrowLeft className="mr-1 h-4 w-4" /> Back to clients
+          Notes
         </button>
-
-        {client && (
-          <div className="mb-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 font-heading text-xl font-medium text-primary">
-                {client.name?.charAt(0) || "?"}
-              </div>
-              <div>
-                <h1 className="font-heading text-2xl font-medium text-foreground">
-                  {client.name}
-                </h1>
-                <p className="text-sm text-warm-gray">{client.email}</p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 text-xs text-warm-gray">
-              {firstSessionDate && (
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-3 w-3" />
-                  <span>
-                    Client since{" "}
-                    {new Date(firstSessionDate).toLocaleDateString("en-GB", {
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </span>
-                </div>
-              )}
-              <div className="flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                <span>{sessions.length} sessions</span>
-              </div>
-              {remainingCredits > 0 && (
-                <div className="flex items-center gap-1 text-primary">
-                  <CreditCard className="h-3 w-3" />
-                  <span>
-                    {remainingCredits} credit{remainingCredits !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        <div className="mb-6 flex gap-1 rounded-card bg-surface p-1">
-          <button
-            onClick={() => setActiveTab("notes")}
-            className={`flex-1 rounded-button py-2 text-sm font-medium transition-colors ${
-              activeTab === "notes"
-                ? "bg-background text-foreground shadow-sm"
-                : "text-warm-gray hover:text-foreground"
-            }`}
-          >
-            Notes
-          </button>
-          <button
-            onClick={() => setActiveTab("sessions")}
-            className={`flex-1 rounded-button py-2 text-sm font-medium transition-colors ${
-              activeTab === "sessions"
-                ? "bg-background text-foreground shadow-sm"
-                : "text-warm-gray hover:text-foreground"
-            }`}
-          >
-            Sessions
-          </button>
-        </div>
-
-        {activeTab === "notes" && (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-warm-gray">
-                    General Notes
-                  </CardTitle>
-                  <div className="flex items-center gap-2">
-                    {(saving || lastSaved) && (
-                      <span className="text-xs text-warm-gray">
-                        {saving ? "Saving..." : lastSaved}
-                      </span>
-                    )}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsGeneralEditing(!isGeneralEditing)}
-                    >
-                      {isGeneralEditing ? "Preview" : "Edit"}
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-3 text-xs text-warm-gray">
-                  Do not record personally identifiable or sensitive clinical data. Use key observations only.
-                </p>
-                {isGeneralEditing ? (
-                  <Textarea
-                    ref={textareaRef}
-                    value={generalNote}
-                    onChange={(e) => handleGeneralChange(e.target.value)}
-                    onBlur={handleGeneralBlur}
-                    placeholder="Write notes about this client..."
-                    className="min-h-[200px] font-mono text-sm"
-                  />
-                ) : (
-                  <div
-                    className="min-h-[200px] rounded-card border border-border p-4 prose prose-sm max-w-none text-foreground cursor-pointer hover:border-primary/30"
-                    onClick={() => setIsGeneralEditing(true)}
-                  >
-                    {generalNote ? (
-                      <ReactMarkdown>{generalNote}</ReactMarkdown>
-                    ) : (
-                      <p className="text-warm-gray italic">
-                        Click to add notes...
-                      </p>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <div>
-              <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-warm-gray">
-                Session Notes
-              </h3>
-              {sessionGroups.length === 0 ? (
-                <p className="text-sm text-warm-gray">No session notes yet</p>
-              ) : (
-                <div className="space-y-3">
-                  {sessionGroups.map((group) => (
-                    <SessionNoteGroup
-                      key={group.session.id}
-                      group={group}
-                      editingNoteId={editingNoteId}
-                      editingNoteBody={editingNoteBody}
-                      onStartEdit={(note) => {
-                        setEditingNoteId(note.id);
-                        setEditingNoteBody(note.body || "");
-                      }}
-                      onCancelEdit={() => {
-                        setEditingNoteId(null);
-                        setEditingNoteBody("");
-                      }}
-                      onChangeEditBody={setEditingNoteBody}
-                      onSaveEdit={(id, body) => saveSessionNote(id, body)}
-                      onDelete={deleteNoteHandler}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="fixed bottom-24 right-6 z-40">
-              <button
-                onClick={() => setShowFab(!showFab)}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-dark transition-colors"
-                aria-label={showFab ? "Close menu" : "Add note"}
-              >
-                {showFab ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
-              </button>
-            </div>
-
-            {showFab && (
-              <div className="fixed bottom-40 right-6 z-40 w-80 rounded-card border border-border bg-card p-4 shadow-lg">
-                <p className="mb-2 text-sm font-medium text-foreground">Add Session Note</p>
-                {sessions.length > 0 && (
-                  <select
-                    value={newNoteSessionId || ""}
-                    onChange={(e) => setNewNoteSessionId(e.target.value || null)}
-                    className="mb-3 w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
-                  >
-                    <option value="">General (no session)</option>
-                    {sessions.slice(0, 10).map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {new Date(s.scheduled_at).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                        })}{" "}
-                        — {s.status}
-                      </option>
-                    ))}
-                  </select>
-                )}
-                <Textarea
-                  value={newNoteBody}
-                  onChange={(e) => setNewNoteBody(e.target.value)}
-                  placeholder="Write a note..."
-                  className="mb-3 min-h-[100px]"
-                />
-                <Button
-                  size="sm"
-                  onClick={addNewNote}
-                  disabled={!newNoteBody.trim() || saving}
-                  className="w-full"
-                >
-                  {saving ? "Saving..." : "Add Note"}
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {activeTab === "sessions" && (
-          <div className="space-y-3">
-            {sessions.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <p className="text-warm-gray">No sessions yet</p>
-                </CardContent>
-              </Card>
-            ) : (
-              sessions.map((session) => (
-                <Card key={session.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-foreground">
-                          {new Date(session.scheduled_at).toLocaleDateString("en-GB", {
-                            weekday: "short",
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </p>
-                        <p className="text-sm text-warm-gray">
-                          {new Date(session.scheduled_at).toLocaleTimeString("en-GB", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}{" "}
-                          · {session.duration_min} min
-                        </p>
-                      </div>
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                          session.status === "completed"
-                            ? "bg-accent/10 text-accent"
-                            : session.status === "cancelled"
-                            ? "bg-surface text-warm-gray"
-                            : "bg-light-moss text-foreground"
-                        }`}
-                      >
-                        {session.status}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-        )}
-
-        {confirmDelete && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setConfirmDelete(null)} />
-            <div
-              role="alertdialog"
-              aria-modal="true"
-              aria-labelledby="confirm-delete-title"
-              aria-describedby="confirm-delete-desc"
-              className="relative mx-4 w-full max-w-sm rounded-card border border-border bg-card p-6 shadow-lg"
-            >
-              <h2 id="confirm-delete-title" className="font-heading text-lg font-medium text-foreground">
-                Delete Note
-              </h2>
-              <p id="confirm-delete-desc" className="mt-2 text-sm text-warm-gray">
-                Are you sure you want to delete this note? This action cannot be undone.
-              </p>
-              <div className="mt-4 flex gap-2 justify-end">
-                <Button variant="outline" size="sm" onClick={() => setConfirmDelete(null)}>
-                  Cancel
-                </Button>
-                <Button variant="destructive" size="sm" onClick={confirmDeleteHandler}>
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        <button
+          onClick={() => setActiveTab("sessions")}
+          aria-pressed={activeTab === "sessions"}
+          className={`flex-1 rounded-button py-2 text-sm font-medium transition-colors ${
+            activeTab === "sessions"
+              ? "bg-background text-foreground shadow-sm"
+              : "text-warm-gray hover:text-foreground"
+          }`}
+        >
+          Sessions
+        </button>
       </div>
-    </div>
-  );
-}
 
-function InlineEditTextarea({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <Textarea
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="min-h-[100px] font-mono text-sm"
-    />
-  );
-}
-
-function SessionNoteGroup({
-  group,
-  editingNoteId,
-  editingNoteBody,
-  onStartEdit,
-  onCancelEdit,
-  onSaveEdit,
-  onDelete,
-  onChangeEditBody,
-}: {
-  group: SessionGroup;
-  editingNoteId: string | null;
-  editingNoteBody: string;
-  onStartEdit: (note: ClientNote) => void;
-  onCancelEdit: () => void;
-  onSaveEdit: (id: string, body: string) => void;
-  onDelete: (id: string) => void;
-  onChangeEditBody: (v: string) => void;
-}) {
-  const [open, setOpen] = useState(true);
-
-  const sessionDate = new Date(group.session.scheduled_at);
-  const label = `${sessionDate.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })} — ${group.notes.length} note${group.notes.length !== 1 ? "s" : ""}`;
-
-  return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
-      <Card>
-        <Collapsible.Trigger asChild>
-          <button className="flex w-full items-center justify-between p-4 text-left">
-            <div className="flex items-center gap-2">
-              {open ? (
-                <ChevronDown className="h-4 w-4 text-warm-gray" />
-              ) : (
-                <ChevronRight className="h-4 w-4 text-warm-gray" />
-              )}
-              <span className="text-sm font-medium text-foreground">{label}</span>
-            </div>
-            <span className="text-xs text-warm-gray">{group.session.duration_min} min</span>
-          </button>
-        </Collapsible.Trigger>
-        <Collapsible.Content>
-          <div className="space-y-2 border-t border-border px-4 pb-4">
-            {group.notes.map((note) => (
-              <div key={note.id} className="rounded-card bg-surface p-3">
-                <div className="mb-2 flex items-start justify-between">
-                  <p className="text-xs text-warm-gray">
-                    {new Date(note.updated_at).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                  <div className="flex items-center gap-1">
-                    {editingNoteId !== note.id && (
-                      <button
-                        onClick={() => onStartEdit(note)}
-                        className="text-warm-gray hover:text-foreground"
-                        aria-label="Edit note"
-                      >
-                        <Edit3 className="h-3.5 w-3.5" />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => onDelete(note.id)}
-                      className="text-warm-gray hover:text-red-500"
-                      aria-label="Delete note"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
+      {activeTab === "notes" && (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-warm-gray">
+                  General Notes
+                </CardTitle>
+                <div className="flex items-center gap-2">
+                  {(saving || lastSaved) && (
+                    <span className="text-xs text-warm-gray">
+                      {saving ? "Saving..." : lastSaved}
+                    </span>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsGeneralEditing(!isGeneralEditing)}
+                  >
+                    {isGeneralEditing ? "Preview" : "Edit"}
+                  </Button>
                 </div>
-                {editingNoteId === note.id ? (
-                  <div>
-                    <InlineEditTextarea
-                      value={editingNoteBody}
-                      onChange={onChangeEditBody}
-                    />
-                    <div className="mt-2 flex gap-2">
-                      <Button
-                        size="sm"
-                        onClick={() => onSaveEdit(note.id, editingNoteBody)}
-                      >
-                        Save
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={onCancelEdit}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="prose prose-sm max-w-none text-sm text-foreground">
-                    <ReactMarkdown>{note.body || ""}</ReactMarkdown>
-                  </div>
-                )}
               </div>
-            ))}
+            </CardHeader>
+            <CardContent>
+              <p className="mb-3 text-xs text-warm-gray">
+                Do not record personally identifiable or sensitive clinical data. Use key observations only.
+              </p>
+              {isGeneralEditing ? (
+                <Textarea
+                  ref={textareaRef}
+                  value={generalNote}
+                  onChange={(e) => handleGeneralChange(e.target.value)}
+                  onBlur={handleGeneralBlur}
+                  placeholder="Write notes about this client..."
+                  className="min-h-[200px] font-mono text-sm"
+                />
+              ) : (
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Edit general notes"
+                  className="min-h-[200px] rounded-card border border-border p-4 prose prose-sm max-w-none text-foreground cursor-pointer hover:border-primary/30"
+                  onClick={() => setIsGeneralEditing(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setIsGeneralEditing(true);
+                    }
+                  }}
+                >
+                  {generalNote ? (
+                    <ReactMarkdown>{generalNote}</ReactMarkdown>
+                  ) : (
+                    <p className="text-warm-gray italic">
+                      Click to add notes...
+                    </p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <div>
+            <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-warm-gray">
+              Session Notes
+            </h3>
+            {sessionGroups.length === 0 ? (
+              <p className="text-sm text-warm-gray">No session notes yet</p>
+            ) : (
+              <div className="space-y-3">
+                {sessionGroups.map((group) => (
+                  <SessionNoteGroup
+                    key={group.session.id}
+                    group={group}
+                    editingNoteId={editingNoteId}
+                    editingNoteBody={editingNoteBody}
+                    onStartEdit={(note) => {
+                      setEditingNoteId(note.id);
+                      setEditingNoteBody(note.body || "");
+                    }}
+                    onCancelEdit={() => {
+                      setEditingNoteId(null);
+                      setEditingNoteBody("");
+                    }}
+                    onChangeEditBody={setEditingNoteBody}
+                    onSaveEdit={(id, body) => saveSessionNote(id, body)}
+                    onDelete={deleteNoteHandler}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        </Collapsible.Content>
-      </Card>
-    </Collapsible.Root>
+
+          <div className="fixed bottom-24 right-6 z-40">
+            <button
+              onClick={() => setShowFab(!showFab)}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-dark transition-colors"
+              aria-label={showFab ? "Close menu" : "Add note"}
+            >
+              {showFab ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
+            </button>
+          </div>
+
+          {showFab && (
+            <div className="fixed bottom-40 right-6 z-40 w-80 rounded-card border border-border bg-card p-4 shadow-lg">
+              <p className="mb-2 text-sm font-medium text-foreground">Add Session Note</p>
+              {sessions.length > 0 && (
+                <select
+                  aria-label="Session for note"
+                  value={newNoteSessionId || ""}
+                  onChange={(e) => setNewNoteSessionId(e.target.value || null)}
+                  className="mb-3 w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
+                >
+                  <option value="">General (no session)</option>
+                  {sessions.slice(0, 10).map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {formatDate(s.scheduled_at, "short")} — {s.status}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <Textarea
+                aria-label="Note body"
+                value={newNoteBody}
+                onChange={(e) => setNewNoteBody(e.target.value)}
+                placeholder="Write a note..."
+                className="mb-3 min-h-[100px]"
+              />
+              <Button
+                size="sm"
+                onClick={addNewNote}
+                disabled={!newNoteBody.trim() || saving}
+                className="w-full"
+              >
+                {saving ? "Saving..." : "Add Note"}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === "sessions" && <SessionHistoryList sessions={sessions} />}
+
+      {confirmDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setConfirmDelete(null)} />
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="confirm-delete-title"
+            aria-describedby="confirm-delete-desc"
+            className="relative mx-4 w-full max-w-sm rounded-card border border-border bg-card p-6 shadow-lg"
+          >
+            <h2 id="confirm-delete-title" className="font-heading text-lg font-medium text-foreground">
+              Delete Note
+            </h2>
+            <p id="confirm-delete-desc" className="mt-2 text-sm text-warm-gray">
+              Are you sure you want to delete this note? This action cannot be undone.
+            </p>
+            <div className="mt-4 flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => setConfirmDelete(null)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" size="sm" onClick={confirmDeleteHandler}>
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </PageContainer>
   );
 }

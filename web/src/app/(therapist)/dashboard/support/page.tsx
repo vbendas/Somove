@@ -85,10 +85,11 @@ export default function TherapistSupportPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label htmlFor="supportCategory" className="mb-1 block text-sm font-medium text-foreground">
                     Category
                   </label>
                   <select
+                    id="supportCategory"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
@@ -101,10 +102,11 @@ export default function TherapistSupportPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label htmlFor="supportPriority" className="mb-1 block text-sm font-medium text-foreground">
                     Priority
                   </label>
                   <select
+                    id="supportPriority"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
                     className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
@@ -119,10 +121,11 @@ export default function TherapistSupportPage() {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
+                <label htmlFor="supportSubject" className="mb-1 block text-sm font-medium text-foreground">
                   Subject
                 </label>
                 <Input
+                  id="supportSubject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Brief description of your issue"
@@ -130,10 +133,11 @@ export default function TherapistSupportPage() {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
+                <label htmlFor="supportDescription" className="mb-1 block text-sm font-medium text-foreground">
                   Description
                 </label>
                 <Textarea
+                  id="supportDescription"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Please describe your issue in detail..."

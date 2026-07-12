@@ -2,15 +2,22 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import CalendarView from "@/components/schedule/calendar-view";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { EmptyState } from "@/components/ui/empty-state";
+import { CalendarDays } from "lucide-react";
+import { formatDateTime } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function SchedulePage({
   searchParams,
 }: {
-  searchParams: { session?: string };
+  searchParams: Promise<{ session?: string }>;
 }) {
-  const supabase = createClient();
+  const sp = await searchParams;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -39,7 +46,7 @@ export default async function SchedulePage({
     };
   });
 
-  const selectedSessionId = searchParams.session;
+  const selectedSessionId = sp.session;
   const selectedSession = selectedSessionId
     ? sessions?.find((s) => s.id === selectedSessionId)
     : null;
@@ -48,41 +55,34 @@ export default async function SchedulePage({
     : null;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-8">
-        <h1 className="mb-6 font-heading text-3xl font-medium text-foreground">
-          Schedule
-        </h1>
+    <PageContainer width="full">
+      <PageHeader title="Schedule" />
 
-        {sessions && sessions.length > 0 ? (
-          <CalendarView sessions={calendarEvents} />
-        ) : (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-warm-gray">No upcoming sessions</p>
-            </CardContent>
-          </Card>
-        )}
+      {sessions && sessions.length > 0 ? (
+        <CalendarView sessions={calendarEvents} />
+      ) : (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <EmptyState icon={CalendarDays} title="No upcoming sessions" />
+          </CardContent>
+        </Card>
+      )}
 
-        {selectedSession && (
-          <Card className="mt-4">
-            <CardContent className="p-4">
+      {selectedSession && (
+        <Card className="mt-4">
+          <CardContent className="flex items-center justify-between gap-4 p-4">
+            <div>
               <h3 className="font-medium">Session Detail</h3>
               <p className="text-sm text-warm-gray">
                 {selectedClient?.name || "Client"} —{" "}
-                {new Date(selectedSession.scheduled_at).toLocaleString("en-GB", {
-                  weekday: "short",
-                  day: "numeric",
-                  month: "short",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}{" "}
-                · {selectedSession.duration_min} min · {selectedSession.status}
+                {formatDateTime(selectedSession.scheduled_at)} ·{" "}
+                {selectedSession.duration_min} min
               </p>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </div>
+            </div>
+            <StatusBadge status={selectedSession.status} />
+          </CardContent>
+        </Card>
+      )}
+    </PageContainer>
   );
 }
