@@ -3,19 +3,9 @@
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { Home, CalendarDays, MessageSquare, HelpCircle } from "lucide-react";
 import { useUnreadMessageCount } from "@/hooks/use-unread-message-count";
-import { createClient } from "@/lib/supabase/client";
-import { useEffect, useState } from "react";
 
-export function ClientNav() {
-  const [userId, setUserId] = useState<string | undefined>();
+export function ClientNav({ userId }: { userId?: string }) {
   const unreadCount = useUnreadMessageCount(userId);
-
-  useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setUserId(user.id);
-    });
-  }, []);
 
   return (
     <BottomNav

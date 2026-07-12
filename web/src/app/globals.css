@@ -31,6 +31,81 @@
     --input: #E8E4DC;
     --ring: #D4A574;
     --radius: 0.75rem;
+    --chart-1: #B06E24;
+    --chart-2: #3F7D46;
+  }
+
+  .dark {
+    --background: #1B1815;
+    --foreground: #F0EBE2;
+    --surface: #262219;
+    --card: #23201C;
+    --card-foreground: #F0EBE2;
+    --popover: #2A2620;
+    --popover-foreground: #F0EBE2;
+    --primary: #D4A574;
+    --primary-dark: #E0B487;
+    --primary-foreground: #2D2A26;
+    --accent: #8BA888;
+    --accent-dark: #9DB89A;
+    --accent-foreground: #1B1815;
+    --secondary: #2A2620;
+    --secondary-foreground: #F0EBE2;
+    --muted: #2A2620;
+    --muted-foreground: #A69F94;
+    --warm-gray: #A69F94;
+    --soft-rose: #C08A7C;
+    --muted-sky: #7E95A6;
+    --light-moss: #3A4636;
+    --destructive: #B0614F;
+    --destructive-foreground: #F5EDE7;
+    --border: #3A342C;
+    --input: #3A342C;
+    --ring: #D4A574;
+    --chart-1: #BC8138;
+    --chart-2: #5F9C5D;
+  }
+
+  /*
+   * Explicit light palette, mirroring :root, for forcing light mode on a
+   * subtree regardless of theme (e.g. the visual editor's canvas preview —
+   * see EditorCanvas.tsx). CSS custom properties inherit down the DOM tree,
+   * so a `.dark` ancestor's variable values would otherwise "leak" into any
+   * descendant that merely adds a `.light` class without also redeclaring
+   * these variables here; Tailwind's utilities (bg-background, text-primary,
+   * etc.) all resolve through var(), so redeclaring them is enough — no
+   * `dark:`-prefixed utilities are used inside the editor-rendered block
+   * tree, so there's no `.dark <descendant>` selector to worry about here.
+   */
+  .light {
+    --background: #FFFDF5;
+    --foreground: #2D2A26;
+    --surface: #FFF5E1;
+    --primary: #D4A574;
+    --primary-dark: #C4905E;
+    --primary-foreground: #FFFDF5;
+    --accent: #8BA888;
+    --accent-dark: #7A9777;
+    --accent-foreground: #FFFDF5;
+    --soft-rose: #E8C4B8;
+    --muted-sky: #B5C7D3;
+    --light-moss: #C5D5C5;
+    --warm-gray: #9A9590;
+    --card: #FFFDF5;
+    --card-foreground: #2D2A26;
+    --popover: #FFFDF5;
+    --popover-foreground: #2D2A26;
+    --secondary: #FFF5E1;
+    --secondary-foreground: #2D2A26;
+    --muted: #FFF5E1;
+    --muted-foreground: #9A9590;
+    --destructive: #E8C4B8;
+    --destructive-foreground: #2D2A26;
+    --border: #E8E4DC;
+    --input: #E8E4DC;
+    --ring: #D4A574;
+    --chart-1: #B06E24;
+    --chart-2: #3F7D46;
   }
 }
 
@@ -68,13 +143,49 @@
   }
   .pill-badge {
     @apply inline-block px-4 py-2 rounded-full text-xs font-body font-semibold tracking-wide uppercase;
-    background: rgba(255, 253, 245, 0.85);
-    border: 1px solid rgba(212, 165, 116, 0.15);
+    /* color-mix against CSS vars (not hardcoded rgba) so this tracks both
+       .dark and any admin-customized --background/--primary brand colors. */
+    background: color-mix(in srgb, var(--background) 85%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
+    color: var(--foreground);
+  }
+  .dark .pill-badge {
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
     color: var(--foreground);
   }
   .pill-badge-accent {
     @apply inline-block px-4 py-2 rounded-full text-xs font-body font-semibold tracking-wide uppercase;
-    background: rgba(139, 168, 136, 0.12);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
     color: var(--accent);
+  }
+  .section-card {
+    @apply rounded-card-lg border border-border bg-card p-6 shadow-sm sm:p-8;
+  }
+}
+
+@layer base {
+  .fc {
+    --fc-border-color: var(--border);
+    --fc-page-bg-color: var(--card);
+    --fc-neutral-bg-color: var(--muted);
+    --fc-today-bg-color: color-mix(in srgb, var(--primary) 8%, transparent);
+    /* Toolbar buttons default to FullCalendar's own light gray-on-white
+       styling, which renders as a bright box on the dark palette; map them
+       to the app's token set. */
+    --fc-button-bg-color: var(--secondary);
+    --fc-button-text-color: var(--secondary-foreground);
+    --fc-button-border-color: var(--border);
+    --fc-button-hover-bg-color: var(--muted);
+    --fc-button-hover-border-color: var(--border);
+    --fc-button-active-bg-color: var(--primary);
+    --fc-button-active-border-color: var(--primary);
+    /* Fallback for events without an explicit per-status textColor (see
+       calendar-view.tsx) — most SESSION_STATUS_META background colors are
+       light/mid-tone, so a dark fallback reads better than a light one. */
+    --fc-event-text-color: var(--background);
+    --fc-list-event-hover-bg-color: var(--muted);
+    --fc-non-business-color: color-mix(in srgb, var(--muted) 50%, transparent);
+    --fc-highlight-color: color-mix(in srgb, var(--primary) 15%, transparent);
   }
 }

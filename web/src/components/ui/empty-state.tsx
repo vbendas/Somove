@@ -1,16 +1,21 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
+
+type EmptyStateAction =
+  | { label: string; onClick: () => void; href?: never }
+  | { label: string; href: string; onClick?: never };
 
 interface EmptyStateProps {
   icon: LucideIcon;
   title: string;
   description?: string;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
+  action?: EmptyStateAction;
   className?: string;
 }
+
+const actionClassName =
+  "rounded-button bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2";
 
 export function EmptyState({
   icon: Icon,
@@ -35,14 +40,16 @@ export function EmptyState({
       {description && (
         <p className="mb-6 max-w-sm text-sm text-warm-gray">{description}</p>
       )}
-      {action && (
-        <button
-          onClick={action.onClick}
-          className="rounded-button bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        >
-          {action.label}
-        </button>
-      )}
+      {action &&
+        ("href" in action && action.href ? (
+          <Link href={action.href} className={actionClassName}>
+            {action.label}
+          </Link>
+        ) : (
+          <button onClick={action.onClick} className={actionClassName}>
+            {action.label}
+          </button>
+        ))}
     </div>
   );
 }

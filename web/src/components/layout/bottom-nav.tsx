@@ -47,8 +47,14 @@ export function BottomNav({ items, className }: BottomNavProps) {
               <div className="relative">
                 <Icon className="h-5 w-5" strokeWidth={isActive ? 2.5 : 2} />
                 {(item.badge ?? 0) > 0 && (
-                  <span className="absolute -right-2 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red-500 px-[5px] text-[11px] font-bold text-white ring-2 ring-background">
-                    {(item.badge ?? 0) > 99 ? "99+" : item.badge}
+                  <span
+                    role="status"
+                    aria-label={`${item.badge} unread messages`}
+                    className="absolute -right-2 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-destructive px-[5px] text-[11px] font-bold text-destructive-foreground ring-2 ring-background"
+                  >
+                    <span aria-hidden="true">
+                      {(item.badge ?? 0) > 99 ? "99+" : item.badge}
+                    </span>
                   </span>
                 )}
               </div>

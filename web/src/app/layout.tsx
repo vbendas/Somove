@@ -5,6 +5,9 @@ import ChatwootWidget from "@/components/support/chatwoot-widget";
 import { NotificationProvider } from "@/components/notifications/notification-provider";
 import { SWRegister, PushPermission } from "@/components/notifications/sw-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
+import CookieConsent, { ConsentGate } from "@/components/cookie-consent";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeStyle } from "@/components/theme-style";
 import { getPlatformSettings } from "@/lib/platform";
 import "./globals.css";
 
@@ -64,18 +67,33 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <ThemeStyle />
+      </head>
       <body
         className={`${lora.variable} ${dmSans.variable} font-body antialiased`}
       >
-        <NotificationProvider>
-          {children}
-          <Toaster />
-          <ChatwootWidget />
-          <SWRegister />
-          <PushPermission />
-          <InstallPrompt />
-        </NotificationProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NotificationProvider>
+            {children}
+            <Toaster />
+            <ConsentGate category="support">
+              <ChatwootWidget />
+            </ConsentGate>
+            <SWRegister />
+            <ConsentGate category="push">
+              <PushPermission />
+            </ConsentGate>
+            <InstallPrompt />
+            <CookieConsent />
+          </NotificationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

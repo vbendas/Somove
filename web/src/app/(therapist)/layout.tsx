@@ -7,7 +7,7 @@ export default async function TherapistLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -30,7 +30,7 @@ export default async function TherapistLayout({
         Skip to content
       </a>
       <main id="main-content" className="pb-16">{children}</main>
-      <TherapistNav />
+      <TherapistNav userId={user?.id} />
     </div>
   );
 }
