@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { getPlatformSettings as fetchPlatformSettings, invalidateSettingsCache, type PlatformSettings } from "@/lib/platform";
@@ -116,7 +117,7 @@ export async function updatePlatformSettings(settings: {
   terms_of_service?: string;
   privacy_policy?: string;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -144,6 +145,62 @@ export async function updatePlatformSettings(settings: {
 
   if (error) {
     return { error: `Failed to update settings: ${error.message}` };
+  }
+
+  invalidateSettingsCache();
+  revalidatePath("/", "layout");
+
+  return { success: true };
+}
+
+const hexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Invalid color format");
+
+const platformThemeSchema = z.object({
+  primary_color: hexColor,
+  accent_color: hexColor,
+  background_color: hexColor,
+  logo_url: z.string().nullable(),
+});
+
+export async function updatePlatformTheme(theme: {
+  primary_color: string;
+  accent_color: string;
+  background_color: string;
+  logo_url: string | null;
+}): Promise<{ success?: true; error?: string }> {
+  const parsed = platformThemeSchema.safeParse(theme);
+  if (!parsed.success) {
+    return { error: "Invalid color format" };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated." };
+
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (userData?.role !== "admin") {
+    return { error: "Admin access required." };
+  }
+
+  const admin = createAdminClient();
+
+  const { error: updateError } = await admin
+    .from("platform_settings")
+    .upsert({
+      id: 1,
+      ...parsed.data,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (updateError) {
+    return { error: `Failed to update theme: ${updateError.message}` };
   }
 
   invalidateSettingsCache();
