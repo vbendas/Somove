@@ -13,8 +13,16 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { completeSetup } from "@/app/actions/setup";
+import { PageContainer } from "@/components/layout/page-container";
 
 const STEPS = ["welcome", "branding", "admin", "smtp", "stripe", "launch"];
+
+// These mirror the platform's default branding values (see
+// DEFAULT_SETTINGS in `src/lib/platform.ts`). They are functional data
+// defaults for the color-picker form below, not decorative styling, so
+// they intentionally stay as literal hex values rather than token classes.
+const DEFAULT_PRIMARY_COLOR = "#D4A574";
+const DEFAULT_ACCENT_COLOR = "#8BA888";
 
 export default function SetupPage() {
   const router = useRouter();
@@ -24,8 +32,8 @@ export default function SetupPage() {
   // Form state
   const [platformName, setPlatformName] = useState("Somove");
   const [platformTagline, setPlatformTagline] = useState("Professional Session Platform");
-  const [primaryColor, setPrimaryColor] = useState("#D4A574");
-  const [accentColor, setAccentColor] = useState("#8BA888");
+  const [primaryColor, setPrimaryColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [accentColor, setAccentColor] = useState(DEFAULT_ACCENT_COLOR);
   const [adminEmail, setAdminEmail] = useState("");
   const [adminName, setAdminName] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
@@ -57,7 +65,7 @@ export default function SetupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <PageContainer standalone width="narrow" className="flex items-center justify-center">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
           <div className="mb-2 flex justify-center gap-2">
@@ -105,8 +113,9 @@ export default function SetupPage() {
           {step === 1 && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Platform Name</label>
+                <label htmlFor="setupPlatformName" className="text-sm font-medium">Platform Name</label>
                 <Input
+                  id="setupPlatformName"
                   value={platformName}
                   onChange={(e) => setPlatformName(e.target.value)}
                   placeholder="Your Platform Name"
@@ -114,8 +123,9 @@ export default function SetupPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Tagline</label>
+                <label htmlFor="setupPlatformTagline" className="text-sm font-medium">Tagline</label>
                 <Input
+                  id="setupPlatformTagline"
                   value={platformTagline}
                   onChange={(e) => setPlatformTagline(e.target.value)}
                   placeholder="Professional Session Platform"
@@ -124,15 +134,17 @@ export default function SetupPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Primary Color</label>
+                  <label htmlFor="setupPrimaryColorHex" className="text-sm font-medium">Primary Color</label>
                   <div className="flex gap-2">
                     <input
                       type="color"
+                      aria-label="Primary color picker"
                       value={primaryColor}
                       onChange={(e) => setPrimaryColor(e.target.value)}
                       className="h-12 w-12 cursor-pointer rounded border-0"
                     />
                     <Input
+                      id="setupPrimaryColorHex"
                       value={primaryColor}
                       onChange={(e) => setPrimaryColor(e.target.value)}
                       className="h-12 font-mono"
@@ -140,15 +152,17 @@ export default function SetupPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Accent Color</label>
+                  <label htmlFor="setupAccentColorHex" className="text-sm font-medium">Accent Color</label>
                   <div className="flex gap-2">
                     <input
                       type="color"
+                      aria-label="Accent color picker"
                       value={accentColor}
                       onChange={(e) => setAccentColor(e.target.value)}
                       className="h-12 w-12 cursor-pointer rounded border-0"
                     />
                     <Input
+                      id="setupAccentColorHex"
                       value={accentColor}
                       onChange={(e) => setAccentColor(e.target.value)}
                       className="h-12 font-mono"
@@ -175,8 +189,9 @@ export default function SetupPage() {
           {step === 2 && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Admin Email</label>
+                <label htmlFor="setupAdminEmail" className="text-sm font-medium">Admin Email</label>
                 <Input
+                  id="setupAdminEmail"
                   type="email"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
@@ -185,8 +200,9 @@ export default function SetupPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Your Name</label>
+                <label htmlFor="setupAdminName" className="text-sm font-medium">Your Name</label>
                 <Input
+                  id="setupAdminName"
                   value={adminName}
                   onChange={(e) => setAdminName(e.target.value)}
                   placeholder="Your name"
@@ -194,8 +210,9 @@ export default function SetupPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Password</label>
+                <label htmlFor="setupAdminPassword" className="text-sm font-medium">Password</label>
                 <Input
+                  id="setupAdminPassword"
                   type="password"
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
@@ -209,7 +226,7 @@ export default function SetupPage() {
                   id="openRegistration"
                   checked={openRegistration}
                   onChange={(e) => setOpenRegistration(e.target.checked)}
-                  className="h-4 w-4 rounded border-gray-300"
+                  className="h-4 w-4 rounded border-input"
                 />
                 <label htmlFor="openRegistration" className="text-sm">
                   Allow open client registration
@@ -262,6 +279,8 @@ export default function SetupPage() {
               <a
                 href="/api/stripe/connect"
                 target="_blank"
+                // #635BFF is Stripe's brand purple, not a design-system gap — kept
+                // as-is since it renders Stripe's own brand color.
                 className="inline-flex items-center gap-2 rounded-md bg-[#635BFF] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#635BFF]/90 transition-colors"
               >
                 Connect Stripe Account
@@ -313,6 +332,6 @@ export default function SetupPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

@@ -11,6 +11,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
@@ -85,14 +95,10 @@ export default function InvitesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="font-heading text-3xl font-bold">Invites</h1>
-        <p className="text-muted-foreground">
-          Manage professional invitations.
-        </p>
-      </div>
+    <PageContainer width="full">
+      <PageHeader title="Invites" description="Manage professional invitations." />
 
+      <div className="space-y-6">
       <Card>
         <CardHeader>
           <CardTitle>Send Invite</CardTitle>
@@ -104,6 +110,7 @@ export default function InvitesPage() {
           <form onSubmit={handleCreate} className="flex gap-3">
             <Input
               type="email"
+              aria-label="Invitee email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="professional@example.com"
@@ -111,6 +118,7 @@ export default function InvitesPage() {
               className="h-12 flex-1"
             />
             <select
+              aria-label="Invitee role"
               value={role}
               onChange={(e) => setRole(e.target.value as "therapist" | "admin")}
               className="h-12 rounded-lg border border-input bg-background px-3 text-sm"
@@ -138,53 +146,62 @@ export default function InvitesPage() {
           ) : invites.filter((i) => !i.accepted_at).length === 0 ? (
             <p className="text-sm text-muted-foreground">No pending invites.</p>
           ) : (
-            <div className="space-y-3">
-              {invites
-                .filter((i) => !i.accepted_at)
-                .map((invite) => {
-                  const isExpired = new Date(invite.expires_at) < new Date();
-                  return (
-                    <div
-                      key={invite.id}
-                      className="flex items-center justify-between rounded-lg border p-3"
-                    >
-                      <div>
-                        <p className="font-medium">{invite.email}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {invite.role} • Expires{" "}
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Expires</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invites
+                  .filter((i) => !i.accepted_at)
+                  .map((invite) => {
+                    const isExpired = new Date(invite.expires_at) < new Date();
+                    return (
+                      <TableRow key={invite.id}>
+                        <TableCell className="font-medium">{invite.email}</TableCell>
+                        <TableCell className="capitalize text-muted-foreground">
+                          {invite.role}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
                           {isExpired
                             ? "Expired"
                             : new Date(invite.expires_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyLink(invite.token)}
-                        >
-                          Copy Link
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleResend(invite.id)}
-                        >
-                          Extend
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(invite.id)}
-                          className="text-destructive"
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copyLink(invite.token)}
+                            >
+                              Copy Link
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleResend(invite.id)}
+                            >
+                              Extend
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(invite.id)}
+                              className="text-destructive"
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
@@ -195,27 +212,34 @@ export default function InvitesPage() {
             <CardTitle>Accepted Invites</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {invites
-                .filter((i) => i.accepted_at)
-                .map((invite) => (
-                  <div
-                    key={invite.id}
-                    className="flex items-center justify-between rounded-lg border p-3"
-                  >
-                    <div>
-                      <p className="font-medium">{invite.email}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {invite.role} • Accepted{" "}
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Accepted</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invites
+                  .filter((i) => i.accepted_at)
+                  .map((invite) => (
+                    <TableRow key={invite.id}>
+                      <TableCell className="font-medium">{invite.email}</TableCell>
+                      <TableCell className="capitalize text-muted-foreground">
+                        {invite.role}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
                         {new Date(invite.accepted_at!).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-            </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </PageContainer>
   );
 }

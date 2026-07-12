@@ -10,6 +10,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { formatCurrency } from "@/lib/format";
 import { toast } from "sonner";
 
 interface Therapist {
@@ -78,13 +89,11 @@ export default function TherapistsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="font-heading text-3xl font-bold">Professionals</h1>
-        <p className="text-muted-foreground">
-          Manage registered professionals on your platform.
-        </p>
-      </div>
+    <PageContainer width="full">
+      <PageHeader
+        title="Professionals"
+        description="Manage registered professionals on your platform."
+      />
 
       <Card>
         <CardHeader>
@@ -105,60 +114,69 @@ export default function TherapistsPage() {
               page.
             </p>
           ) : (
-            <div className="space-y-3">
-              {therapists.map((therapist) => {
-                const status = therapist.therapist_profile?.status || "inactive";
-                const price = therapist.therapist_profile?.session_price_cents;
-                return (
-                  <div
-                    key={therapist.id}
-                    className="flex items-center justify-between rounded-lg border p-4"
-                  >
-                    <div className="space-y-1">
-                      <p className="font-medium">{therapist.name || "Unnamed"}</p>
-                      <p className="text-sm text-muted-foreground">{therapist.email}</p>
-                      <div className="flex gap-2 text-xs text-muted-foreground">
-                        <span className="capitalize">{therapist.therapist_profile ? status : "no profile"}</span>
-                        {price != null && (
-                          <span>• ${(price / 100).toFixed(0)}/session</span>
-                        )}
-                        <span>• {therapist.therapist_profile?.video_provider || "daily"}</span>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      {!therapist.therapist_profile ? (
-                        <Button
-                          variant="default"
-                          size="sm"
-                          onClick={() => handleCreateProfile(therapist.id)}
-                        >
-                          Create Profile
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleStatusToggle(therapist.id, status)}
-                        >
-                          {status === "active" ? "Deactivate" : "Activate"}
-                        </Button>
-                      )}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(therapist.id, therapist.name || "")}
-                        className="text-destructive"
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Provider</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {therapists.map((therapist) => {
+                  const status = therapist.therapist_profile?.status || "inactive";
+                  const price = therapist.therapist_profile?.session_price_cents;
+                  return (
+                    <TableRow key={therapist.id}>
+                      <TableCell className="font-medium">{therapist.name || "Unnamed"}</TableCell>
+                      <TableCell className="text-muted-foreground">{therapist.email}</TableCell>
+                      <TableCell className="capitalize">
+                        {therapist.therapist_profile ? status : "no profile"}
+                      </TableCell>
+                      <TableCell>
+                        {price != null ? `${formatCurrency(price)}/session` : "—"}
+                      </TableCell>
+                      <TableCell>{therapist.therapist_profile?.video_provider || "daily"}</TableCell>
+                      <TableCell>
+                        <div className="flex justify-end gap-2">
+                          {!therapist.therapist_profile ? (
+                            <Button
+                              variant="default"
+                              size="sm"
+                              onClick={() => handleCreateProfile(therapist.id)}
+                            >
+                              Create Profile
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleStatusToggle(therapist.id, status)}
+                            >
+                              {status === "active" ? "Deactivate" : "Activate"}
+                            </Button>
+                          )}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(therapist.id, therapist.name || "")}
+                            className="text-destructive"
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

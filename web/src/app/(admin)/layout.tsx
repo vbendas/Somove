@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { signOut } from "@/app/actions/auth";
 
 const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard" },
   { href: "/admin/therapists", label: "Professionals" },
   { href: "/admin/invites", label: "Invites" },
+  { href: "/admin/website", label: "Website" },
   { href: "/admin/settings", label: "Settings" },
 ];
 
@@ -21,6 +23,9 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-background">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded">
+        Skip to content
+      </a>
       {/* Admin Top Nav */}
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
@@ -48,6 +53,7 @@ export default function AdminLayout({
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
               View Site
             </Link>
+            <ThemeToggle />
             <Button variant="ghost" size="sm" onClick={() => signOut()}>
               Sign Out
             </Button>
@@ -72,7 +78,7 @@ export default function AdminLayout({
         ))}
       </nav>
 
-      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+      <main id="main-content">{children}</main>
     </div>
   );
 }
