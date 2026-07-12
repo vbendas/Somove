@@ -1,5 +1,14 @@
 # Somove — Product Requirements Document (Lean MVP)
 
+> **Status note (2026-07-12):** This PRD describes the original lean-MVP, single-therapist scope. The shipped codebase has since diverged well beyond it — it now implements several "Deferred"/"Future" items from Sections 11, 14, and 15 below:
+> - **Multi-practitioner marketplace**, not single-therapist: admin panel, therapist invite flow, admin-approved therapist directory, multiple bookable therapists at `/therapists/[id]`.
+> - **Stripe Connect** (Section 15 "Marketplace & Scale") is live in therapist settings/integrations, not the single-account Stripe Checkout of Section 7.
+> - **`session_credits` bundle system** (listed "Deferred" in Sections 5 and 14) exists and is used on the client dashboard.
+> - **A CMS + drag-and-drop visual page builder + theming panel + dark mode** for the public landing page and per-therapist pages — this entire subsystem (block registry, revision history, Supabase Storage image uploads, tiptap rich text) postdates this PRD and isn't described anywhere in it.
+> - Admin role and admin-only routes are fully built out, not "Deferred" per Section 11 item 2.
+>
+> This note flags the drift; it does not update the sections below. Treat the PRD as a historical snapshot of the original MVP scope, and the codebase (`web/src`, `web/supabase/migrations`) as the source of truth for current functionality.
+
 ## 1. Overview
 
 **Project:** Somove — A Somatic Therapy Operating System
