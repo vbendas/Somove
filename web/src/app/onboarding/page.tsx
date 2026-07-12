@@ -205,6 +205,7 @@ export default function OnboardingPage() {
                     <button
                       key={cred}
                       onClick={() => toggleCredential(cred)}
+                      aria-pressed={credentials.includes(cred)}
                       className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                         credentials.includes(cred)
                           ? "bg-primary text-primary-foreground"
@@ -224,6 +225,7 @@ export default function OnboardingPage() {
                     <button
                       key={mod}
                       onClick={() => toggleModality(mod)}
+                      aria-pressed={modalities.includes(mod)}
                       className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                         modalities.includes(mod)
                           ? "bg-accent text-accent-foreground"

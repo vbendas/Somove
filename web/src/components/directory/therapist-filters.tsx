@@ -25,6 +25,7 @@ export default function TherapistFilters({ modalities }: TherapistFiltersProps) 
     <div className="mb-6 flex flex-wrap gap-2">
       <button
         onClick={() => setFilter("modality", "")}
+        aria-pressed={!activeModality}
         className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
           !activeModality
             ? "bg-primary text-primary-foreground"
@@ -37,6 +38,7 @@ export default function TherapistFilters({ modalities }: TherapistFiltersProps) 
         <button
           key={m}
           onClick={() => setFilter("modality", m)}
+          aria-pressed={activeModality === m}
           className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
             activeModality === m
               ? "bg-primary text-primary-foreground"

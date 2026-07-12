@@ -37,7 +37,7 @@ export default function ReviewForm({
     }
 
     setLoading(true);
-    const supabase = createClient();
+    const supabase = await createClient();
 
     if (existingReview) {
       const { error } = await supabase

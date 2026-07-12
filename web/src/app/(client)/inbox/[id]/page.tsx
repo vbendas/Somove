@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Paperclip, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import { formatTime } from "@/lib/format";
 
 interface Message {
   id: string;
@@ -167,10 +168,7 @@ export default function ConversationPage() {
                       : "text-warm-gray"
                   }`}
                 >
-                  {new Date(msg.sent_at).toLocaleTimeString("en-GB", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {formatTime(msg.sent_at)}
                 </p>
               </div>
             </div>

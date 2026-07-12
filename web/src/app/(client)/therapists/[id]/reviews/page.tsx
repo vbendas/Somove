@@ -1,11 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import { Star } from "lucide-react";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 async function getTherapistName(id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("users")
     .select("name")
@@ -15,7 +18,7 @@ async function getTherapistName(id: string) {
 }
 
 async function getAllReviews(therapistId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("reviews")
     .select("id, rating, body, created_at, client_id")
@@ -26,7 +29,7 @@ async function getAllReviews(therapistId: string) {
 
 async function getClientNames(clientIds: string[]) {
   if (clientIds.length === 0) return {};
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("users")
     .select("id, name")
@@ -41,10 +44,11 @@ async function getClientNames(clientIds: string[]) {
 export default async function ReviewsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const reviews = await getAllReviews(params.id);
-  const therapistName = await getTherapistName(params.id);
+  const { id } = await params;
+  const reviews = await getAllReviews(id);
+  const therapistName = await getTherapistName(id);
   const clientNames = await getClientNames(reviews.map((r) => r.client_id));
 
   const avg =
@@ -53,20 +57,13 @@ export default async function ReviewsPage({
       : null;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-2xl px-5 py-8">
-        <Link
-          href={`/therapists/${params.id}`}
-          className="mb-6 inline-flex items-center text-sm text-warm-gray hover:text-foreground transition-colors"
-        >
-          ← Back to {therapistName}
-        </Link>
-
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="font-heading text-3xl font-medium text-foreground">
-            Reviews
-          </h1>
-          {avg !== null && (
+    <PageContainer width="narrow">
+      <PageHeader
+        backHref={`/therapists/${id}`}
+        title="Reviews"
+        description={`for ${therapistName}`}
+        actions={
+          avg !== null ? (
             <div className="flex items-center gap-2">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -87,54 +84,48 @@ export default async function ReviewsPage({
                 ({reviews.length} {reviews.length === 1 ? "review" : "reviews"})
               </span>
             </div>
-          )}
-        </div>
+          ) : undefined
+        }
+      />
 
-        {reviews.length === 0 ? (
-          <p className="py-8 text-center text-warm-gray">
-            No reviews yet
-          </p>
-        ) : (
-          <div className="space-y-4">
-            {reviews.map((review) => (
-              <div
-                key={review.id}
-                className="rounded-card border border-border bg-card p-5"
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <p className="font-medium text-foreground">
-                    {clientNames[review.client_id] || "Client"}
-                  </p>
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`h-4 w-4 ${
-                          star <= review.rating
-                            ? "fill-accent text-accent"
-                            : "text-warm-gray"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                {review.body && (
-                  <p className="text-sm leading-relaxed text-foreground/80">
-                    {review.body}
-                  </p>
-                )}
-                <p className="mt-2 text-xs text-warm-gray">
-                  {new Date(review.created_at).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+      {reviews.length === 0 ? (
+        <EmptyState icon={Star} title="No reviews yet" />
+      ) : (
+        <div className="space-y-4">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="rounded-card border border-border bg-card p-5"
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <p className="font-medium text-foreground">
+                  {clientNames[review.client_id] || "Client"}
                 </p>
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`h-4 w-4 ${
+                        star <= review.rating
+                          ? "fill-accent text-accent"
+                          : "text-warm-gray"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+              {review.body && (
+                <p className="text-sm leading-relaxed text-foreground/80">
+                  {review.body}
+                </p>
+              )}
+              <p className="mt-2 text-xs text-warm-gray">
+                {formatDate(review.created_at, "long")}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+    </PageContainer>
   );
 }

@@ -50,6 +50,7 @@ export default function RescheduleButton({ sessionId }: RescheduleButtonProps) {
       </p>
       <input
         type="datetime-local"
+        aria-label="New date and time"
         value={newDateTime}
         onChange={(e) => setNewDateTime(e.target.value)}
         className="mb-4 w-full rounded-card border border-border bg-card px-3 py-2 text-sm text-foreground"

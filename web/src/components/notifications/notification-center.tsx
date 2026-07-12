@@ -67,6 +67,7 @@ export function NotificationCenter({ onNotificationClick }: { onNotificationClic
         onClick={() => setIsOpen(!isOpen)}
         className="relative h-9 w-9"
         aria-label="Notifications"
+        aria-expanded={isOpen}
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (

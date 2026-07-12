@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import type { CalSlotsResponse } from "@/lib/cal.types";
+import { APP_LOCALE, formatCurrency, formatTime } from "@/lib/format";
 
 interface SessionType {
   id: string;
@@ -144,7 +145,7 @@ function getCalAvailableSlots(
     return {
       start: slot.start,
       end: slot.end,
-      label: `${startDate.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })} — ${endDate.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`,
+      label: `${formatTime(startDate)} — ${formatTime(endDate)}`,
     };
   });
 }
@@ -232,7 +233,7 @@ export default function BookingForm({
   const monthLabel = useMemo(() => {
     const now = new Date();
     const targetMonth = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
-    return targetMonth.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    return targetMonth.toLocaleDateString(APP_LOCALE, { month: "long", year: "numeric" });
   }, [monthOffset]);
 
   const handleTypeSelect = (type: SessionType) => {
@@ -271,7 +272,7 @@ export default function BookingForm({
     if (!tosAgreed) return;
 
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -381,7 +382,7 @@ export default function BookingForm({
                       <p className="text-xs text-warm-gray">{type.duration_min} min</p>
                     </div>
                     <span className="text-lg font-medium text-foreground">
-                      €{(type.price_cents / 100).toFixed(0)}
+                      {formatCurrency(type.price_cents)}
                     </span>
                   </div>
                 </button>
@@ -402,12 +403,12 @@ export default function BookingForm({
                     <div>
                       <p className="font-medium text-foreground">{type.name}</p>
                       <p className="text-sm text-warm-gray">
-                        {type.bundle_sessions} sessions — €{(type.price_cents / 100 / (type.bundle_sessions || 1)).toFixed(0)}/session
+                        {type.bundle_sessions} sessions — {formatCurrency(Math.round(type.price_cents / (type.bundle_sessions || 1)))}/session
                       </p>
                     </div>
                     <div className="text-right">
                       <span className="text-lg font-medium text-foreground">
-                        €{(type.price_cents / 100).toFixed(0)}
+                        {formatCurrency(type.price_cents)}
                       </span>
                       <p className="text-xs text-warm-gray">{type.duration_min} min each</p>
                     </div>
@@ -474,11 +475,11 @@ export default function BookingForm({
                     className="rounded-card border border-border p-3 text-center transition-all hover:border-primary/30 hover:bg-primary/5"
                   >
                     <p className="text-xs text-warm-gray">
-                      {date.toLocaleDateString("en-GB", { weekday: "short" })}
+                      {date.toLocaleDateString(APP_LOCALE, { weekday: "short" })}
                     </p>
                     <p className="text-lg font-medium text-foreground">{date.getDate()}</p>
                     <p className="text-xs text-warm-gray">
-                      {date.toLocaleDateString("en-GB", { month: "short" })}
+                      {date.toLocaleDateString(APP_LOCALE, { month: "short" })}
                     </p>
                   </button>
                 );
@@ -495,11 +496,11 @@ export default function BookingForm({
               ← Change date
             </Button>
             <p className="text-sm text-warm-gray">
-              {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-GB", {
+              {new Date(selectedDate + "T00:00:00").toLocaleDateString(APP_LOCALE, {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
-              })}
+                })}
             </p>
           </div>
 
@@ -580,11 +581,11 @@ export default function BookingForm({
             <div className="flex items-center justify-between">
               <span className="text-sm text-warm-gray">Date</span>
               <span className="text-sm font-medium text-foreground">
-                {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-GB", {
+                {new Date(selectedDate + "T00:00:00").toLocaleDateString(APP_LOCALE, {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
-                })}
+                  })}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -601,7 +602,7 @@ export default function BookingForm({
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-foreground">Total</span>
                 <span className="text-lg font-medium text-foreground">
-                  {effectivePrice === 0 ? "Free" : `€${(effectivePrice / 100).toFixed(0)}`}
+                  {effectivePrice === 0 ? "Free" : formatCurrency(effectivePrice)}
                 </span>
               </div>
             </div>

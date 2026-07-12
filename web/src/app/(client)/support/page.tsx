@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
 
 const CATEGORIES = [
   { value: "booking", label: "Booking" },
@@ -61,20 +63,10 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-2xl px-5 py-8">
-        <Link
-          href="/"
-          className="mb-6 inline-flex items-center text-sm text-warm-gray hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="mr-1 h-4 w-4" /> Back
-        </Link>
+    <PageContainer width="narrow">
+      <PageHeader title="Contact Support" backHref="/" />
 
-        <h1 className="mb-6 font-heading text-3xl font-medium text-foreground">
-          Contact Support
-        </h1>
-
-        {submitted ? (
+      {submitted ? (
           <Card>
             <CardContent className="py-12 text-center">
               <CheckCircle className="mx-auto mb-4 h-12 w-12 text-accent" />
@@ -97,10 +89,11 @@ export default function SupportPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label htmlFor="supportCategory" className="mb-1 block text-sm font-medium text-foreground">
                     Category
                   </label>
                   <select
+                    id="supportCategory"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
@@ -113,10 +106,11 @@ export default function SupportPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label htmlFor="supportPriority" className="mb-1 block text-sm font-medium text-foreground">
                     Priority
                   </label>
                   <select
+                    id="supportPriority"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
                     className="w-full rounded-card border border-input bg-transparent px-3 py-2 text-sm"
@@ -131,10 +125,11 @@ export default function SupportPage() {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
+                <label htmlFor="supportSubject" className="mb-1 block text-sm font-medium text-foreground">
                   Subject
                 </label>
                 <Input
+                  id="supportSubject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Brief description of your issue"
@@ -142,10 +137,11 @@ export default function SupportPage() {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
+                <label htmlFor="supportDescription" className="mb-1 block text-sm font-medium text-foreground">
                   Description
                 </label>
                 <Textarea
+                  id="supportDescription"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Please describe your issue in detail..."
@@ -167,7 +163,6 @@ export default function SupportPage() {
             </CardContent>
           </Card>
         )}
-      </div>
-    </div>
+    </PageContainer>
   );
 }

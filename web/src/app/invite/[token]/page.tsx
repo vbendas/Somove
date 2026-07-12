@@ -95,8 +95,9 @@ export default function InvitePage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Email</label>
+              <label htmlFor="inviteEmail" className="text-sm font-medium">Email</label>
               <Input
+                id="inviteEmail"
                 type="email"
                 value={invite?.email || ""}
                 disabled
@@ -104,8 +105,9 @@ export default function InvitePage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Your Name</label>
+              <label htmlFor="inviteName" className="text-sm font-medium">Your Name</label>
               <Input
+                id="inviteName"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
@@ -114,8 +116,9 @@ export default function InvitePage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Password</label>
+              <label htmlFor="invitePassword" className="text-sm font-medium">Password</label>
               <Input
+                id="invitePassword"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

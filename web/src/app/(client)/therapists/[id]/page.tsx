@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Star } from "lucide-react";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { formatCurrency } from "@/lib/format";
 
 async function getTherapist(id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("therapist_profile")
@@ -19,7 +22,7 @@ async function getTherapist(id: string) {
 }
 
 async function getClientCredits(clientId: string, therapistId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("session_credits")
     .select("remaining_credits")
@@ -30,7 +33,7 @@ async function getClientCredits(clientId: string, therapistId: string) {
 }
 
 async function getReviews(therapistId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("reviews")
     .select("id, rating, body, created_at, client_id")
@@ -41,7 +44,7 @@ async function getReviews(therapistId: string) {
 }
 
 async function getAverageRating(therapistId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("reviews")
     .select("rating")
@@ -53,7 +56,7 @@ async function getAverageRating(therapistId: string) {
 
 async function getClientNames(clientIds: string[]) {
   if (clientIds.length === 0) return {};
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("users")
     .select("id, name")
@@ -68,59 +71,63 @@ async function getClientNames(clientIds: string[]) {
 export default async function TherapistProfilePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const supabase = createClient();
+  const { id } = await params;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const therapist = await getTherapist(params.id);
+  const therapist = await getTherapist(id);
 
   if (!therapist) {
     notFound();
   }
 
+  // Fetch custom published pages for this therapist (visual editor feature)
+  const { data: customPages } = await supabase
+    .from("therapist_pages")
+    .select("slug, title")
+    .eq("therapist_id", id)
+    .eq("status", "published")
+    .order("created_at", { ascending: true });
+
   const userObj = therapist.users as { id: string; name: string; email: string } | null;
   const name = userObj?.name || "Professional";
 
-  const credits = user ? await getClientCredits(user.id, params.id) : 0;
+  const credits = user ? await getClientCredits(user.id, id) : 0;
   const [reviews, ratingInfo] = await Promise.all([
-    getReviews(params.id),
-    getAverageRating(params.id),
+    getReviews(id),
+    getAverageRating(id),
   ]);
   const clientNames = await getClientNames(reviews.map((r) => r.client_id));
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-2xl px-5 py-8">
-        <Link href="/" className="mb-6 inline-flex items-center text-sm text-warm-gray hover:text-foreground transition-colors">
-          ← Back to therapists
-        </Link>
+    <PageContainer width="narrow">
+      <PageHeader
+        backHref="/"
+        title={name}
+        description={
+          therapist.modalities && therapist.modalities.length > 0
+            ? therapist.modalities.join(" · ")
+            : undefined
+        }
+      />
 
-        <div className="mt-6 rounded-card-lg border border-border bg-card p-6">
-          <div className="mb-6 flex items-start gap-5">
-            <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-2xl font-medium text-primary">
-              {name.charAt(0)}
-            </div>
-            <div className="min-w-0 flex-1">
-              <h1 className="font-heading text-3xl font-medium text-foreground">
-                {name}
-              </h1>
-              {therapist.modalities && therapist.modalities.length > 0 && (
-                <p className="mt-1 text-sm text-warm-gray">
-                  {therapist.modalities.join(" · ")}
-                </p>
-              )}
-              {therapist.free_first_session && (
-                <span className="mt-3 inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-                  Free first session
-                </span>
-              )}
-            </div>
+      <div className="rounded-card-lg border border-border bg-card p-6">
+        <div className="mb-6 flex items-start gap-5">
+          <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-2xl font-medium text-primary">
+            {name.charAt(0)}
           </div>
+          {therapist.free_first_session && (
+            <span className="mt-1 inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+              Free first session
+            </span>
+          )}
+        </div>
 
-          {credits > 0 && (
+        {credits > 0 && (
             <div className="mb-4 flex items-center gap-3 rounded-card border border-primary/20 bg-primary/5 p-3">
               <CreditCard className="h-4 w-4 text-primary" />
               <p className="text-sm font-medium text-foreground">
@@ -153,6 +160,25 @@ export default async function TherapistProfilePage({
                   >
                     {cred}
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {customPages && customPages.length > 0 && (
+            <div className="mb-6">
+              <h2 className="mb-2 font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+                More from {name.split(" ")[0]}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {customPages.map((p: { slug: string; title: string }) => (
+                  <Link
+                    key={p.slug}
+                    href={`/therapists/${id}/${p.slug}`}
+                    className="rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-warm-gray hover:text-primary hover:bg-primary/10"
+                  >
+                    {p.title}
+                  </Link>
                 ))}
               </div>
             </div>
@@ -217,7 +243,7 @@ export default async function TherapistProfilePage({
               </div>
 
               <Link
-                href={`/therapists/${params.id}/reviews`}
+                href={`/therapists/${id}/reviews`}
                 className="mt-3 block text-center text-sm text-primary hover:underline"
               >
                 See all reviews
@@ -231,7 +257,7 @@ export default async function TherapistProfilePage({
                 <p className="text-sm text-warm-gray">Session</p>
                 {therapist.session_price_cents !== null ? (
                   <p className="text-2xl font-medium text-foreground">
-                    €{(therapist.session_price_cents / 100).toFixed(0)}
+                    {formatCurrency(therapist.session_price_cents)}
                   </p>
                 ) : (
                   <p className="text-lg text-warm-gray">Price on request</p>
@@ -247,7 +273,7 @@ export default async function TherapistProfilePage({
           </div>
 
           <div className="flex gap-3">
-            <Link href={`/therapists/${params.id}/book`} className="flex-1">
+            <Link href={`/therapists/${id}/book`} className="flex-1">
               <Button className="w-full" size="lg">
                 Book a Session
               </Button>
@@ -259,7 +285,6 @@ export default async function TherapistProfilePage({
             </Link>
           </div>
         </div>
-      </div>
-    </div>
+    </PageContainer>
   );
 }

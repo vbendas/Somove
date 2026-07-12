@@ -4,9 +4,20 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CalendarDays, CreditCard, MessageSquare } from "lucide-react";
+import { CalendarDays, CreditCard, MessageSquare, Users } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import TherapistFilters from "@/components/directory/therapist-filters";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
+import { StatCard } from "@/components/ui/stat-card";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { EmptyState } from "@/components/ui/empty-state";
+import { formatCurrency, formatDate, formatTime } from "@/lib/format";
+
+interface TherapistUser {
+  name: string;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +36,7 @@ function formatAvailability(rules: Record<string, unknown> | null): string {
 }
 
 async function getUserData() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -44,7 +55,7 @@ async function getUserData() {
 }
 
 async function getUpcomingSessions(clientId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const now = new Date().toISOString();
 
   const { data: sessions } = await supabase
@@ -75,7 +86,7 @@ async function getUpcomingSessions(clientId: string) {
 }
 
 async function getTotalCredits(clientId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("session_credits")
     .select("remaining_credits")
@@ -86,7 +97,7 @@ async function getTotalCredits(clientId: string) {
 }
 
 async function getUnreadCount(userId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: conversations } = await supabase
     .from("conversations")
@@ -140,9 +151,11 @@ async function getTherapists() {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { modality?: string };
+  searchParams: Promise<{ modality?: string }>;
 }) {
+  const sp = await searchParams;
   const userData = await getUserData();
+
   const [allTherapists, upcomingSessions, totalCredits, unreadCount] = await Promise.all([
     getTherapists(),
     getUpcomingSessions(userData.id),
@@ -154,19 +167,17 @@ export default async function Home({
     new Set(allTherapists.flatMap((t) => t.modalities || []))
   ).sort();
 
-  const therapists = searchParams.modality
-    ? allTherapists.filter((t) => t.modalities?.includes(searchParams.modality))
+  const therapists = sp.modality
+    ? allTherapists.filter((t) => t.modalities?.includes(sp.modality!))
     : allTherapists;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-5 py-8">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="font-heading text-3xl font-medium text-foreground">
-            Welcome, {userData.name?.split(" ")[0] || "there"}
-          </h1>
-          <div className="flex items-center gap-2">
+    <PageContainer width="wide">
+      <PageHeader
+        title={`Welcome, ${userData.name?.split(" ")[0] || "there"}`}
+        actions={
+          <>
+            <ThemeToggle />
             {userData.role === "therapist" && (
               <Link href="/dashboard">
                 <Button variant="outline" size="sm">
@@ -179,193 +190,152 @@ export default async function Home({
                 Sign Out
               </Button>
             </form>
+          </>
+        }
+      />
+
+      {/* Dashboard Stats */}
+      <div className="mb-8 grid grid-cols-3 gap-3">
+        <StatCard icon={CalendarDays} value={upcomingSessions.length} label="Upcoming" />
+        <StatCard icon={CreditCard} value={totalCredits} label="Credits" />
+        <StatCard icon={MessageSquare} value={unreadCount} label="Messages" href="/inbox" />
+      </div>
+
+      {/* Upcoming Sessions */}
+      {upcomingSessions.length > 0 && (
+        <div className="mb-8">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
+              Upcoming Sessions
+            </h2>
+            <Link
+              href="/my-sessions"
+              className="text-sm text-primary hover:underline"
+            >
+              View all
+            </Link>
           </div>
-        </div>
-
-        {/* Dashboard Stats */}
-        <div className="mb-8 grid grid-cols-3 gap-3">
-          <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <CalendarDays className="mb-1 h-5 w-5 text-primary" />
-              <p className="text-2xl font-medium text-foreground">
-                {upcomingSessions.length}
-              </p>
-              <p className="text-xs text-warm-gray">Upcoming</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <CreditCard className="mb-1 h-5 w-5 text-primary" />
-              <p className="text-2xl font-medium text-foreground">
-                {totalCredits}
-              </p>
-              <p className="text-xs text-warm-gray">Credits</p>
-            </CardContent>
-          </Card>
-          <Link href="/inbox">
-            <Card className="cursor-pointer transition-all hover:border-primary/30">
-              <CardContent className="flex flex-col items-center p-4">
-                <MessageSquare className="mb-1 h-5 w-5 text-primary" />
-                <p className="text-2xl font-medium text-foreground">
-                  {unreadCount}
-                </p>
-                <p className="text-xs text-warm-gray">Messages</p>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        {/* Upcoming Sessions */}
-        {upcomingSessions.length > 0 && (
-          <div className="mb-8">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
-                Upcoming Sessions
-              </h2>
-              <Link
-                href="/my-sessions"
-                className="text-sm text-primary hover:underline"
-              >
-                View all
-              </Link>
-            </div>
-            <div className="space-y-3">
-              {upcomingSessions.map((session) => {
-                const therapist = session.therapist_profile?.users;
-                const scheduledAt = new Date(session.scheduled_at);
-                return (
-                  <Link key={session.id} href={`/my-sessions/${session.id}`}>
-                    <Card className="cursor-pointer transition-all hover:border-primary/30 hover:shadow-sm">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium text-foreground">
-                              {(therapist as unknown as { name: string })?.name || "Professional"}
-                            </p>
-                            <p className="text-sm text-warm-gray">
-                              {scheduledAt.toLocaleDateString("en-GB", {
-                                weekday: "short",
-                                day: "numeric",
-                                month: "short",
-                              })}{" "}
-                              at{" "}
-                              {scheduledAt.toLocaleTimeString("en-GB", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
-                            </p>
-                          </div>
-                          <span
-                            className={`rounded-full px-3 py-1 text-xs font-medium ${
-                              session.status === "confirmed"
-                                ? "bg-light-moss text-foreground"
-                                : "bg-primary/10 text-primary"
-                            }`}
-                          >
-                            {session.status === "confirmed" ? "Confirmed" : "Pending"}
-                          </span>
+          <div className="space-y-3">
+            {upcomingSessions.map((session) => {
+              const therapist = session.therapist_profile?.users as TherapistUser | null;
+              const scheduledAt = new Date(session.scheduled_at);
+              return (
+                <Link key={session.id} href={`/my-sessions/${session.id}`}>
+                  <Card className="cursor-pointer transition-all hover:border-primary/30 hover:shadow-sm">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-foreground">
+                            {therapist?.name || "Professional"}
+                          </p>
+                          <p className="text-sm text-warm-gray">
+                            {formatDate(scheduledAt)} at {formatTime(scheduledAt)}
+                          </p>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
+                        <StatusBadge status={session.status} />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Therapist Directory */}
-        <div>
-          <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-warm-gray">
-            {upcomingSessions.length > 0 ? "Find a Professional" : "Available Professionals"}
-          </h2>
+      {/* Therapist Directory */}
+      <div>
+        <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-warm-gray">
+          {upcomingSessions.length > 0 ? "Find a Professional" : "Available Professionals"}
+        </h2>
 
-          {therapists.length === 0 ? (
-            <Card>
-              <CardContent className="py-8 text-center">
-                <p className="text-warm-gray">No professionals available yet. Check back soon!</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <>
-              {allModalities.length > 1 && (
-                <TherapistFilters modalities={allModalities} />
-              )}
-              <div className="grid gap-6 sm:grid-cols-2">
+        {therapists.length === 0 ? (
+          <EmptyState
+            icon={Users}
+            title="No professionals available yet"
+            description="Check back soon!"
+          />
+        ) : (
+          <>
+            {allModalities.length > 1 && (
+              <TherapistFilters modalities={allModalities} />
+            )}
+            <div className="grid gap-6 sm:grid-cols-2">
               {therapists.map((therapist) => (
                 <Link
                   key={therapist.user_id}
                   href={`/therapists/${therapist.user_id}`}
                 >
-                  <div className="group cursor-pointer rounded-card-lg border border-border bg-card p-6 transition-all hover:shadow-lg hover:border-primary/30">
-                    <div className="mb-4 flex items-center gap-4">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 font-heading text-xl font-medium text-primary">
-                        {therapist.users?.name?.charAt(0) || "?"}
+                  <Card className="group h-full cursor-pointer transition-all hover:shadow-lg hover:border-primary/30">
+                    <CardContent className="p-6">
+                      <div className="mb-4 flex items-center gap-4">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 font-heading text-xl font-medium text-primary">
+                          {therapist.users?.name?.charAt(0) || "?"}
+                        </div>
+                        <div>
+                          <h2 className="font-heading text-xl font-medium text-foreground group-hover:text-primary transition-colors">
+                            {therapist.users?.name || "Professional"}
+                          </h2>
+                          {therapist.modalities && therapist.modalities.length > 0 && (
+                            <p className="text-sm text-warm-gray">
+                              {therapist.modalities.slice(0, 2).join(" · ")}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <h2 className="font-heading text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                          {therapist.users?.name || "Professional"}
-                        </h2>
-                        {therapist.modalities && therapist.modalities.length > 0 && (
-                          <p className="text-sm text-warm-gray">
-                            {therapist.modalities.slice(0, 2).join(" · ")}
-                          </p>
-                        )}
-                      </div>
-                    </div>
 
-                    {therapist.bio && (
-                      <p className="mb-4 line-clamp-3 text-sm text-warm-gray">
-                        {therapist.bio}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        {therapist.session_price_cents !== null ? (
-                          <span className="text-lg font-medium text-foreground">
-                            €{(therapist.session_price_cents / 100).toFixed(0)}
-                          </span>
-                        ) : (
-                          <span className="text-sm text-warm-gray">Price on request</span>
-                        )}
-                        <span className="ml-1 text-sm text-warm-gray">
-                          / {therapist.default_session_duration} min
-                        </span>
-                      </div>
-                      {therapist.free_first_session && (
-                        <span className="inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-                          Free first session
-                        </span>
+                      {therapist.bio && (
+                        <p className="mb-4 line-clamp-3 text-sm text-warm-gray">
+                          {therapist.bio}
+                        </p>
                       )}
-                    </div>
 
-                    {therapist.availability_rules && formatAvailability(therapist.availability_rules as Record<string, unknown>) && (
-                      <p className="mt-2 text-xs text-warm-gray">
-                        Typically available {formatAvailability(therapist.availability_rules as Record<string, unknown>)}
-                      </p>
-                    )}
-
-                    {therapist.credentials && therapist.credentials.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {(therapist.credentials as string[]).slice(0, 3).map((cred: string) => (
-                          <span
-                            key={cred}
-                            className="rounded-full bg-surface px-3 py-1 text-xs text-warm-gray"
-                          >
-                            {cred}
+                      <div className="flex items-center justify-between">
+                        <div>
+                          {therapist.session_price_cents !== null ? (
+                            <span className="text-lg font-medium text-foreground">
+                              {formatCurrency(therapist.session_price_cents)}
+                            </span>
+                          ) : (
+                            <span className="text-sm text-warm-gray">Price on request</span>
+                          )}
+                          <span className="ml-1 text-sm text-warm-gray">
+                            / {therapist.default_session_duration} min
                           </span>
-                        ))}
+                        </div>
+                        {therapist.free_first_session && (
+                          <span className="inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+                            Free first session
+                          </span>
+                        )}
                       </div>
-                    )}
-                  </div>
+
+                      {therapist.availability_rules && formatAvailability(therapist.availability_rules as Record<string, unknown>) && (
+                        <p className="mt-2 text-xs text-warm-gray">
+                          Typically available {formatAvailability(therapist.availability_rules as Record<string, unknown>)}
+                        </p>
+                      )}
+
+                      {therapist.credentials && therapist.credentials.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {(therapist.credentials as string[]).slice(0, 3).map((cred: string) => (
+                            <span
+                              key={cred}
+                              className="rounded-full bg-surface px-3 py-1 text-xs text-warm-gray"
+                            >
+                              {cred}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
                 </Link>
               ))}
             </div>
-            </>
-          )}
-        </div>
+          </>
+        )}
       </div>
-    </div>
+    </PageContainer>
   );
 }

@@ -78,6 +78,7 @@ export default function IntakePage() {
                 <button
                   key={reason}
                   onClick={() => toggleReason(reason)}
+                  aria-pressed={reasons.includes(reason)}
                   className={`rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                     reasons.includes(reason)
                       ? "bg-primary text-primary-foreground"
@@ -100,6 +101,7 @@ export default function IntakePage() {
                 <button
                   key={opt.value}
                   onClick={() => setExperience(opt.value)}
+                  aria-pressed={experience === opt.value}
                   className={`w-full rounded-card border p-4 text-left transition-all ${
                     experience === opt.value
                       ? "border-primary bg-primary/5"

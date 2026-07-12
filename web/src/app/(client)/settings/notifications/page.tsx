@@ -13,6 +13,8 @@ import {
   disablePushNotifications,
 } from "@/components/notifications/sw-register";
 import { Bell, Mail, BellRing } from "lucide-react";
+import { PageContainer } from "@/components/layout/page-container";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface Preferences {
   email_booking_confirmed: boolean;
@@ -76,8 +78,8 @@ export default function NotificationPreferencesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-6 p-4">
-      <h1 className="font-heading text-2xl font-semibold">Notifications</h1>
+    <PageContainer width="narrow" className="space-y-6">
+      <PageHeader title="Notifications" description="Manage how you receive updates" />
 
       <Card>
         <CardHeader>
@@ -185,8 +187,9 @@ export default function NotificationPreferencesPage() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium">Start</label>
+              <label htmlFor="quietHoursStart" className="text-sm font-medium">Start</label>
               <input
+                id="quietHoursStart"
                 type="time"
                 value={prefs.quiet_hours_start || ""}
                 onChange={(e) =>
@@ -196,8 +199,9 @@ export default function NotificationPreferencesPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">End</label>
+              <label htmlFor="quietHoursEnd" className="text-sm font-medium">End</label>
               <input
+                id="quietHoursEnd"
                 type="time"
                 value={prefs.quiet_hours_end || ""}
                 onChange={(e) =>
@@ -213,6 +217,6 @@ export default function NotificationPreferencesPage() {
       {saving && (
         <p className="text-center text-xs text-warm-gray">Saving...</p>
       )}
-    </div>
+    </PageContainer>
   );
 }
