@@ -1,0 +1,5 @@
+# Sentry CLI configuration — generated manually (no wizard)
+# See https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+defaults.url = "https://sentry.io"
+defaults.org = ""
+defaults.project = ""
