@@ -7,6 +7,7 @@ import type { Block } from "@/components/blocks/BlockRenderer";
 import { sanitizeBlocks } from "@/lib/sanitize";
 import { contentSchema, sanitizeBlockContent } from "@/blocks";
 import type { PageRevisionRow } from "@/types/cms";
+import { recordRevisionAndPrune, MAX_REVISIONS } from "@/lib/cms/revisions";
 
 const PageSchema = z.object({
   slug: z.string().min(1).max(50).regex(/^[a-z0-9-]+$/),
@@ -236,8 +237,6 @@ const DraftMetaSchema = z
   })
   .optional();
 
-const MAX_REVISIONS = 20;
-
 /**
  * Validates + sanitizes a therapist's own draft block content and writes it
  * to `draft_content` only — never touches the live `content` column. An
@@ -322,42 +321,6 @@ export async function saveSectionDraft(key: string, blocks: unknown[]): Promise<
   if (error) return { error: "Failed to save draft" };
 
   return { success: true };
-}
-
-/**
- * Inserts a `page_revisions` snapshot for a just-published target, then
- * prunes older revisions beyond the most recent `MAX_REVISIONS` for that
- * same target. `sectionKey` XOR `pageId` must be provided (mirrors the DB
- * CHECK constraint on page_revisions).
- */
-async function recordRevisionAndPrune(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  target: { sectionKey: string } | { pageId: string },
-  content: unknown[],
-  meta: Record<string, unknown>,
-  userId: string
-): Promise<void> {
-  const column = "sectionKey" in target ? "section_key" : "page_id";
-  const value = "sectionKey" in target ? target.sectionKey : target.pageId;
-
-  await supabase.from("page_revisions").insert({
-    section_key: "sectionKey" in target ? target.sectionKey : null,
-    page_id: "pageId" in target ? target.pageId : null,
-    content,
-    meta,
-    created_by: userId,
-  });
-
-  const { data: revisions } = await supabase
-    .from("page_revisions")
-    .select("id")
-    .eq(column, value)
-    .order("created_at", { ascending: false });
-
-  const staleIds = (revisions || []).slice(MAX_REVISIONS).map((r: { id: string }) => r.id);
-  if (staleIds.length > 0) {
-    await supabase.from("page_revisions").delete().in("id", staleIds);
-  }
 }
 
 /**

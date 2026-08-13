@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { LayoutTemplate } from "lucide-react";
+import { LayoutTemplate, ListTree } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
 import { PageHeader } from "@/components/layout/page-header";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { getSiteSections } from "@/app/actions/pages";
@@ -25,7 +26,17 @@ export default async function WebsiteSectionsPage() {
       <PageHeader
         title="Website"
         description="Manage the content sections that make up the public site."
-        actions={<NewSectionDialog />}
+        actions={
+          <>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/admin/website/navigation">
+                <ListTree className="mr-2 h-4 w-4" />
+                Navigation
+              </Link>
+            </Button>
+            <NewSectionDialog />
+          </>
+        }
       />
 
       {sections.length === 0 ? (

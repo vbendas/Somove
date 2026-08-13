@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { MarketingNavPreview } from "@/components/marketing/marketing-nav-preview";
+import { MarketingMobileNav } from "@/components/marketing/marketing-mobile-nav";
 import { getPlatformSettings } from "@/lib/platform";
+import type { MenuItem } from "@/lib/menus/schema";
 
-const NAV_LINKS = [
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Testimonials", href: "#testimonials" },
-];
+export interface MarketingHeaderProps {
+  items: MenuItem[];
+}
 
-export async function MarketingHeader() {
+export async function MarketingHeader({ items }: MarketingHeaderProps) {
   const settings = await getPlatformSettings();
 
   return (
@@ -22,21 +22,11 @@ export async function MarketingHeader() {
           <span>{settings.platform_name}</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="font-body text-sm text-warm-gray transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        <div className="hidden md:flex">
+          <MarketingNavPreview items={items} />
+        </div>
 
-        <Button asChild size="sm">
-          <Link href="/login">Log in</Link>
-        </Button>
+        <MarketingMobileNav items={items} />
       </div>
     </header>
   );

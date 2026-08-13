@@ -1,21 +1,12 @@
-import Link from "next/link";
+import { MenuLink } from "@/components/marketing/menu-link";
 import { getPlatformSettings } from "@/lib/platform";
+import type { FooterMenu } from "@/lib/menus/load";
 
-const FOOTER_LINKS = {
-  platform: [
-    { label: "Find a Therapist", href: "/therapists" },
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Log in", href: "/login" },
-  ],
-  support: [
-    { label: "Emergency Resources", href: "/emergency" },
-    { label: "Terms of Service", href: "/legal/terms" },
-    { label: "Privacy Policy", href: "/legal/privacy" },
-  ],
-};
+export interface MarketingFooterProps {
+  menus: FooterMenu[];
+}
 
-export async function MarketingFooter() {
+export async function MarketingFooter({ menus }: MarketingFooterProps) {
   const settings = await getPlatformSettings();
   const year = new Date().getFullYear();
 
@@ -34,31 +25,33 @@ export async function MarketingFooter() {
             )}
           </div>
 
-          <div>
-            <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">Platform</h4>
-            <ul className="space-y-2.5">
-              {FOOTER_LINKS.platform.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="font-body text-sm text-warm-gray transition-colors hover:text-foreground">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">Support</h4>
-            <ul className="space-y-2.5">
-              {FOOTER_LINKS.support.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="font-body text-sm text-warm-gray transition-colors hover:text-foreground">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {menus.map((menu) => (
+            <div key={menu.title}>
+              <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">{menu.title}</h4>
+              <ul className="space-y-2.5">
+                {menu.items.map((item) => (
+                  <li key={item.id}>
+                    <MenuLink
+                      item={item}
+                      className="font-body text-sm text-warm-gray transition-colors hover:text-foreground"
+                    />
+                    {item.children.length > 0 && (
+                      <ul className="mt-2 space-y-2 pl-3">
+                        {item.children.map((child) => (
+                          <li key={child.id}>
+                            <MenuLink
+                              item={child}
+                              className="font-body text-xs text-warm-gray transition-colors hover:text-foreground"
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           <div>
             <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">Contact</h4>

@@ -22,12 +22,13 @@ export function sanitizeRichHtml(html: unknown): string {
 
 /**
  * Validates a URL used in block data (image src, link/cta href) is either
- * an absolute http(s) URL or a site-relative path — rejects javascript:,
- * data:, and other unsafe schemes.
+ * an absolute http(s) URL, a site-relative path, or an in-page anchor
+ * (`#section`) — rejects javascript:, data:, and other unsafe schemes.
  */
 export function sanitizeBlockUrl(url: unknown): string {
   const raw = typeof url === "string" ? url.trim() : "";
   if (!raw) return "";
+  if (raw.startsWith("#") && raw.length > 1) return raw;
   if (raw.startsWith("/") && !raw.startsWith("//")) return raw;
   try {
     const parsed = new URL(raw);

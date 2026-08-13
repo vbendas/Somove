@@ -45,8 +45,24 @@ export interface PageRevisionRow {
   id: string;
   section_key: string | null;
   page_id: string | null;
-  content: unknown[]; // Block[] snapshot at time of publish
+  menu_slug: string | null;
+  content: unknown[]; // Block[] or MenuItem[] snapshot at time of publish
   meta: Record<string, unknown>;
   created_by: string | null;
+  created_at: string;
+}
+
+// Added in 00029_site_menus.sql.
+export interface SiteMenuRow {
+  id: string;
+  slug: string;
+  title: string;
+  items: unknown[]; // MenuItem[] (src/lib/menus/schema.ts) — published/live tree
+  draft_items: unknown[]; // MenuItem[] — working copy edited in the menu editor
+  is_published: boolean;
+  sort_order: number;
+  published_at: string | null;
+  updated_by: string | null;
+  updated_at: string;
   created_at: string;
 }
