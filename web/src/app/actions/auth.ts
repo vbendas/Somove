@@ -3,9 +3,20 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { limiters, getClientIp, checkLimit } from "@/lib/ratelimit";
+import { recordTermsAcceptance } from "@/lib/terms";
 
 export async function signInWithMagicLink(email: string) {
-  const supabase = createClient();
+  const ip = await getClientIp();
+  const [ipOk, emailOk] = await Promise.all([
+    checkLimit(limiters.magicLinkIp, ip),
+    checkLimit(limiters.magicLink, email.toLowerCase()),
+  ]);
+  if (!ipOk.ok || !emailOk.ok) {
+    return { error: "Too many attempts. Please try again later." };
+  }
+
+  const supabase = await createClient();
 
   // Check if registration is open (allow existing users always)
   const { data: existingUser } = await supabase
@@ -45,14 +56,14 @@ export async function signInWithMagicLink(email: string) {
 }
 
 export async function signOut() {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
   redirect("/login");
 }
 
-export async function updateUserName(name: string) {
-  const supabase = createClient();
+export async function updateUserName(name: string, acceptedTerms: boolean = false) {
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -62,6 +73,12 @@ export async function updateUserName(name: string) {
   if (authError || !user) {
     return { error: "Not authenticated. Please sign in again." };
   }
+
+  if (!acceptedTerms) {
+    return { error: "You must accept the Terms of Service and Privacy Policy to continue." };
+  }
+
+  await recordTermsAcceptance(user.id);
 
   const { error: updateError } = await supabase
     .from("users")
@@ -77,7 +94,7 @@ export async function updateUserName(name: string) {
 }
 
 export async function getCurrentUser() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

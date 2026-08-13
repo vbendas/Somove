@@ -32,7 +32,7 @@ export async function getVideoProvider(
 ): Promise<VideoProvider | null> {
   if (therapistId) {
     const { createClient } = await import("@/lib/supabase/server");
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: profile } = await supabase
       .from("therapist_profile")
       .select("video_provider")

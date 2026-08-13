@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import Stripe from "stripe";
+import { captureError } from "@/lib/errors";
+import { limiters, checkLimit } from "@/lib/ratelimit";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
@@ -28,6 +30,11 @@ export async function POST(request: Request) {
   const supabase = createAdminClient();
   const eventId = event.id;
   const eventType = event.type;
+
+  const { ok } = await checkLimit(limiters.stripeWebhook, eventId);
+  if (!ok) {
+    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+  }
 
   switch (event.type) {
     case "checkout.session.completed": {
@@ -81,8 +88,10 @@ export async function POST(request: Request) {
 
       await supabase.from("stripe_events").insert({ id: eventId, type: eventType });
 
-      const { createSessionRoom } = await import("@/app/actions/session");
-      createSessionRoom(somoveSessionId, true).catch(() => {});
+      const { createSessionRoomWithRetry } = await import("@/app/actions/session");
+      createSessionRoomWithRetry(somoveSessionId, 3, true).catch((e) =>
+        captureError(e, { sessionId: somoveSessionId, step: "stripe webhook room create" })
+      );
 
       break;
     }

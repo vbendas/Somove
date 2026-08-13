@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Somove API
+  version: 1.0.0
+  description: |
+    Somove's HTTP API surface is small — most data operations happen via
+    Next.js Server Actions (not HTTP endpoints). These are the public HTTP
+    routes: webhooks, cron jobs, and utility endpoints.
+
+paths:
+  /api/webhooks/stripe:
+    post:
+      summary: Stripe Connect webhook handler
+      description: Receives Stripe events (checkout.session.completed, checkout.session.expired, charge.refunded, account.updated). Verifies signature and processes idempotently.
+      security:
+        - stripeSignature: []
+      responses:
+        "200":
+          description: Event received and processed
+        "400":
+          description: Missing or invalid signature
+        "500":
+          description: Webhook secret not configured
+        "429":
+          description: Rate limit exceeded
+
+  /api/webhooks/cal:
+    post:
+      summary: Cal.com webhook handler
+      description: Receives Cal.com booking events (BOOKING_CREATED, BOOKING_CANCELLED, BOOKING_RESCHEDULED). Verifies HMAC-SHA256 signature.
+      security:
+        - calHmacSignature: []
+      responses:
+        "200":
+          description: Event received
+        "401":
+          description: Invalid signature
+        "400":
+          description: Invalid JSON payload
+
+  /api/cron/reminders:
+    get:
+      summary: Session reminder cron
+      description: Sends email + in-app reminders for sessions starting in 15-25 minutes. Runs every 10 minutes via Vercel Cron.
+      security:
+        - cronSecret: []
+      responses:
+        "200":
+          description: Reminders processed, returns count sent
+        "401":
+          description: Invalid or missing bearer token
+        "429":
+          description: Rate limit exceeded
+
+  /api/cron/reconcile-rooms:
+    get:
+      summary: Video room reconciliation cron
+      description: Retries video room creation for sessions flagged as room_pending. Runs every 10 minutes via Vercel Cron.
+      security:
+        - cronSecret: []
+      responses:
+        "200":
+          description: Reconciliation processed, returns counts
+
+  /api/health:
+    get:
+      summary: Health check
+      description: Returns the health status of the app and its dependencies (Supabase, Stripe, Resend, Daily.co).
+      responses:
+        "200":
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded]
+                  checks:
+                    type: object
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/calendar/{sessionId}:
+    get:
+      summary: ICS calendar export
+      description: Returns an .ics file for a specific session. Ownership-checked.
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: ICS file
+          content:
+            text/calendar:
+              schema:
+                type: string
+        "403":
+          description: Not authorized for this session
+
+components:
+  securitySchemes:
+    stripeSignature:
+      type: apiKey
+      in: header
+      name: stripe-signature
+    calHmacSignature:
+      type: apiKey
+      in: header
+      name: x-cal-signature-256
+    cronSecret:
+      type: http
+      scheme: bearer

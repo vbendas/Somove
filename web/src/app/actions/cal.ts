@@ -15,7 +15,7 @@ async function getTherapistCalKey(userId: string) {
 }
 
 export async function testCalConnection() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -30,7 +30,7 @@ export async function testCalConnection() {
 }
 
 export async function fetchCalEventTypes() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -52,7 +52,7 @@ export async function createCalEventType(data: {
   minimumBookingNotice?: number;
   afterEventBuffer?: number;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -75,7 +75,7 @@ export async function createCalEventType(data: {
 }
 
 export async function saveCalIntegration(calApiKeyId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -92,7 +92,7 @@ export async function saveCalIntegration(calApiKeyId: string) {
 }
 
 export async function disconnectCalIntegration() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -112,7 +112,7 @@ export async function disconnectCalIntegration() {
 }
 
 export async function getTherapistCalConfig() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { validateInput } from "@/lib/validation";
+import { inviteSchema } from "@/lib/schemas/invites";
 import crypto from "crypto";
+import { getResendClient } from "@/lib/resend";
 
 export interface Invite {
   id: string;
@@ -17,7 +20,10 @@ export interface Invite {
 }
 
 export async function createInvite(email: string, role: "therapist" | "admin" = "therapist") {
-  const supabase = createClient();
+  const { error: validationError } = validateInput(inviteSchema, { email, role });
+  if (validationError) return { error: validationError };
+
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -68,19 +74,34 @@ export async function createInvite(email: string, role: "therapist" | "admin" = 
     return { error: `Failed to create invite: ${error.message}` };
   }
 
-  // TODO: Send invite email via Resend
-  // For now, return the token so admin can share it manually
+  const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/invite/${token}`;
+
+  // Send invite email via Resend
+  const resend = getResendClient();
+  if (resend) {
+    try {
+      await resend.sendInvite({
+        to: email,
+        inviteUrl,
+        role,
+      });
+    } catch (emailErr) {
+      // Email failure is non-fatal; admin can still share the link
+      console.error("Failed to send invite email:", emailErr);
+    }
+  }
+
   revalidatePath("/admin/invites", "page");
 
   return {
     success: true,
-    inviteUrl: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/invite/${token}`,
-    message: `Invite created. Share this link: ${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/invite/${token}`,
+    inviteUrl,
+    message: `Invite created and email sent to ${email}.`,
   };
 }
 
 export async function getInvites() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -108,7 +129,7 @@ export async function getInvites() {
 }
 
 export async function deleteInvite(inviteId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -232,7 +253,7 @@ export async function acceptInvite(token: string, name: string, password: string
 }
 
 export async function resendInvite(inviteId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

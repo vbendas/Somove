@@ -59,7 +59,7 @@ export async function sendPushToUser(
   payload: WebPushPayload
 ): Promise<{ sent: number; failed: number; expired: string[] }> {
   const { createClient } = await import("@/lib/supabase/server");
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: subscriptions } = await supabase
     .from("push_subscriptions")

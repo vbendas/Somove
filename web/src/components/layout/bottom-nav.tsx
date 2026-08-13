@@ -23,7 +23,10 @@ export function BottomNav({ items, className }: BottomNavProps) {
   return (
     <nav
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        // z-[60]: sits above the cookie-consent banner (z-50, also fixed to
+        // the bottom of the viewport) so primary navigation is never
+        // covered by the one-time consent prompt.
+        "fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
         "pb-[env(safe-area-inset-bottom)]",
         className
       )}

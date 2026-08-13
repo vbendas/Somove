@@ -17,7 +17,7 @@ export async function createSupportTicket(input: {
   const chatwoot = getChatwootClient();
   if (!chatwoot) return { data: null, error: { message: "Support system not configured" } };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -65,7 +65,7 @@ export async function getUserTickets(): Promise<
   const chatwoot = getChatwootClient();
   if (!chatwoot) return { data: null, error: { message: "Support system not configured" } };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -87,12 +87,15 @@ export async function getUserTickets(): Promise<
     return { data: null, error: convResult.error || { message: "Failed to load tickets" } };
   }
 
-  const tickets = convResult.data.payload.map((c) => ({
-    id: String(c.id),
-    status: c.status,
-    subject: `Ticket #${c.id}`,
-    createdAt: new Date().toISOString(),
-  }));
+  const tickets = convResult.data.payload.map((c) => {
+    const firstIncoming = c.messages?.find((m) => m.message_type === "incoming");
+    return {
+      id: String(c.id),
+      status: c.status,
+      subject: firstIncoming?.content?.slice(0, 100) || `Conversation #${c.id}`,
+      createdAt: c.messages?.[0]?.created_at || new Date().toISOString(),
+    };
+  });
 
   return { data: tickets, error: null };
 }

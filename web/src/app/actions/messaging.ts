@@ -2,6 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
+import { limiters, checkLimit } from "@/lib/ratelimit";
+import { validateInput } from "@/lib/validation";
+import { sendMessageSchema } from "@/lib/schemas/messaging";
 
 type Conversation = Database["public"]["Tables"]["conversations"]["Row"];
 type Message = Database["public"]["Tables"]["messages"]["Row"];
@@ -25,7 +28,7 @@ interface ActionResult<T = void> {
 }
 
 async function verifyConversationMembership(
-  supabase: ReturnType<typeof createClient>,
+  supabase: Awaited<ReturnType<typeof createClient>>,
   conversationId: string,
   userId: string
 ) {
@@ -46,7 +49,7 @@ export async function getConversations(filters?: {
   tagId?: string;
 }): Promise<ActionResult<ConversationWithDetails[]>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -155,10 +158,12 @@ export async function getConversations(filters?: {
 }
 
 export async function getMessages(
-  conversationId: string
+  conversationId: string,
+  cursor?: string,
+  limit: number = 50
 ): Promise<ActionResult<MessageWithAttachments[]>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -175,21 +180,33 @@ export async function getMessages(
         error: { message: "Conversation not found or access denied." },
       };
 
-    const { data: messages, error } = await supabase
+    let query = supabase
       .from("messages")
       .select("*, attachments(*)")
       .eq("conversation_id", conversationId)
-      .order("sent_at", { ascending: true });
+      .order("sent_at", { ascending: false })
+      .limit(limit + 1);
+
+    if (cursor) {
+      query = query.lt("sent_at", cursor);
+    }
+
+    const { data: messages, error } = await query;
 
     if (error) return { data: null, error: { message: error.message } };
 
-    const enriched: MessageWithAttachments[] = (messages || []).map((msg) => {
+    const hasMore = (messages?.length ?? 0) > limit;
+    const rows = (hasMore ? messages!.slice(0, limit) : messages!) as MessageWithAttachments[];
+
+    const enriched: MessageWithAttachments[] = rows.map((msg) => {
       const attachments =
         (msg as unknown as { attachments?: Attachment[] }).attachments || [];
       return { ...(msg as Message), attachments };
     });
 
-    return { data: enriched, error: null };
+    const reversed = [...enriched].reverse();
+
+    return { data: reversed, error: null };
   } catch (e) {
     return {
       data: null,
@@ -203,11 +220,17 @@ export async function sendMessage(
   body: string
 ): Promise<ActionResult<Message>> {
   try {
-    const supabase = createClient();
+    const { error: validationError } = validateInput(sendMessageSchema, { conversationId, body });
+    if (validationError) return { data: null, error: { message: validationError } };
+
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+    const { ok } = await checkLimit(limiters.message, user.id);
+    if (!ok) return { data: null, error: { message: "Too many messages. Please slow down." } };
 
     const conv = await verifyConversationMembership(
       supabase,
@@ -294,7 +317,7 @@ export async function markAsRead(
   conversationId: string
 ): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -330,7 +353,7 @@ export async function markAsRead(
 
 export async function getTags(): Promise<ActionResult<Tag[]>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -357,7 +380,7 @@ export async function createTag(
   colour: string
 ): Promise<ActionResult<Tag>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -386,7 +409,7 @@ export async function createTag(
 
 export async function deleteTag(tagId: string): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -414,7 +437,7 @@ export async function addTagToConversation(
   tagId: string
 ): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -450,7 +473,7 @@ export async function removeTagFromConversation(
   tagId: string
 ): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -488,7 +511,7 @@ export async function updateConversationStatus(
   status: "open" | "pending" | "closed"
 ): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -525,7 +548,7 @@ export async function uploadAttachment(
   file: File
 ): Promise<ActionResult<Attachment>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -581,7 +604,7 @@ export async function getSignedUrl(
   filePath: string
 ): Promise<ActionResult<string>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

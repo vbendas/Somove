@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { getVideoProvider } from "@/lib/video";
 import { revalidatePath } from "next/cache";
 import crypto from "crypto";
+import { captureError } from "@/lib/errors";
+import { limiters, checkLimit } from "@/lib/ratelimit";
 
 function generatePassword(): string {
   return crypto.randomBytes(16).toString("hex");
@@ -13,9 +15,14 @@ export async function createSessionRoom(
   sessionId: string,
   useAdmin = false
 ): Promise<{ joinUrl: string } | { error: string }> {
+  const { ok } = await checkLimit(limiters.booking, `room-${sessionId}`);
+  if (!ok) {
+    return { error: "Rate limit exceeded for room creation" };
+  }
+
   const supabase = useAdmin
     ? (await import("@/lib/supabase/admin")).createAdminClient()
-    : createClient();
+    : await createClient();
 
   const { data: session, error: fetchError } = await supabase
     .from("sessions")
@@ -74,7 +81,7 @@ export async function getSessionJoinUrl(
   userId: string,
   role: "client" | "therapist"
 ): Promise<{ joinUrl: string } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: session, error: fetchError } = await supabase
     .from("sessions")
@@ -143,7 +150,7 @@ export async function getSessionJoinUrl(
 export async function startSession(
   sessionId: string
 ): Promise<{ joinUrl: string } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -183,7 +190,7 @@ export async function startSession(
 export async function completeSession(
   sessionId: string
 ): Promise<{ success: boolean } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -219,7 +226,7 @@ export async function completeSession(
 export async function markNoShow(
   sessionId: string
 ): Promise<{ success: boolean } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -259,7 +266,7 @@ export async function rescheduleSession(
   sessionId: string,
   newScheduledAt: string
 ): Promise<{ success: boolean } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -296,8 +303,8 @@ export async function rescheduleSession(
         const { CalClient } = await import("@/lib/cal");
         const calClient = new CalClient(profile.cal_api_key);
         await calClient.cancelBooking(session.cal_booking_uid);
-      } catch {
-        // Cal.com reschedule failed but session is still updated in DB
+      } catch (e) {
+        captureError(e, { sessionId, step: "cal reschedule" });
       }
     }
   }
@@ -307,4 +314,40 @@ export async function rescheduleSession(
   revalidatePath("/my-sessions");
 
   return { success: true };
+}
+
+/**
+ * Retry createSessionRoom with backoff. On persistent failure, marks the
+ * session as `room_pending=true` so the reconciliation cron can retry later.
+ * Used in the Stripe webhook so a paid session never ends up without a room.
+ */
+export async function createSessionRoomWithRetry(
+  sessionId: string,
+  maxAttempts = 3,
+  useAdmin = true
+): Promise<{ ok: boolean; error?: unknown; joinUrl?: string }> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const result = await createSessionRoom(sessionId, useAdmin);
+      if ("joinUrl" in result) {
+        return { ok: true, joinUrl: result.joinUrl };
+      }
+      lastError = result.error;
+    } catch (e) {
+      lastError = e;
+    }
+    if (attempt < maxAttempts) {
+      await new Promise((r) => setTimeout(r, 500 * attempt));
+    }
+  }
+  // All attempts failed — flag for reconciliation cron
+  try {
+    const admin = (await import("@/lib/supabase/admin")).createAdminClient();
+    await admin.from("sessions").update({ room_pending: true }).eq("id", sessionId);
+  } catch (e) {
+    captureError(e, { sessionId, step: "room_pending flag set" });
+  }
+  captureError(lastError, { sessionId, step: "createSessionRoomWithRetry", maxAttempts });
+  return { ok: false, error: lastError };
 }

@@ -17,7 +17,7 @@ export async function createOrGetConnectedAccount(): Promise<
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -50,7 +50,7 @@ export async function getOnboardingLink(): Promise<
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -83,7 +83,7 @@ export async function refreshAccountStatus(): Promise<
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -123,7 +123,7 @@ export async function getDashboardLink(): Promise<
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -148,7 +148,7 @@ export async function createStripeCheckout(sessionId: string) {
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -233,7 +233,7 @@ export async function processRefund(sessionId: string) {
   const stripe = getPlatformStripe();
   if (!stripe) return { error: "Stripe platform not configured" };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

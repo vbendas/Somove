@@ -3,9 +3,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
-  const supabase = createClient();
+  const { sessionId } = await params;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -16,7 +17,7 @@ export async function GET(
   const { data: session } = await supabase
     .from("sessions")
     .select("id, scheduled_at, duration_min, client_id, therapist_id")
-    .eq("id", params.sessionId)
+    .eq("id", sessionId)
     .single();
 
   if (!session) {

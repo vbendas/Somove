@@ -39,6 +39,9 @@ export async function middleware(request: NextRequest) {
     "/emergency",
     "/setup",
     "/invite",
+    // TEMPORARY dev-only login bypass — see src/app/api/dev-login/route.ts.
+    // Remove alongside that file once local login works normally again.
+    "/api/dev-login",
   ];
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 

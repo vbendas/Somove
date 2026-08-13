@@ -7,9 +7,10 @@ export const dynamic = "force-dynamic";
 export default async function SessionVideoPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const supabase = createClient();
+  const { id: paramsId } = await params;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -19,7 +20,7 @@ export default async function SessionVideoPage({
   const { data: session } = await supabase
     .from("sessions")
     .select("id, client_id, therapist_id, mirotalk_room_url, daily_room_url, status")
-    .eq("id", params.id)
+    .eq("id", paramsId)
     .single();
 
   if (!session) notFound();
@@ -35,7 +36,7 @@ export default async function SessionVideoPage({
   }
 
   const { getSessionJoinUrl } = await import("@/app/actions/session");
-  const joinResult = await getSessionJoinUrl(params.id, user.id, role);
+  const joinResult = await getSessionJoinUrl(paramsId, user.id, role);
 
   if ("error" in joinResult) {
     return (
@@ -56,7 +57,7 @@ export default async function SessionVideoPage({
   return (
     <SessionPlayer
       joinUrl={joinResult.joinUrl}
-      sessionId={params.id}
+      sessionId={paramsId}
       role={role}
     />
   );

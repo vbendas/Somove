@@ -14,7 +14,7 @@ export async function getClientNotes(
   clientId: string
 ): Promise<ActionResult<ClientNote[]>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -42,7 +42,7 @@ export async function getGeneralNote(
   therapistId: string
 ): Promise<ActionResult<ClientNote>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("client_notes")
@@ -74,7 +74,7 @@ export async function upsertNote(input: {
   body: string;
 }): Promise<ActionResult<ClientNote>> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -118,7 +118,7 @@ export async function deleteNote(
   noteId: string
 ): Promise<ActionResult> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -145,7 +145,7 @@ export async function getLastNotePreview(
   therapistId: string
 ): Promise<string | null> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data } = await supabase
       .from("client_notes")

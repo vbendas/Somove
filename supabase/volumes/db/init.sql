@@ -40,7 +40,8 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA storage TO service_role;
 -- Enable RLS on all tables
 ALTER TABLE IF EXISTS public.users ENABLE ROW LEVEL SECURITY;
 
--- Create default policies for anon (read-only on public data)
+-- Create default policies for anon (read-only on whitelisted public tables only).
+-- Sensitive tables (users, messages, sessions, etc.) are protected by migration-level RLS.
 DO $$
 DECLARE
   t RECORD;
@@ -48,6 +49,7 @@ BEGIN
   FOR t IN
     SELECT tablename FROM pg_tables
     WHERE schemaname = 'public'
+    AND tablename IN ('session_types', 'therapist_profile')
   LOOP
     EXECUTE format(
       'CREATE POLICY IF NOT EXISTS "Allow anon read on %I" ON public.%I FOR SELECT USING (true)',

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { logAudit } from "@/lib/audit";
 
 export interface AdminStats {
   therapistCount: number;
@@ -13,7 +14,7 @@ export interface AdminStats {
 }
 
 export async function getAdminStats(): Promise<AdminStats> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -57,9 +58,9 @@ export async function getAdminStats(): Promise<AdminStats> {
   };
 }
 
-export async function getTherapists() {
+export async function getTherapists(limit: number = 50, offset: number = 0) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -91,7 +92,8 @@ export async function getTherapists() {
         )
       `)
       .eq("role", "therapist")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) return { therapists: [] };
 
@@ -119,7 +121,7 @@ export async function getTherapists() {
 }
 
 export async function updateTherapistStatus(therapistId: string, status: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -148,7 +150,7 @@ export async function updateTherapistStatus(therapistId: string, status: string)
 }
 
 export async function createTherapistProfileForUser(therapistId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -207,7 +209,7 @@ export async function createTherapistProfileForUser(therapistId: string) {
 }
 
 export async function deleteUser(userId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -229,6 +231,29 @@ export async function deleteUser(userId: string) {
   const { error: authError } = await adminClient.auth.admin.deleteUser(userId);
   if (authError) return { error: `Failed to delete user: ${authError.message}` };
 
+  // Clean up Storage attachments owned by this user
+  const { data: userMessages } = await adminClient
+    .from("messages")
+    .select("id")
+    .eq("sender_id", userId);
+  if (userMessages && userMessages.length > 0) {
+    const messageIds = userMessages.map((m) => m.id);
+    const { data: userAttachments } = await adminClient
+      .from("attachments")
+      .select("file_path")
+      .in("message_id", messageIds);
+    if (userAttachments) {
+      for (const att of userAttachments) {
+        if (att.file_path) {
+          await adminClient.storage
+            .from("attachments")
+            .remove([att.file_path])
+            .catch(() => {});
+        }
+      }
+    }
+  }
+
   // Delete from users table (cascading should handle related data)
   const { error: dbError } = await adminClient
     .from("users")
@@ -236,6 +261,8 @@ export async function deleteUser(userId: string) {
     .eq("id", userId);
 
   if (dbError) return { error: `Failed to delete user record: ${dbError.message}` };
+
+  await logAudit(user.id, "admin_user_deletion", "user", userId);
 
   revalidatePath("/admin/dashboard", "page");
   return { success: true };

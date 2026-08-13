@@ -8,7 +8,7 @@ export async function saveIntake(intakeData: {
   reasons: string[];
   previousExperience: string;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

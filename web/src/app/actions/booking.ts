@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CalClient } from "@/lib/cal";
+import { captureError } from "@/lib/errors";
+import { limiters, checkLimit } from "@/lib/ratelimit";
+import { validateInput } from "@/lib/validation";
+import { createSessionSchema } from "@/lib/schemas/booking";
 
 interface CreateSessionInput {
   therapistId: string;
@@ -18,7 +22,10 @@ interface CreateSessionInput {
 }
 
 export async function createSession(input: CreateSessionInput) {
-  const supabase = createClient();
+  const { error: validationError } = validateInput(createSessionSchema, input);
+  if (validationError) return { error: validationError };
+
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -26,6 +33,11 @@ export async function createSession(input: CreateSessionInput) {
 
   if (!user) {
     return { error: "Not authenticated." };
+  }
+
+  const { ok: bookingLimitOk } = await checkLimit(limiters.booking, user.id);
+  if (!bookingLimitOk) {
+    return { error: "Too many booking attempts. Please try again later." };
   }
 
   // Validate scheduledAt is in the future
@@ -290,18 +302,18 @@ export async function createSession(input: CreateSessionInput) {
     });
   }
 
-  const { createSessionRoom } = await import("@/app/actions/session");
-  createSessionRoom(session.id).catch(() => {});
+  const { createSessionRoomWithRetry } = await import("@/app/actions/session");
+  createSessionRoomWithRetry(session.id).catch((e) => captureError(e, { sessionId: session.id, step: "post-book room" }));
 
   const { notifyBookingConfirmed } = await import("@/app/actions/notifications");
-  notifyBookingConfirmed(session.id).catch(() => {});
+  notifyBookingConfirmed(session.id).catch((e) => captureError(e, { sessionId: session.id, step: "notify booked" }));
 
   revalidatePath("/my-sessions");
   redirect(`/booking/confirmed?sessionId=${session.id}`);
 }
 
 export async function getClientSessions() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -318,8 +330,8 @@ export async function getClientSessions() {
   return data || [];
 }
 
-export async function getTherapistSessions() {
-  const supabase = createClient();
+export async function getTherapistSessions(limit: number = 50, offset: number = 0) {
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -331,13 +343,14 @@ export async function getTherapistSessions() {
     .from("sessions")
     .select("*, users!sessions_client_id_fkey(name, email)")
     .eq("therapist_id", user.id)
-    .order("scheduled_at", { ascending: false });
+    .order("scheduled_at", { ascending: false })
+    .range(offset, offset + limit - 1);
 
   return data || [];
 }
 
 export async function getTodaySessions() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -363,7 +376,7 @@ export async function getTodaySessions() {
 }
 
 export async function cancelSession(sessionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -464,7 +477,7 @@ export async function cancelSession(sessionId: string) {
   }
 
   const { notifySessionCancelled } = await import("@/app/actions/notifications");
-  notifySessionCancelled(sessionId).catch(() => {});
+  notifySessionCancelled(sessionId).catch((e) => captureError(e, { sessionId, step: "notify cancelled" }));
 
   revalidatePath("/my-sessions");
   revalidatePath("/dashboard");

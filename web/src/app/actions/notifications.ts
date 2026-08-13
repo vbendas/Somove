@@ -14,7 +14,7 @@ export interface Notification {
 }
 
 export async function getNotifications(limit: number = 20, cursor?: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -40,7 +40,7 @@ export async function getNotifications(limit: number = 20, cursor?: string) {
 }
 
 export async function getUnreadCount() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -57,7 +57,7 @@ export async function getUnreadCount() {
 }
 
 export async function markAsRead(notificationId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -75,7 +75,7 @@ export async function markAsRead(notificationId: string) {
 }
 
 export async function markAllAsRead() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -93,7 +93,7 @@ export async function markAllAsRead() {
 }
 
 export async function deleteNotification(notificationId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -111,7 +111,7 @@ export async function deleteNotification(notificationId: string) {
 }
 
 async function createNotification(
-  supabase: ReturnType<typeof createClient>,
+  supabase: Awaited<ReturnType<typeof createClient>>,
   params: {
     user_id: string;
     type: string;
@@ -132,7 +132,7 @@ async function createNotification(
 }
 
 async function getNotificationPreferences(
-  supabase: ReturnType<typeof createClient>,
+  supabase: Awaited<ReturnType<typeof createClient>>,
   userId: string
 ) {
   const { data } = await supabase
@@ -176,7 +176,7 @@ function isInQuietHours(
 }
 
 export async function notifyBookingConfirmed(sessionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: session } = await supabase
     .from("sessions")
@@ -273,7 +273,7 @@ export async function notifyBookingConfirmed(sessionId: string) {
 }
 
 export async function notifySessionReminder(sessionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: session } = await supabase
     .from("sessions")
@@ -370,7 +370,7 @@ export async function notifySessionReminder(sessionId: string) {
 }
 
 export async function notifySessionCancelled(sessionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: session } = await supabase
     .from("sessions")
@@ -470,7 +470,7 @@ export async function notifyNewMessage(
   recipientId: string,
   messagePreview: string
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const prefs = await getNotificationPreferences(supabase, recipientId);
 
@@ -506,7 +506,7 @@ export async function notifyNewMessage(
 }
 
 export async function getNotificationPreferencesAction() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -556,7 +556,7 @@ export async function updateNotificationPreferences(prefs: {
   quiet_hours_start?: string | null;
   quiet_hours_end?: string | null;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -580,7 +580,7 @@ export async function subscribePush(subscription: {
   p256dh: string;
   auth: string;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -602,7 +602,7 @@ export async function subscribePush(subscription: {
 }
 
 export async function unsubscribePush(endpoint: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
