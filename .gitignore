@@ -13,3 +13,8 @@ quartz/.quartz-cache/
 quartz/public/
 quartz/docs/
 backup/
+
+# Agent tooling scratch
+.opencode/
+.mimocode/
+supabase/.temp/
