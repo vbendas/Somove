@@ -10,7 +10,11 @@
 -- 1. site_menus table.
 -- ============================================================
 CREATE TABLE IF NOT EXISTS site_menus (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  -- gen_random_uuid() is a pg_catalog builtin (PG13+), unlike
+  -- uuid_generate_v4() which comes from uuid-ossp and lives in the
+  -- `extensions` schema -- not on the search_path the CLI uses to apply
+  -- migrations, so an unqualified call fails with 42883.
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug TEXT NOT NULL UNIQUE, -- 'header', 'footer_platform', 'footer_support', ...
   title TEXT NOT NULL, -- display name in the admin menu list
   items JSONB NOT NULL DEFAULT '[]', -- published tree
