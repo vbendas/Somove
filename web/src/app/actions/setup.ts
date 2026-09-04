@@ -86,8 +86,8 @@ export async function completeSetup(formData: {
       id: 1,
       platform_name: formData.platformName,
       platform_tagline: formData.platformTagline || null,
-      primary_color: formData.primaryColor || "#D4A574",
-      accent_color: formData.accentColor || "#8BA888",
+      primary_color: formData.primaryColor || "#A85A2B",
+      accent_color: formData.accentColor || "#557557",
       open_registration: formData.openRegistration ?? true,
       updated_at: new Date().toISOString(),
     });

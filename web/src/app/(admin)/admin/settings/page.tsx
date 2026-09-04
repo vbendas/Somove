@@ -20,9 +20,9 @@ import { toast } from "sonner";
 // DEFAULT_SETTINGS in `src/lib/platform.ts`). They are functional data
 // defaults for the color-picker form below, not decorative styling, so
 // they intentionally stay as literal hex values rather than token classes.
-const DEFAULT_PRIMARY_COLOR = "#D4A574";
-const DEFAULT_ACCENT_COLOR = "#8BA888";
-const DEFAULT_BACKGROUND_COLOR = "#FFFDF5";
+const DEFAULT_PRIMARY_COLOR = "#A85A2B";
+const DEFAULT_ACCENT_COLOR = "#557557";
+const DEFAULT_BACKGROUND_COLOR = "#FAF7F2";
 
 const HEX_COLOR_REGEX = /^#[0-9a-fA-F]{6}$/;
 

@@ -72,17 +72,17 @@ export class ResendClient {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D2A26; font-size: 24px;">Booking Confirmed</h1>
-        <p style="color: #9A9590;">Your session with ${escapeHtml(params.therapistName)} has been booked.</p>
+        <p style="color: #6B655E;">Your session with ${escapeHtml(params.therapistName)} has been booked.</p>
         
         <div style="background: #FFF5E1; border-radius: 12px; padding: 20px; margin: 20px 0;">
-          <p style="margin: 0 0 8px 0; color: #9A9590; font-size: 14px;">Date & Time</p>
+          <p style="margin: 0 0 8px 0; color: #6B655E; font-size: 14px;">Date & Time</p>
           <p style="margin: 0; color: #2D2A26; font-size: 18px; font-weight: 600;">${escapeHtml(dateStr)} at ${escapeHtml(timeStr)}</p>
-          <p style="margin: 8px 0 0 0; color: #9A9590; font-size: 14px;">${escapeHtml(String(params.duration))} minutes</p>
+          <p style="margin: 8px 0 0 0; color: #6B655E; font-size: 14px;">${escapeHtml(String(params.duration))} minutes</p>
         </div>
 
-        <a href="${urlSafe(params.joinUrl)}" style="display: inline-block; background: #D4A574; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Join Session</a>
+        <a href="${urlSafe(params.joinUrl)}" style="display: inline-block; background: #A85A2B; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Join Session</a>
         
-        <p style="color: #9A9590; font-size: 12px; margin-top: 30px;">
+        <p style="color: #6B655E; font-size: 12px; margin-top: 30px;">
           You can join the session up to 10 minutes before it starts.
         </p>
       </div>
@@ -111,13 +111,13 @@ export class ResendClient {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D2A26; font-size: 24px;">Session Starting Soon</h1>
-        <p style="color: #9A9590;">Your session with ${escapeHtml(params.therapistName)} starts in ${escapeHtml(String(params.minutesUntil))} minutes.</p>
+        <p style="color: #6B655E;">Your session with ${escapeHtml(params.therapistName)} starts in ${escapeHtml(String(params.minutesUntil))} minutes.</p>
         
         <div style="background: #FFF5E1; border-radius: 12px; padding: 20px; margin: 20px 0;">
           <p style="margin: 0; color: #2D2A26; font-size: 18px; font-weight: 600;">Today at ${escapeHtml(timeStr)}</p>
         </div>
 
-        <a href="${urlSafe(params.joinUrl)}" style="display: inline-block; background: #D4A574; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Join Now</a>
+        <a href="${urlSafe(params.joinUrl)}" style="display: inline-block; background: #A85A2B; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Join Now</a>
       </div>
     `;
 
@@ -138,12 +138,12 @@ export class ResendClient {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D2A26; font-size: 24px;">New Message</h1>
-        <p style="color: #9A9590;">Hi ${escapeHtml(params.recipientName)},</p>
-        <p style="color: #9A9590;">${escapeHtml(params.senderName)} sent you a message:</p>
+        <p style="color: #6B655E;">Hi ${escapeHtml(params.recipientName)},</p>
+        <p style="color: #6B655E;">${escapeHtml(params.senderName)} sent you a message:</p>
         <div style="background: #FFF5E1; border-radius: 12px; padding: 20px; margin: 20px 0;">
           <p style="margin: 0; color: #2D2A26;">${escapeHtml(params.messagePreview)}</p>
         </div>
-        <a href="${urlSafe(params.conversationUrl)}" style="display: inline-block; background: #D4A574; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">View Message</a>
+        <a href="${urlSafe(params.conversationUrl)}" style="display: inline-block; background: #A85A2B; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">View Message</a>
       </div>
     `;
 
@@ -163,9 +163,9 @@ export class ResendClient {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D2A26; font-size: 24px;">Session Cancelled</h1>
-        <p style="color: #9A9590;">Hi ${escapeHtml(params.recipientName)},</p>
-        <p style="color: #9A9590;">Your session scheduled for ${escapeHtml(params.sessionDate)} has been cancelled.</p>
-        ${params.refundStatus === "refunded" ? '<p style="color: #8BA888; font-weight: 600;">A refund has been processed.</p>' : ""}
+        <p style="color: #6B655E;">Hi ${escapeHtml(params.recipientName)},</p>
+        <p style="color: #6B655E;">Your session scheduled for ${escapeHtml(params.sessionDate)} has been cancelled.</p>
+        ${params.refundStatus === "refunded" ? '<p style="color: #557557; font-weight: 600;">A refund has been processed.</p>' : ""}
       </div>
     `;
 
@@ -186,14 +186,14 @@ export class ResendClient {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D2A26; font-size: 24px;">You've been invited to Somove</h1>
-        <p style="color: #9A9590;">You have been invited to join as a ${escapeHtml(roleLabel)} on Somove.</p>
+        <p style="color: #6B655E;">You have been invited to join as a ${escapeHtml(roleLabel)} on Somove.</p>
         
         <div style="margin: 30px 0;">
-          <a href="${urlSafe(params.inviteUrl)}" style="display: inline-block; background: #D4A574; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">Accept Invitation</a>
+          <a href="${urlSafe(params.inviteUrl)}" style="display: inline-block; background: #A85A2B; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">Accept Invitation</a>
         </div>
 
-        <p style="color: #9A9590; font-size: 14px;">This link will expire in 7 days.</p>
-        ${params.invitedBy ? `<p style="color: #9A9590; font-size: 12px;">Invited by ${escapeHtml(params.invitedBy)}</p>` : ''}
+        <p style="color: #6B655E; font-size: 14px;">This link will expire in 7 days.</p>
+        ${params.invitedBy ? `<p style="color: #6B655E; font-size: 12px;">Invited by ${escapeHtml(params.invitedBy)}</p>` : ''}
       </div>
     `;
 
