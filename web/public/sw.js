@@ -46,10 +46,8 @@ self.addEventListener("notificationclose", function (event) {
   event.notification.close();
 });
 
-const CACHE_NAME = "somove-v1";
+const CACHE_NAME = "somove-v2";
 const STATIC_ASSETS = [
-  "/",
-  "/login",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
   "/manifest.json",
@@ -77,33 +75,43 @@ self.addEventListener("activate", function (event) {
   self.clients.claim();
 });
 
-self.addEventListener("fetch", function (event) {
-  if (event.request.method !== "GET") return;
+// Only immutable static assets are cached. Page navigations, React Server
+// Component payloads and API calls must always go to the network: they
+// depend on the signed-in user and on redirects, and a service worker that
+// answers a navigation with fetch(event.request) cannot follow a redirect
+// (the browser aborts the navigation), while caching them serves one
+// user's pages to the next.
+function isStaticAsset(request) {
+  if (request.method !== "GET") return false;
+  if (request.mode === "navigate") return false;
+  if (request.headers.get("RSC") === "1") return false;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return false;
+  if (url.searchParams.has("_rsc")) return false;
+  return (
+    url.pathname.startsWith("/_next/static/") ||
+    url.pathname.startsWith("/icons/") ||
+    url.pathname.startsWith("/fonts/") ||
+    url.pathname === "/manifest.json" ||
+    url.pathname === "/favicon.ico"
+  );
+}
 
-  if (event.request.url.includes("/api/")) {
-    event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match(event.request);
-      })
-    );
-    return;
-  }
+self.addEventListener("fetch", function (event) {
+  if (!isStaticAsset(event.request)) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      const fetched = fetch(event.request)
-        .then((response) => {
-          if (response.ok) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-          return response;
-        })
-        .catch(() => cached);
-
-      return cached || fetched;
+      if (cached) return cached;
+      return fetch(event.request).then((response) => {
+        if (response.ok) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return response;
+      });
     })
   );
 });

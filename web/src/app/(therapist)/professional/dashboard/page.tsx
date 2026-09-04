@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Button } from "@/components/ui/button";
 import { formatTime } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -60,7 +61,7 @@ export default async function DashboardPage() {
     <PageContainer width="narrow">
       <PageHeader title="Today" />
 
-      <div className="mb-6 grid grid-cols-3 gap-3">
+      <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
         <StatCard icon={CalendarDays} value={todaySessions?.length || 0} label="Sessions" />
         <StatCard icon={Users} value={totalClients || 0} label="Clients" />
         <StatCard icon={MessageSquare} value={unreadMessages || 0} label="Unread" />
@@ -80,7 +81,24 @@ export default async function DashboardPage() {
         </div>
 
         {(!todaySessions || todaySessions.length === 0) ? (
-          <EmptyState icon={CalendarDays} title="No sessions today" />
+          <Card>
+            <EmptyState
+              icon={CalendarDays}
+              title="No sessions today"
+              description="Enjoy the downtime, or use it to plan ahead."
+              className="py-10"
+            />
+            <CardContent className="flex flex-wrap justify-center gap-2 pt-0">
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/professional/dashboard/schedule">Open schedule</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/professional/dashboard/settings/availability">
+                  Set availability
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         ) : (
           <div className="space-y-3">
             {todaySessions.map((session) => {

@@ -2,15 +2,12 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarDays, CreditCard, MessageSquare, Users } from "lucide-react";
-import { signOut } from "@/app/actions/auth";
 import TherapistFilters from "@/components/directory/therapist-filters";
 import { PageContainer } from "@/components/layout/page-container";
 import { PageHeader } from "@/components/layout/page-header";
 import { StatCard } from "@/components/ui/stat-card";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatCurrency, formatDate, formatTime } from "@/lib/format";
@@ -175,46 +172,32 @@ export default async function Home({
     <PageContainer width="wide">
       <PageHeader
         title={`Welcome, ${userData.name?.split(" ")[0] || "there"}`}
-        actions={
-          <>
-            <ThemeToggle />
-            {userData.role === "therapist" && (
-              <Link href="/professional/dashboard">
-                <Button variant="outline" size="sm">
-                  Dashboard
-                </Button>
-              </Link>
-            )}
-            <form action={signOut}>
-              <Button variant="ghost" size="sm">
-                Sign Out
-              </Button>
-            </form>
-          </>
-        }
+        description="Find a professional and manage your sessions."
       />
 
       {/* Dashboard Stats */}
-      <div className="mb-8 grid grid-cols-3 gap-3">
+      <div className="mb-8 grid grid-cols-3 gap-2 sm:gap-3">
         <StatCard icon={CalendarDays} value={upcomingSessions.length} label="Upcoming" />
         <StatCard icon={CreditCard} value={totalCredits} label="Credits" />
         <StatCard icon={MessageSquare} value={unreadCount} label="Messages" href="/inbox" />
       </div>
 
       {/* Upcoming Sessions */}
-      {upcomingSessions.length > 0 && (
-        <div className="mb-8">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
-              Upcoming Sessions
-            </h2>
+      <div className="mb-8">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
+            Upcoming Sessions
+          </h2>
+          {upcomingSessions.length > 0 && (
             <Link
               href="/my-sessions"
               className="text-sm text-primary hover:underline"
             >
               View all
             </Link>
-          </div>
+          )}
+        </div>
+        {upcomingSessions.length > 0 ? (
           <div className="space-y-3">
             {upcomingSessions.map((session) => {
               const therapist = session.therapist_profile?.users as TherapistUser | null;
@@ -240,11 +223,32 @@ export default async function Home({
               );
             })}
           </div>
-        </div>
-      )}
+        ) : (
+          <Card>
+            <EmptyState
+              icon={CalendarDays}
+              title="No upcoming sessions"
+              description={
+                therapists.length === 1
+                  ? "Ready to get started? Book a session with your professional."
+                  : "Browse our professionals and book a session that fits your schedule."
+              }
+              action={
+                allTherapists.length === 1
+                  ? {
+                      label: "Book a session",
+                      href: `/therapists/${allTherapists[0].user_id}/book`,
+                    }
+                  : { label: "Browse professionals", href: "#directory" }
+              }
+              className="py-10"
+            />
+          </Card>
+        )}
+      </div>
 
       {/* Therapist Directory */}
-      <div>
+      <div id="directory" className="scroll-mt-6">
         <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-warm-gray">
           {upcomingSessions.length > 0 ? "Find a Professional" : "Available Professionals"}
         </h2>
@@ -260,7 +264,7 @@ export default async function Home({
             {allModalities.length > 1 && (
               <TherapistFilters modalities={allModalities} />
             )}
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {therapists.map((therapist) => (
                 <Link
                   key={therapist.user_id}

@@ -20,17 +20,19 @@ export function StatCard({
   className,
 }: StatCardProps) {
   const content = (
-    <CardContent className="flex items-center gap-4 p-5">
+    <CardContent className="flex flex-col items-center gap-1 p-3 text-center sm:flex-row sm:items-center sm:gap-4 sm:p-5 sm:text-left">
       {Icon && (
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
-          <Icon className="h-5 w-5 text-primary" />
+        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 sm:h-10 sm:w-10">
+          <Icon className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
         </div>
       )}
       <div className="min-w-0">
-        <div className="font-heading text-2xl font-medium text-foreground">
+        <div className="font-heading text-xl font-medium text-foreground sm:text-2xl">
           {value}
         </div>
-        <div className="truncate text-sm text-warm-gray">{label}</div>
+        <div className="whitespace-normal text-xs leading-tight text-warm-gray sm:text-sm">
+          {label}
+        </div>
         {hint && <div className="mt-0.5 text-xs text-warm-gray">{hint}</div>}
       </div>
     </CardContent>

@@ -35,7 +35,7 @@ export function useUnreadMessageCount(userId?: string) {
 
     const supabase = createClient();
     const channel = supabase
-      .channel("unread-messages")
+      .channel(`unread-messages:${userId}:${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         {

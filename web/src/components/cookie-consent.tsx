@@ -57,7 +57,17 @@ export default function CookieConsent() {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card p-4 shadow-lg">
+    <div
+      // z-[70]: above the bottom nav (z-[60], fixed bottom-0) so the
+      // banner and its buttons are never hidden or made unclickable
+      // behind the nav's translucent backdrop. On mobile the banner sits
+      // ABOVE the bottom nav rather than under it: BottomNav publishes its
+      // height via the --bottom-nav-h CSS variable while mounted, so this
+      // offsets by that amount where a bottom nav exists (client/therapist
+      // areas) and falls back to 0 where it doesn't (e.g. admin).
+      style={{ bottom: "var(--bottom-nav-h, 0px)" }}
+      className="fixed left-0 right-0 z-[70] border-t border-border bg-card p-4 shadow-lg"
+    >
       <div className="mx-auto flex max-w-4xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-foreground">
           We use cookies to provide essential features, and optionally for support
@@ -70,13 +80,13 @@ export default function CookieConsent() {
         <div className="flex gap-2">
           <button
             onClick={rejectNonEssential}
-            className="rounded-lg border border-primary px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary"
+            className="whitespace-nowrap rounded-lg border border-primary px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary"
           >
             Essential only
           </button>
           <button
             onClick={acceptAll}
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-dark"
+            className="whitespace-nowrap rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-dark"
           >
             Accept all
           </button>

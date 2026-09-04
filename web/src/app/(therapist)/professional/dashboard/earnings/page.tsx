@@ -125,57 +125,57 @@ export default async function EarningsPage() {
 
         <EarningsCharts revenueByMonth={revenueByMonth} sessionsByWeek={sessionsByWeek} />
 
-        <div className="mb-6 grid grid-cols-3 gap-3">
+        <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
               <Euro className="mb-1 h-5 w-5 text-primary" />
-              <p className="text-2xl font-medium text-foreground">
+              <p className="text-lg font-medium text-foreground sm:text-2xl">
                 {formatCurrency(monthlyNet)}
               </p>
-              <p className="text-xs text-warm-gray">This month</p>
+              <p className="text-xs leading-tight text-warm-gray">This month</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <p className="text-lg font-medium text-primary">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
+              <p className="text-base font-medium text-primary sm:text-lg">
                 {formatCurrency(monthlyFees)}
               </p>
-              <p className="text-xs text-warm-gray">Fees (10%)</p>
+              <p className="text-xs leading-tight text-warm-gray">Fees (10%)</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <p className="text-lg font-medium text-foreground">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
+              <p className="text-base font-medium text-foreground sm:text-lg">
                 {formatCurrency(allTimeNet)}
               </p>
-              <p className="text-xs text-warm-gray">All time</p>
+              <p className="text-xs leading-tight text-warm-gray">All time</p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="mb-6 grid grid-cols-3 gap-3">
+        <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <p className="text-2xl font-medium text-foreground">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
+              <p className="text-lg font-medium text-foreground sm:text-2xl">
                 {sessionsThisMonth}
               </p>
-              <p className="text-xs text-warm-gray">Sessions this month</p>
+              <p className="text-xs leading-tight text-warm-gray">Sessions this month</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <p className="text-2xl font-medium text-foreground">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
+              <p className="text-lg font-medium text-foreground sm:text-2xl">
                 {avgRating !== null ? avgRating.toFixed(1) : "—"}
               </p>
-              <p className="text-xs text-warm-gray">Avg rating</p>
+              <p className="text-xs leading-tight text-warm-gray">Avg rating</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col items-center p-4">
-              <p className="text-2xl font-medium text-foreground">
+            <CardContent className="flex flex-col items-center p-3 text-center sm:p-4">
+              <p className="text-lg font-medium text-foreground sm:text-2xl">
                 {noShowRate.toFixed(0)}%
               </p>
-              <p className="text-xs text-warm-gray">No-show rate</p>
+              <p className="text-xs leading-tight text-warm-gray">No-show rate</p>
             </CardContent>
           </Card>
         </div>

@@ -30,6 +30,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  // Index routes that only exist to forward to their first child. Doing this
+  // here yields a real HTTP redirect; a `redirect()` inside a page.tsx that
+  // sits under a loading.tsx Suspense boundary is streamed as a soft
+  // client-side redirect instead, which trips Next's router ("Rendered more
+  // hooks than during the previous render") right after an auth redirect.
+  const INDEX_FORWARDS: Record<string, string> = {
+    "/admin": "/admin/dashboard",
+    "/professional/dashboard/settings": "/professional/dashboard/settings/profile",
+  };
+  if (INDEX_FORWARDS[pathname]) {
+    return NextResponse.redirect(new URL(INDEX_FORWARDS[pathname], request.url));
+  }
+
   // DEMO MODE (DEMO_MODE=true): no magic-link login. Visitors are signed in
   // automatically as the demo account for the section they open — see
   // src/app/api/demo-login/route.ts. /login is meaningless here.
@@ -108,11 +121,31 @@ export async function middleware(request: NextRequest) {
     }
 
     if (currentRole !== requiredRole) {
+      // Never switch accounts inside a background fetch. Link prefetches and
+      // client-side navigations are fetch() calls; following the demo-login
+      // redirect from one would silently replace the session the page on
+      // screen depends on. Next strips its own `Next-Router-Prefetch` header
+      // and the `_rsc` query param before the middleware runs, so rely on
+      // the browser's fetch-metadata headers instead: a real page load has
+      // `Sec-Fetch-Dest: document`; fetch() calls have `empty`. Answering
+      // with an empty non-RSC response makes the router skip the prefetch,
+      // or fall back to a full-page navigation, which then signs in below.
+      const fetchDest = request.headers.get("sec-fetch-dest");
+      const isBackgroundFetch =
+        (fetchDest !== null && fetchDest !== "document") ||
+        request.headers.get("purpose") === "prefetch" ||
+        request.headers.get("sec-purpose")?.includes("prefetch");
+      if (isBackgroundFetch) {
+        return new NextResponse(null, { status: 204 });
+      }
+
+      const target = request.nextUrl.clone();
+      target.searchParams.delete("_rsc");
       const url = request.nextUrl.clone();
       url.pathname = "/api/demo-login";
       url.search = "";
       url.searchParams.set("role", requiredRole);
-      url.searchParams.set("next", pathname + request.nextUrl.search);
+      url.searchParams.set("next", pathname + target.search);
       return NextResponse.redirect(url);
     }
   }
