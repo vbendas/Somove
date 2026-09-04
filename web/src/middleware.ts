@@ -30,8 +30,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  // DEMO MODE (DEMO_MODE=true): no magic-link login. Visitors are signed in
+  // automatically as the demo account for the section they open — see
+  // src/app/api/demo-login/route.ts. /login is meaningless here.
+  const DEMO_MODE = process.env.DEMO_MODE === "true";
+  if (DEMO_MODE && pathname === "/login") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   const publicRoutes = [
     "/login",
+    "/api/demo-login",
     "/auth/callback",
     "/complete-profile",
     "/onboarding",
@@ -79,6 +88,34 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (DEMO_MODE && !pathname.startsWith("/api/") && !pathname.startsWith("/auth/")) {
+    // Which demo account does this section need?
+    //   /admin/**                    → admin
+    //   /professional/**, /onboarding → therapist
+    //   everything else              → client
+    const requiredRole =
+      pathname.startsWith("/admin")
+        ? "admin"
+        : pathname.startsWith("/professional") || pathname === "/onboarding"
+          ? "therapist"
+          : "client";
+
+    let currentRole: string | null = null;
+    if (user) {
+      const { data } = await supabase.from("users").select("role").eq("id", user.id).single();
+      currentRole = data?.role ?? null;
+    }
+
+    if (currentRole !== requiredRole) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/api/demo-login";
+      url.search = "";
+      url.searchParams.set("role", requiredRole);
+      url.searchParams.set("next", pathname + request.nextUrl.search);
+      return NextResponse.redirect(url);
+    }
+  }
 
   if (!user && isPublicRoute) return supabaseResponse;
 
@@ -133,7 +170,7 @@ export async function middleware(request: NextRequest) {
       if (!hasTherapistProfile) {
         return NextResponse.redirect(new URL("/onboarding", request.url));
       }
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/professional/dashboard", request.url));
     }
     return NextResponse.redirect(new URL("/", request.url));
   }

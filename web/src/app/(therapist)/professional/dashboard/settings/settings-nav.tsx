@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/dashboard/settings/profile", label: "Profile" },
-  { href: "/dashboard/settings/pricing", label: "Pricing" },
-  { href: "/dashboard/settings/session-types", label: "Session types" },
-  { href: "/dashboard/settings/terms", label: "Terms" },
-  { href: "/dashboard/settings/availability", label: "Availability" },
-  { href: "/dashboard/settings/integrations", label: "Integrations" },
-  { href: "/dashboard/settings/notifications", label: "Notifications" },
-  { href: "/dashboard/pages", label: "Pages" },
+  { href: "/professional/dashboard/settings/profile", label: "Profile" },
+  { href: "/professional/dashboard/settings/pricing", label: "Pricing" },
+  { href: "/professional/dashboard/settings/session-types", label: "Session types" },
+  { href: "/professional/dashboard/settings/terms", label: "Terms" },
+  { href: "/professional/dashboard/settings/availability", label: "Availability" },
+  { href: "/professional/dashboard/settings/integrations", label: "Integrations" },
+  { href: "/professional/dashboard/settings/notifications", label: "Notifications" },
+  { href: "/professional/dashboard/pages", label: "Pages" },
 ];
 
 export function SettingsNav() {

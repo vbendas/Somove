@@ -122,7 +122,7 @@ export function IntegrationsForm({ initial }: { initial: IntegrationsInitial }) 
               <p className="mb-1 text-xs text-warm-gray">
                 Get from{" "}
                 <a
-                  href="https://dashboard.daily.co"
+                  href="https://professional/dashboard.daily.co"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary underline"

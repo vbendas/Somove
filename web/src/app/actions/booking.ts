@@ -480,6 +480,6 @@ export async function cancelSession(sessionId: string) {
   notifySessionCancelled(sessionId).catch((e) => captureError(e, { sessionId, step: "notify cancelled" }));
 
   revalidatePath("/my-sessions");
-  revalidatePath("/dashboard");
+  revalidatePath("/professional/dashboard");
   return { success: true };
 }

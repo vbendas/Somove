@@ -31,7 +31,7 @@ export default function SessionPlayer({
       // Silently handle - room closes regardless
     }
 
-    router.push(role === "client" ? "/my-sessions" : "/dashboard");
+    router.push(role === "client" ? "/my-sessions" : "/professional/dashboard");
   };
 
   return (

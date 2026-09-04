@@ -63,7 +63,7 @@ export async function GET(request: Request) {
           } else if (userData.role === "admin") {
             redirectUrl = `${origin}/admin/dashboard`;
           } else if (userData.role === "therapist") {
-            redirectUrl = `${origin}/dashboard`;
+            redirectUrl = `${origin}/professional/dashboard`;
           }
         }
 

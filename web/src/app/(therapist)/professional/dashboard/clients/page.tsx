@@ -114,7 +114,7 @@ export default async function ClientsPage({
       ) : (
         <div className="space-y-3">
           {clients.map(([clientId, client]) => (
-            <Link key={clientId} href={`/dashboard/clients/${clientId}`}>
+            <Link key={clientId} href={`/professional/dashboard/clients/${clientId}`}>
               <Card className="cursor-pointer transition-all hover:border-primary/30 hover:shadow-sm">
                 <CardContent className="flex items-center gap-4 p-4">
                   <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-medium text-primary">
@@ -144,7 +144,7 @@ export default async function ClientsPage({
       {sessions && sessions.length === pageSize && (
         <div className="mt-6 text-center">
           <Link
-            href={`/dashboard/clients?page=${page + 1}${sp.q ? `&q=${encodeURIComponent(sp.q)}` : ""}`}
+            href={`/professional/dashboard/clients?page=${page + 1}${sp.q ? `&q=${encodeURIComponent(sp.q)}` : ""}`}
             className="text-sm text-primary hover:underline"
           >
             Load more

@@ -69,8 +69,8 @@ export async function getOnboardingLink(): Promise<
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const result = await stripe.createOnboardingLink(
     profile.stripe_account_id,
-    `${siteUrl}/dashboard/settings?onboarding=refresh`,
-    `${siteUrl}/dashboard/settings?onboarding=complete`
+    `${siteUrl}/professional/dashboard/settings?onboarding=refresh`,
+    `${siteUrl}/professional/dashboard/settings?onboarding=complete`
   );
 
   if (result.error) return { error: result.error.message };

@@ -2,11 +2,11 @@
   "crons": [
     {
       "path": "/api/cron/reminders",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/cron/reconcile-rooms",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 6 * * *"
     }
   ]
 }

@@ -84,8 +84,8 @@ export async function createOrUpdateTherapistPage(input: TherapistPageInput & { 
     if (error) return { error: error.message };
   }
 
-  revalidatePath("/dashboard/pages");
-  revalidatePath("/dashboard/settings");
+  revalidatePath("/professional/dashboard/pages");
+  revalidatePath("/professional/dashboard/settings");
   return { success: true };
 }
 
@@ -136,7 +136,7 @@ export async function createTherapistPage(input: {
     return { error: "Failed to create page" };
   }
 
-  revalidatePath("/dashboard/pages");
+  revalidatePath("/professional/dashboard/pages");
   return { id: data.id };
 }
 
@@ -153,7 +153,7 @@ export async function deleteTherapistPage(id: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/dashboard/pages");
+  revalidatePath("/professional/dashboard/pages");
   return { success: true };
 }
 
@@ -173,7 +173,7 @@ export async function publishTherapistPage(id: string, publish: boolean) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/dashboard/pages");
+  revalidatePath("/professional/dashboard/pages");
   return { success: true };
 }
 
@@ -276,7 +276,7 @@ export async function saveTherapistPageDraft(
 
   if (error) return { error: "Failed to save draft" };
 
-  revalidatePath("/dashboard/pages");
+  revalidatePath("/professional/dashboard/pages");
   return { success: true };
 }
 
@@ -368,7 +368,7 @@ export async function publishTherapistPageDraft(id: string): Promise<{ success?:
     user.id
   );
 
-  revalidatePath("/dashboard/pages");
+  revalidatePath("/professional/dashboard/pages");
   revalidatePath(`/therapists/${page.therapist_id}/${page.slug}`);
   return { success: true };
 }
@@ -559,7 +559,7 @@ export async function restorePageRevision(revisionId: string): Promise<{ success
       .eq("therapist_id", user.id);
 
     if (error) return { error: "Failed to restore revision" };
-    revalidatePath("/dashboard/pages");
+    revalidatePath("/professional/dashboard/pages");
     return { success: true };
   }
 

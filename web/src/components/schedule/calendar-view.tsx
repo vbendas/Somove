@@ -69,7 +69,7 @@ export default function CalendarView({ sessions }: CalendarViewProps) {
         }}
         events={events}
         eventClick={(info) => {
-          router.push(`/dashboard/schedule?session=${info.event.id}`);
+          router.push(`/professional/dashboard/schedule?session=${info.event.id}`);
         }}
         height="auto"
         slotMinTime="07:00:00"

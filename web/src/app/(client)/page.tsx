@@ -179,7 +179,7 @@ export default async function Home({
           <>
             <ThemeToggle />
             {userData.role === "therapist" && (
-              <Link href="/dashboard">
+              <Link href="/professional/dashboard">
                 <Button variant="outline" size="sm">
                   Dashboard
                 </Button>

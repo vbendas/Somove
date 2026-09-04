@@ -93,7 +93,7 @@ export async function createTherapistProfile(profile: {
   // 00026_role_escalation_guard.sql).
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect("/professional/dashboard");
 }
 
 export async function getTherapistProfile(userId: string) {

@@ -13,7 +13,7 @@ export default function ClientListSearch({ initialQuery }: { initialQuery: strin
     setQuery(value);
     const params = new URLSearchParams();
     if (value) params.set("q", value);
-    router.push(`/dashboard/clients?${params.toString()}`, { scroll: false });
+    router.push(`/professional/dashboard/clients?${params.toString()}`, { scroll: false });
   };
 
   return (

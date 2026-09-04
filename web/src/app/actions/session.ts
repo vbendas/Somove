@@ -181,7 +181,7 @@ export async function startSession(
     return { error: joinResult.error };
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath("/professional/dashboard");
   revalidatePath("/my-sessions");
 
   return { joinUrl: joinResult.joinUrl };
@@ -217,7 +217,7 @@ export async function completeSession(
     .update({ status: "completed" })
     .eq("id", sessionId);
 
-  revalidatePath("/dashboard");
+  revalidatePath("/professional/dashboard");
   revalidatePath("/my-sessions");
 
   return { success: true };
@@ -256,7 +256,7 @@ export async function markNoShow(
     .update({ status: "no_show" })
     .eq("id", sessionId);
 
-  revalidatePath("/dashboard");
+  revalidatePath("/professional/dashboard");
   revalidatePath("/my-sessions");
 
   return { success: true };
@@ -309,8 +309,8 @@ export async function rescheduleSession(
     }
   }
 
-  revalidatePath("/dashboard");
-  revalidatePath("/dashboard/schedule");
+  revalidatePath("/professional/dashboard");
+  revalidatePath("/professional/dashboard/schedule");
   revalidatePath("/my-sessions");
 
   return { success: true };

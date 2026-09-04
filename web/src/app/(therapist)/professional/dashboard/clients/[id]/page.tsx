@@ -277,7 +277,7 @@ export default function ClientDetailPage() {
       <PageHeader
         title={client?.name || "Client"}
         description={client?.email}
-        backHref="/dashboard/clients"
+        backHref="/professional/dashboard/clients"
       />
 
       {client && (

@@ -10,11 +10,11 @@ export function TherapistNav({ userId }: { userId?: string }) {
   return (
     <BottomNav
       items={[
-        { label: "Today", href: "/dashboard", icon: LayoutDashboard },
-        { label: "Schedule", href: "/dashboard/schedule", icon: CalendarDays },
-        { label: "Clients", href: "/dashboard/clients", icon: Users },
-        { label: "Inbox", href: "/dashboard/inbox", icon: MessageSquare, badge: unreadCount },
-        { label: "Settings", href: "/dashboard/settings", icon: Settings },
+        { label: "Today", href: "/professional/dashboard", icon: LayoutDashboard },
+        { label: "Schedule", href: "/professional/dashboard/schedule", icon: CalendarDays },
+        { label: "Clients", href: "/professional/dashboard/clients", icon: Users },
+        { label: "Inbox", href: "/professional/dashboard/inbox", icon: MessageSquare, badge: unreadCount },
+        { label: "Settings", href: "/professional/dashboard/settings", icon: Settings },
       ]}
     />
   );

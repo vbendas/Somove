@@ -66,7 +66,7 @@ export function NewPageDialog() {
     }
 
     handleOpenChange(false);
-    router.push(`/dashboard/pages/${result.id}`);
+    router.push(`/professional/dashboard/pages/${result.id}`);
   }
 
   return (

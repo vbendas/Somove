@@ -227,7 +227,7 @@ export async function notifyBookingConfirmed(sessionId: string) {
     type: "booking_confirmed",
     title: "New Booking",
     body: `${client.name || "A client"} booked a session on ${dateStr}.`,
-    link: `/dashboard`,
+    link: `/professional/dashboard`,
   });
 
   if (clientPrefs.email_booking_confirmed) {
@@ -266,7 +266,7 @@ export async function notifyBookingConfirmed(sessionId: string) {
     await sendPushToUser(therapist.id, {
       title: "New Booking",
       body: `${client.name || "A client"} booked a session on ${dateStr}.`,
-      url: `/dashboard`,
+      url: `/professional/dashboard`,
       tag: `booking-${sessionId}`,
     });
   }
@@ -421,7 +421,7 @@ export async function notifySessionCancelled(sessionId: string) {
     type: "session_cancelled",
     title: "Session Cancelled",
     body: `The session on ${dateStr} has been cancelled.`,
-    link: `/dashboard`,
+    link: `/professional/dashboard`,
   });
 
   if (clientPrefs.email_booking_confirmed) {
@@ -458,7 +458,7 @@ export async function notifySessionCancelled(sessionId: string) {
     await sendPushToUser(therapist.id, {
       title: "Session Cancelled",
       body: `The session on ${dateStr} has been cancelled.`,
-      url: `/dashboard`,
+      url: `/professional/dashboard`,
       tag: `cancel-${sessionId}`,
     });
   }

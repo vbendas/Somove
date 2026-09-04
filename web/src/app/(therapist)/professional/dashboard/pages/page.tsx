@@ -47,7 +47,7 @@ export default async function TherapistPagesList() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <Link
-                      href={`/dashboard/pages/${page.id}`}
+                      href={`/professional/dashboard/pages/${page.id}`}
                       className="truncate font-medium text-foreground hover:underline"
                     >
                       {page.title}
@@ -60,7 +60,7 @@ export default async function TherapistPagesList() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href={`/dashboard/pages/${page.id}`}>Edit</Link>
+                    <Link href={`/professional/dashboard/pages/${page.id}`}>Edit</Link>
                   </Button>
                   <DeletePageButton id={page.id} title={page.title} />
                 </div>

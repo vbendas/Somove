@@ -72,7 +72,7 @@ export default async function DashboardPage() {
             Today&apos;s Sessions
           </h2>
           <Link
-            href="/dashboard/schedule"
+            href="/professional/dashboard/schedule"
             className="text-sm text-primary hover:underline"
           >
             View all

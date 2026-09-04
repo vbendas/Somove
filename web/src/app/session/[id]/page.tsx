@@ -44,7 +44,7 @@ export default async function SessionVideoPage({
         <div className="text-center">
           <p className="text-warm-gray">{joinResult.error}</p>
           <a
-            href={role === "client" ? "/my-sessions" : "/dashboard"}
+            href={role === "client" ? "/my-sessions" : "/professional/dashboard"}
             className="mt-4 inline-block text-primary underline"
           >
             {role === "client" ? "Back to sessions" : "Back to dashboard"}

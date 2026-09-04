@@ -191,7 +191,7 @@ export default async function EarningsPage() {
                 </div>
               </div>
               <Button variant="outline" size="sm" asChild>
-                <a href="/dashboard/settings/integrations" target="_self">Manage</a>
+                <a href="/professional/dashboard/settings/integrations" target="_self">Manage</a>
               </Button>
             </CardContent>
           </Card>
