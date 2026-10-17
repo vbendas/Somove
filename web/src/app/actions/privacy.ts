@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/audit";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { DEMO_DISABLED_MESSAGE, isDemoMode } from "@/lib/demo";
 
 export async function exportMyData(): Promise<{
   data?: string;
@@ -59,6 +60,8 @@ export async function exportMyData(): Promise<{
 }
 
 export async function deleteMyAccount(): Promise<{ error?: string; success?: boolean }> {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
   const {
     data: { user },

@@ -39,6 +39,7 @@ interface Therapist {
 export default function TherapistsPage() {
   const [therapists, setTherapists] = useState<Therapist[]>([]);
   const [loading, setLoading] = useState(true);
+  const [demo, setDemo] = useState(false);
 
   useEffect(() => {
     loadTherapists();
@@ -47,6 +48,7 @@ export default function TherapistsPage() {
   async function loadTherapists() {
     const result = await getTherapists();
     setTherapists(result?.therapists ?? []);
+    setDemo(Boolean(result && "demo" in result && result.demo));
     setLoading(false);
   }
 
@@ -159,14 +161,16 @@ export default function TherapistsPage() {
                               {status === "active" ? "Deactivate" : "Activate"}
                             </Button>
                           )}
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(therapist.id, therapist.name || "")}
-                            className="text-destructive"
-                          >
-                            Delete
-                          </Button>
+                          {!demo && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(therapist.id, therapist.name || "")}
+                              className="text-destructive"
+                            >
+                              Delete
+                            </Button>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>

@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { logAudit } from "@/lib/audit";
+import { DEMO_DISABLED_MESSAGE, isDemoMode, maskEmail } from "@/lib/demo";
+
+type TherapistProfileRow = { status: string; session_price_cents: number | null; video_provider: string };
 
 export interface AdminStats {
   therapistCount: number;
@@ -103,17 +106,20 @@ export async function getTherapists(limit: number = 50, offset: number = 0) {
       name: string | null;
       role: string;
       created_at: string;
-      therapist_profile: { status: string; session_price_cents: number | null; video_provider: string }[] | null;
+      therapist_profile: TherapistProfileRow | TherapistProfileRow[] | null;
     }) => ({
       id: t.id,
-      email: t.email,
+      email: isDemoMode() ? maskEmail(t.email) : t.email,
       name: t.name,
       role: t.role,
       created_at: t.created_at,
-      therapist_profile: t.therapist_profile?.[0] ?? null,
+      // One-to-one (user_id UNIQUE): PostgREST returns an object, not an array.
+      therapist_profile: Array.isArray(t.therapist_profile)
+        ? (t.therapist_profile[0] ?? null)
+        : (t.therapist_profile ?? null),
     }));
 
-    return { therapists: normalized };
+    return { therapists: normalized, demo: isDemoMode() };
   } catch (e) {
     console.error("getTherapists error:", e);
     return { therapists: [] };
@@ -209,6 +215,8 @@ export async function createTherapistProfileForUser(therapistId: string) {
 }
 
 export async function deleteUser(userId: string) {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
 
   const {

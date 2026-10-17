@@ -246,29 +246,6 @@ async function seedActivity(clientId, anaId, typeIds) {
   must(await db.from("conversations").update({ last_message_at: last }).eq("id", conv.id), "update conversation");
 }
 
-// ---- hide owner leftovers (reversible) --------------------------------------
-async function hideOwnerData() {
-  const log = [];
-  const { data: users } = await db.from("users").select("id,role");
-  const ownerClient = users.find((u) => u.id.startsWith("7dfde779"));
-  const ownerPro = users.find((u) => u.id.startsWith("5ddc6264"));
-  if (ownerClient) {
-    const { data } = await db.from("session_types").select("id,name,is_active").eq("therapist_id", ownerClient.id).eq("is_active", true);
-    for (const t of data ?? []) {
-      must(await db.from("session_types").update({ is_active: false }).eq("id", t.id), "deactivate type");
-      log.push(`session_types ${t.id.slice(0, 8)} "${t.name}": is_active true -> false`);
-    }
-  }
-  if (ownerPro) {
-    const { data } = await db.from("therapist_profile").select("id,status").eq("user_id", ownerPro.id).maybeSingle();
-    if (data && data.status !== "inactive") {
-      must(await db.from("therapist_profile").update({ status: "inactive" }).eq("id", data.id), "hide profile");
-      log.push(`therapist_profile ${data.id.slice(0, 8)} (user 5ddc6264): status '${data.status}' -> 'inactive'`);
-    }
-  }
-  return log;
-}
-
 // ---- main ---------------------------------------------------------------------
 const clientId = await ensureUser(ACCOUNTS.client);
 await ensureUser(ACCOUNTS.admin);
@@ -280,9 +257,6 @@ for (const p of PROS) {
   p.typeIds = await ensureSessionTypes(id, p.types);
 }
 await seedActivity(clientId, proIds[0], PROS[0].typeIds);
-const hidden = await hideOwnerData();
 
 console.log("Seed summary (created/updated):");
 for (const [t, c] of Object.entries(counts)) console.log(`  ${t}: ${c.created}/${c.updated}`);
-console.log(hidden.length ? "Owner rows hidden this run:" : "Owner rows: nothing to hide (already hidden).");
-hidden.forEach((l) => console.log("  " + l));

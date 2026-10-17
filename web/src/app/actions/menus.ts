@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { DEMO_DISABLED_MESSAGE, isDemoMode } from "@/lib/demo";
 import { menuItemsSchema, sanitizeMenuItems, MenuSlugSchema, RESERVED_MENU_SLUG, type MenuItem } from "@/lib/menus/schema";
 import { recordRevisionAndPrune, MAX_REVISIONS } from "@/lib/cms/revisions";
 import type { SiteMenuRow, PageRevisionRow } from "@/types/cms";
@@ -208,6 +209,8 @@ export async function createSiteMenu(slug: string, title: string): Promise<{ suc
 
 /** Admin-only: deletes a menu. The reserved `header` menu can never be deleted. */
 export async function deleteSiteMenu(slug: string): Promise<{ success?: true; error?: string }> {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
   const {
     data: { user },

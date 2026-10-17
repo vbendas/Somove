@@ -8,6 +8,7 @@ import { getSiteMenus } from "@/app/actions/menus";
 import { RESERVED_MENU_SLUG } from "@/lib/menus/schema";
 import type { SiteMenuRow } from "@/types/cms";
 import { NewMenuDialog } from "./new-menu-dialog";
+import { isDemoMode } from "@/lib/demo";
 import { DeleteMenuButton } from "./delete-menu-button";
 import { MenuReorderButtons } from "./menu-reorder-buttons";
 
@@ -84,7 +85,7 @@ export default async function NavigationPage() {
                         >
                           Edit
                         </Link>
-                        {menu.slug !== RESERVED_MENU_SLUG && (
+                        {menu.slug !== RESERVED_MENU_SLUG && !isDemoMode() && (
                           <DeleteMenuButton slug={menu.slug} title={menu.title} />
                         )}
                       </div>

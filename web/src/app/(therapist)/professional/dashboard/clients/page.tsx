@@ -101,7 +101,7 @@ export default async function ClientsPage({
   );
 
   return (
-    <PageContainer width="narrow">
+    <PageContainer width="dashboard">
       <PageHeader title="Clients" />
 
       <ClientListSearch initialQuery={q} />

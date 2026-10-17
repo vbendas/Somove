@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { validateInput } from "@/lib/validation";
 import { inviteSchema } from "@/lib/schemas/invites";
 import crypto from "crypto";
+import { DEMO_DISABLED_MESSAGE, isDemoMode, maskEmail } from "@/lib/demo";
 import { getResendClient } from "@/lib/resend";
 
 export interface Invite {
@@ -125,10 +126,14 @@ export async function getInvites() {
 
   if (error) return { invites: [] };
 
-  return { invites: data as Invite[] };
+  const demo = isDemoMode();
+  const invites = (data as Invite[]).map((i) => (demo ? { ...i, email: maskEmail(i.email) } : i));
+  return { invites, demo };
 }
 
 export async function deleteInvite(inviteId: string) {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
 
   const {

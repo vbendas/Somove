@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { DEMO_DISABLED_MESSAGE, isDemoMode } from "@/lib/demo";
 import type { Block } from "@/components/blocks/BlockRenderer";
 import { sanitizeBlocks } from "@/lib/sanitize";
 import { contentSchema, sanitizeBlockContent } from "@/blocks";
@@ -141,6 +142,8 @@ export async function createTherapistPage(input: {
 }
 
 export async function deleteTherapistPage(id: string) {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };

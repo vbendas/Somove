@@ -37,6 +37,7 @@ interface Invite {
 export default function InvitesPage() {
   const [invites, setInvites] = useState<Invite[]>([]);
   const [loading, setLoading] = useState(true);
+  const [demo, setDemo] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<"therapist" | "admin">("therapist");
   const [creating, setCreating] = useState(false);
@@ -48,6 +49,7 @@ export default function InvitesPage() {
   async function loadInvites() {
     const result = await getInvites();
     setInvites(result.invites);
+    setDemo(("demo" in result && result.demo) || false);
     setLoading(false);
   }
 
@@ -187,14 +189,16 @@ export default function InvitesPage() {
                             >
                               Extend
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDelete(invite.id)}
-                              className="text-destructive"
-                            >
-                              Delete
-                            </Button>
+                            {!demo && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDelete(invite.id)}
+                                className="text-destructive"
+                              >
+                                Delete
+                              </Button>
+                            )}
                           </div>
                         </TableCell>
                       </TableRow>

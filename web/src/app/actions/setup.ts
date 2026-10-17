@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { DEMO_DISABLED_MESSAGE, isDemoMode } from "@/lib/demo";
 import { getPlatformSettings as fetchPlatformSettings, invalidateSettingsCache, type PlatformSettings } from "@/lib/platform";
 
 export async function getPlatformSettings(): Promise<PlatformSettings> {
@@ -117,6 +118,8 @@ export async function updatePlatformSettings(settings: {
   terms_of_service?: string;
   privacy_policy?: string;
 }) {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -168,6 +171,8 @@ export async function updatePlatformTheme(theme: {
   background_color: string;
   logo_url: string | null;
 }): Promise<{ success?: true; error?: string }> {
+  if (isDemoMode()) return { error: DEMO_DISABLED_MESSAGE };
+
   const parsed = platformThemeSchema.safeParse(theme);
   if (!parsed.success) {
     return { error: "Invalid color format" };

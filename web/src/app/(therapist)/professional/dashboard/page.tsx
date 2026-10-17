@@ -36,11 +36,12 @@ export default async function DashboardPage() {
     .in("status", ["confirmed", "active"])
     .order("scheduled_at", { ascending: true });
 
-  const { count: totalClients } = await supabase
+  const { data: completedSessions } = await supabase
     .from("sessions")
-    .select("client_id", { count: "exact", head: true })
+    .select("client_id")
     .eq("therapist_id", user.id)
     .eq("status", "completed");
+  const totalClients = new Set((completedSessions ?? []).map((s) => s.client_id)).size;
 
   const { count: unreadMessages } = await supabase
     .from("messages")
