@@ -55,7 +55,7 @@ export default async function MySessionsPage({
           <EmptyState
             icon={CalendarDays}
             title="No sessions yet"
-            action={{ label: "Browse Professionals", href: "/" }}
+            action={{ label: "Browse Professionals", href: "/dashboard" }}
           />
         )}
 

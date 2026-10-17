@@ -4,6 +4,8 @@ import { getPlatformSettings } from "@/lib/platform";
 import { BlockRenderer, type Block } from "@/components/blocks/BlockRenderer";
 import { keyToAnchorId } from "@/lib/menus/anchors";
 import { loadPublishedMenus, loadDraftMenus, type LoadedMenus } from "@/lib/menus/load";
+import { isDemoMode } from "@/lib/demo";
+import { DemoEntryBanner } from "@/components/marketing/demo-entry-banner";
 import { MarketingHeader } from "@/components/marketing/marketing-header";
 import { MarketingFooter } from "@/components/marketing/marketing-footer";
 
@@ -100,6 +102,7 @@ export default async function LandingPage({
       >
         Skip to content
       </a>
+      {isDemoMode() && <DemoEntryBanner />}
       <MarketingHeader items={menus.headerItems} />
       <main id="main-content">
         {sections.map((section) => (

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { z } from "zod";
 import type { statsSchemaDef } from "./schema";
+import { sectionContainer } from "../section-header";
 
 type StatsData = z.infer<(typeof statsSchemaDef)["schema"]>;
 type StatItem = StatsData["items"][number];
@@ -52,11 +53,11 @@ function AnimatedStat({ item }: { item: StatItem }) {
 
   return (
     <div ref={ref} className="flex-1 text-center">
-      <span className="font-heading text-4xl font-normal text-foreground sm:text-5xl lg:text-6xl">
+      <span className="font-heading text-4xl font-normal tabular-nums text-primary sm:text-5xl">
         {display}
         {item.suffix}
       </span>
-      <p className="mt-2 font-body text-xs uppercase tracking-wider text-muted-foreground sm:text-sm">
+      <p className="mt-2 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {item.label}
       </p>
     </div>
@@ -65,15 +66,10 @@ function AnimatedStat({ item }: { item: StatItem }) {
 
 export function StatsRenderer({ data }: { data: StatsData }) {
   return (
-    <div className="container-wide section-padding">
-      <div className="flex flex-col items-center justify-center gap-8 sm:flex-row sm:gap-0">
+    <div className={sectionContainer}>
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card-lg border border-border bg-border sm:grid-cols-3">
         {data.items.map((item, i) => (
-          <div
-            key={i}
-            className={
-              i < data.items.length - 1 ? "w-full flex-1 sm:border-r sm:border-border" : "w-full flex-1"
-            }
-          >
+          <div key={i} className="bg-card px-6 py-10">
             <AnimatedStat item={item} />
           </div>
         ))}

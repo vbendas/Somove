@@ -39,29 +39,37 @@ export default async function ClientsPage({
     {
       name: string;
       email: string;
-      lastSession: string;
+      lastSession: string | null;
       nextSession: string | null;
       lastNote: string | null;
     }
   >();
 
+  const nowMs = Date.now();
   sessions?.forEach((s) => {
     const client = s.users as unknown as { name: string; email: string };
     if (!client) return;
-    const existing = clientsMap.get(s.client_id);
-    const scheduledAt = new Date(s.scheduled_at).toISOString();
-    if (!existing) {
+    if (!clientsMap.has(s.client_id)) {
       clientsMap.set(s.client_id, {
         name: client.name || "Client",
         email: client.email,
-        lastSession: scheduledAt,
-        nextSession:
-          ["confirmed", "pending_payment"].includes(s.status) ? scheduledAt : null,
+        lastSession: null,
+        nextSession: null,
         lastNote: null,
       });
-    } else {
-      if (!existing.nextSession && ["confirmed", "pending_payment"].includes(s.status)) {
-        existing.nextSession = scheduledAt;
+    }
+    const entry = clientsMap.get(s.client_id)!;
+    const scheduledMs = new Date(s.scheduled_at).getTime();
+    const scheduledAt = new Date(s.scheduled_at).toISOString();
+    if (scheduledMs < nowMs) {
+      // Most recent past session
+      if (!entry.lastSession || scheduledMs > new Date(entry.lastSession).getTime()) {
+        entry.lastSession = scheduledAt;
+      }
+    } else if (s.status !== "cancelled") {
+      // Earliest upcoming, non-cancelled session
+      if (!entry.nextSession || scheduledMs < new Date(entry.nextSession).getTime()) {
+        entry.nextSession = scheduledAt;
       }
     }
   });
@@ -123,9 +131,12 @@ export default async function ClientsPage({
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-foreground">{client.name}</p>
                     <p className="truncate text-sm text-warm-gray">
-                      Last: {formatDate(client.lastSession, "short")}
+                      {client.lastSession && (
+                        <>Last: {formatDate(client.lastSession, "short")}</>
+                      )}
+                      {client.lastSession && client.nextSession && " · "}
                       {client.nextSession && (
-                        <> · Next: {formatDate(client.nextSession, "short")}</>
+                        <>Next: {formatDate(client.nextSession, "short")}</>
                       )}
                     </p>
                     {client.lastNote && (

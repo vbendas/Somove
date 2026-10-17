@@ -2,6 +2,7 @@ import type { z } from "zod";
 import * as LucideIcons from "lucide-react";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionHeader, sectionContainer } from "../section-header";
 import type { featureGridSchemaDef } from "./schema";
 
 type FeatureGridData = z.infer<(typeof featureGridSchemaDef)["schema"]>;
@@ -15,7 +16,7 @@ const columnsClass: Record<FeatureGridData["columns"], string> = {
 function FeatureIcon({ name }: { name?: string }) {
   const Icon = (name && (LucideIcons as unknown as Record<string, typeof Sparkles>)[name]) || Sparkles;
   return (
-    <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-accent/10 text-accent">
+    <span className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
       <Icon className="h-5 w-5" aria-hidden="true" />
     </span>
   );
@@ -23,20 +24,14 @@ function FeatureIcon({ name }: { name?: string }) {
 
 export function FeatureGridRenderer({ data }: { data: FeatureGridData }) {
   return (
-    <div className="container-wide section-padding">
-      {(data.eyebrow || data.title || data.subtitle) && (
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          {data.eyebrow && <span className="pill-badge mb-4 inline-block">{data.eyebrow}</span>}
-          {data.title && <h2 className="font-heading text-3xl font-normal text-foreground sm:text-4xl">{data.title}</h2>}
-          {data.subtitle && <p className="mt-4 font-body text-muted-foreground">{data.subtitle}</p>}
-        </div>
-      )}
+    <div className={sectionContainer}>
+      <SectionHeader eyebrow={data.eyebrow} title={data.title} subtitle={data.subtitle} />
 
-      <div className={cn("grid grid-cols-1 gap-6 lg:gap-8", columnsClass[data.columns])}>
+      <div className={cn("grid grid-cols-1 gap-5 lg:gap-6", columnsClass[data.columns])}>
         {data.items.map((item, i) => (
-          <div key={i} className="section-card text-center">
+          <div key={i} className="rounded-card-lg border border-border bg-card p-6 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md sm:p-8">
             {data.style === "numbered" ? (
-              <span className="mb-3 block font-heading text-5xl font-normal text-primary/25">
+              <span className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 font-body text-sm font-semibold tabular-nums text-primary">
                 {item.number || String(i + 1).padStart(2, "0")}
               </span>
             ) : (

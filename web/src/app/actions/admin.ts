@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { logAudit } from "@/lib/audit";
-import { DEMO_DISABLED_MESSAGE, isDemoMode, maskEmail } from "@/lib/demo";
+import { DEMO_DISABLED_MESSAGE, demoGuard, isDemoMode, maskEmail } from "@/lib/demo";
 
 type TherapistProfileRow = { status: string; session_price_cents: number | null; video_provider: string };
 
@@ -127,6 +127,9 @@ export async function getTherapists(limit: number = 50, offset: number = 0) {
 }
 
 export async function updateTherapistStatus(therapistId: string, status: string) {
+  const blocked = demoGuard();
+  if (blocked) return { error: blocked.error };
+
   const supabase = await createClient();
 
   const {

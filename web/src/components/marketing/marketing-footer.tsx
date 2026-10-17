@@ -12,8 +12,8 @@ export async function MarketingFooter({ menus }: MarketingFooterProps) {
 
   return (
     <footer className="border-t border-border bg-surface/50">
-      <div className="container-wide section-padding py-12 sm:py-14">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 md:py-16 lg:px-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <span className="block font-heading text-lg font-semibold text-foreground">
               {settings.platform_name}
@@ -27,7 +27,7 @@ export async function MarketingFooter({ menus }: MarketingFooterProps) {
 
           {menus.map((menu) => (
             <div key={menu.title}>
-              <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">{menu.title}</h4>
+              <h4 className="mb-4 font-body text-xs font-semibold uppercase tracking-wider text-foreground">{menu.title}</h4>
               <ul className="space-y-2.5">
                 {menu.items.map((item) => (
                   <li key={item.id}>
@@ -54,7 +54,7 @@ export async function MarketingFooter({ menus }: MarketingFooterProps) {
           ))}
 
           <div>
-            <h4 className="mb-4 font-heading text-sm font-semibold text-foreground">Contact</h4>
+            <h4 className="mb-4 font-body text-xs font-semibold uppercase tracking-wider text-foreground">Contact</h4>
             <a
               href={`mailto:${settings.support_email}`}
               className="font-body text-sm text-warm-gray transition-colors hover:text-foreground"
@@ -64,7 +64,7 @@ export async function MarketingFooter({ menus }: MarketingFooterProps) {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="font-body text-xs text-warm-gray">
             &copy; {year} {settings.platform_name}. All rights reserved.
           </p>

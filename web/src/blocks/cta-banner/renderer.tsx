@@ -16,8 +16,8 @@ export function CtaBannerRenderer({ data }: { data: CtaBannerData }) {
   const isInverted = data.style !== "light";
 
   return (
-    <section className={cn("rounded-card-lg", styleClasses[data.style])}>
-      <div className="container-wide section-padding text-center">
+    <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+      <div className={cn("relative overflow-hidden rounded-card-lg px-6 py-16 text-center sm:px-12 md:py-20", styleClasses[data.style])}>
         <h2 className="font-heading text-3xl font-normal text-balance sm:text-4xl">{data.title}</h2>
         {data.subtitle && (
           <p className={cn("mx-auto mt-4 max-w-xl font-body text-base sm:text-lg", isInverted ? "opacity-80" : "text-muted-foreground")}>

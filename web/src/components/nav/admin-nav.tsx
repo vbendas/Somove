@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -45,8 +46,15 @@ export function AdminNav({ demoMode = false }: { demoMode?: boolean }) {
           </div>
           <div className="flex items-center gap-2">
             {demoMode && <DemoSwitcher className="hidden md:flex" />}
-            <Link href="/" prefetch={false} className="text-sm text-muted-foreground hover:text-foreground">
+            <Link
+              href="/"
+              target="_blank"
+              rel="noopener"
+              prefetch={false}
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            >
               View Site
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
             <ThemeToggle />
             <Button variant="ghost" size="sm" onClick={() => signOut()}>

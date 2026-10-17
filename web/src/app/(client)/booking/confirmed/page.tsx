@@ -168,7 +168,7 @@ export default async function BookingConfirmedPage({
         <Link href="/my-sessions">
           <Button className="w-full">View My Sessions</Button>
         </Link>
-        <Link href="/">
+        <Link href="/dashboard">
           <Button variant="ghost" className="w-full">
             Browse More Professionals
           </Button>

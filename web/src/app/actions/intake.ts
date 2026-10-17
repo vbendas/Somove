@@ -46,10 +46,10 @@ export async function saveIntake(intakeData: {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function skipIntake() {
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }

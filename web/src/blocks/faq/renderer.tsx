@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { SectionHeader, sectionContainer } from "../section-header";
 import type { faqSchemaDef } from "./schema";
 
 type FaqData = z.infer<(typeof faqSchemaDef)["schema"]>;
@@ -10,13 +11,8 @@ type FaqData = z.infer<(typeof faqSchemaDef)["schema"]>;
  */
 export function FaqRenderer({ data }: { data: FaqData }) {
   return (
-    <div className="container-wide section-padding">
-      {(data.eyebrow || data.title) && (
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          {data.eyebrow && <span className="pill-badge mb-4 inline-block">{data.eyebrow}</span>}
-          {data.title && <h2 className="font-heading text-3xl font-normal text-foreground sm:text-4xl">{data.title}</h2>}
-        </div>
-      )}
+    <div className={sectionContainer}>
+      <SectionHeader eyebrow={data.eyebrow} title={data.title} />
 
       <Accordion type="single" collapsible className="mx-auto max-w-2xl">
         {data.items.map((item, i) => (

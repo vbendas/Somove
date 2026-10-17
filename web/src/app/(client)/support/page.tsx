@@ -64,7 +64,7 @@ export default function SupportPage() {
 
   return (
     <PageContainer width="narrow">
-      <PageHeader title="Contact Support" backHref="/" />
+      <PageHeader title="Contact Support" backHref="/dashboard" />
 
       {submitted ? (
           <Card>
@@ -76,7 +76,7 @@ export default function SupportPage() {
               <p className="mb-6 text-sm text-warm-gray">
                 Our team will get back to you soon. You can also use the live chat widget for immediate assistance.
               </p>
-              <Link href="/">
+              <Link href="/dashboard">
                 <Button variant="outline">Back to Home</Button>
               </Link>
             </CardContent>

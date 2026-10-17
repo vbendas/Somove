@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { richTextSchemaDef } from "./schema";
+import { sectionContainer } from "../section-header";
 
 type RichTextData = z.infer<(typeof richTextSchemaDef)["schema"]>;
 
@@ -10,7 +11,7 @@ type RichTextData = z.infer<(typeof richTextSchemaDef)["schema"]>;
  */
 export function RichTextRenderer({ data }: { data: RichTextData }) {
   return (
-    <div className="container-wide section-padding">
+    <div className={sectionContainer}>
       <div
         className="prose mx-auto max-w-3xl font-body leading-relaxed text-foreground/80 [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_h2]:font-heading [&_h2]:text-foreground [&_h3]:font-heading [&_h3]:text-foreground [&_h4]:font-heading [&_h4]:text-foreground"
         dangerouslySetInnerHTML={{ __html: data.html }}

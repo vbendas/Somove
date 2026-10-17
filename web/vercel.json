@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/reconcile-rooms",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/demo-refresh",
+      "schedule": "0 5 * * *"
     }
   ]
 }

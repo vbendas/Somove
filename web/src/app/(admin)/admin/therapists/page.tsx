@@ -152,13 +152,23 @@ export default function TherapistsPage() {
                             >
                               Create Profile
                             </Button>
+                          ) : status === "active" ? (
+                            !demo && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleStatusToggle(therapist.id, status)}
+                              >
+                                Deactivate
+                              </Button>
+                            )
                           ) : (
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleStatusToggle(therapist.id, status)}
                             >
-                              {status === "active" ? "Deactivate" : "Activate"}
+                              Activate
                             </Button>
                           )}
                           {!demo && (

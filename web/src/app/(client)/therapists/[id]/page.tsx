@@ -106,7 +106,7 @@ export default async function TherapistProfilePage({
   return (
     <PageContainer width="narrow">
       <PageHeader
-        backHref="/"
+        backHref="/dashboard"
         title={name}
         description={
           therapist.modalities && therapist.modalities.length > 0

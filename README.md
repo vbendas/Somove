@@ -28,9 +28,19 @@ Therapists and psychologists, coaches, teachers and tutors, consultants, and oth
 - Sentry
 - Vitest
 
+## Links
+
+- Website: https://web-smoky-six-20.vercel.app
+- Live demo, signed in automatically with made-up accounts:
+  - Client: https://web-smoky-six-20.vercel.app/dashboard
+  - Professional: https://web-smoky-six-20.vercel.app/professional/dashboard
+  - Admin: https://web-smoky-six-20.vercel.app/admin
+
+Destructive admin actions are disabled in the demo, and its sample sessions are re-dated daily so there is always upcoming activity.
+
 ## Status
 
-Solo project, under active development. A demo with made-up accounts is deployed at https://web-smoky-six-20.vercel.app.
+Solo project, under active development.
 
 ## Getting started
 

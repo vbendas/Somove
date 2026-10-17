@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MarketingHeaderShell } from "@/components/marketing/marketing-header-shell";
 import { MarketingNavPreview } from "@/components/marketing/marketing-nav-preview";
 import { MarketingMobileNav } from "@/components/marketing/marketing-mobile-nav";
 import { getPlatformSettings } from "@/lib/platform";
@@ -12,8 +13,8 @@ export async function MarketingHeader({ items }: MarketingHeaderProps) {
   const settings = await getPlatformSettings();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="container-wide flex h-16 items-center justify-between px-5 sm:px-6 lg:px-8">
+    <MarketingHeaderShell>
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 font-heading text-lg font-semibold text-foreground">
           {settings.logo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -28,6 +29,6 @@ export async function MarketingHeader({ items }: MarketingHeaderProps) {
 
         <MarketingMobileNav items={items} />
       </div>
-    </header>
+    </MarketingHeaderShell>
   );
 }

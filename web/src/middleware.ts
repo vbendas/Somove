@@ -51,6 +51,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // In the demo "/" is always the public website, whoever is signed in.
+  if (DEMO_MODE && pathname === "/") {
+    return NextResponse.rewrite(new URL("/landing", request.url), { request });
+  }
+
   const publicRoutes = [
     "/login",
     "/api/demo-login",
