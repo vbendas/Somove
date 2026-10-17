@@ -30,7 +30,7 @@ Therapists and psychologists, coaches, teachers and tutors, consultants, and oth
 
 ## Status
 
-Solo project, under active development. A demo with made-up accounts is deployed at https://somove-kohl.vercel.app.
+Solo project, under active development. A demo with made-up accounts is deployed at https://web-smoky-six-20.vercel.app.
 
 ## Getting started
 
