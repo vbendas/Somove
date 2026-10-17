@@ -11,7 +11,7 @@
 
 ## 1. Overview
 
-**Project:** Somove — A Somatic Therapy Operating System
+**Project:** Somove — An Online Session Platform for Independent Professionals
 **Platform brand:** Somove
 **Domain:** somove.app
 **MVP scope:** Single-therapist deployment (therapist-branded landing page on Somove infrastructure)
@@ -20,7 +20,7 @@
 **Primary region:** Europe
 **Long-term vision:** Multi-practitioner marketplace where each therapist gets their own branded experience on shared infrastructure, potentially governed by a DAO
 
-Somove is a platform purpose-built for body-based mental health practice. The lean MVP serves a single somatic therapist with a mix of local and international English-speaking clients. The platform handles scheduling, video calls with contactless gesture controls (the key differentiator), payments, messaging, and client notes — the minimum viable loop to validate the product with real users.
+Somove is an online session platform for independent professionals who meet clients one-to-one or in small groups: therapists and psychologists, coaches, teachers and tutors, and remote consultants or freelancers. The lean MVP serves a single practitioner with a mix of local and international English-speaking clients. The platform handles scheduling, video calls with contactless gesture controls (the key differentiator), payments, messaging, and client notes — the minimum viable loop to validate the product with real users.
 
 **Lean MVP principle:** Ship the core loop (book → pay → video call with gestures → chat → notes) as fast as possible. Everything else is deferred to the production version. The database schema and route structure are designed to support the full marketplace, but the MVP only activates what's needed for one therapist.
 
@@ -213,8 +213,8 @@ Designed for single-therapist but extensible. All tables that reference a therap
 | id | uuid (PK) | |
 | user_id | uuid (FK → users) | |
 | bio | text | |
-| credentials | text[] | e.g., ["SEP", "BC-DMT"] |
-| modalities | text[] | e.g., ["Somatic Experiencing", "DMT"] |
+| credentials | text[] | e.g., ["Licensed Psychologist", "Certified Coach"] |
+| modalities | text[] | e.g., ["CBT", "Career Coaching"] |
 | session_price_cents | int | Single session price in EUR cents |
 | free_first_session | boolean | Default false |
 | default_session_duration | int | Minutes |
@@ -231,7 +231,7 @@ Designed for single-therapist but extensible. All tables that reference a therap
 |--------|------|-------|
 | id | uuid (PK) | |
 | therapist_id | uuid (FK → users) | |
-| name | text | e.g., "Individual Somatic Session" |
+| name | text | e.g., "Individual Session" |
 | description | text | |
 | duration_min | int | |
 | price_cents | int | EUR cents |
@@ -339,7 +339,7 @@ Designed for single-therapist but extensible. All tables that reference a therap
 #### Landing Page (`/`)
 
 - Somove branded with therapist profile section (name, photo, bio, credentials, modalities)
-- Somatic therapy explainer (what it is, who it's for, what to expect)
+- Service explainer (what the practitioner offers, who it's for, what to expect)
 - Clear CTA: "Book a Session" or "Free Consultation"
 - Mobile-optimized, fast-loading
 - Already built — needs integration with app routes only
@@ -351,7 +351,7 @@ Designed for single-therapist but extensible. All tables that reference a therap
 - Role-based redirect on auth
 - First-time client: magic link → 2-step intake → enter dashboard
 - Intake step 1: "What brings you to Somove?" (checkboxes)
-- Intake step 2: "Have you worked with a somatic therapist before?" (yes / no / not sure)
+- Intake step 2: "Have you worked with a practitioner like this before?" (yes / no / not sure)
 - Skippable
 
 #### Therapist Profile (`/therapists/:id`)
@@ -522,7 +522,7 @@ Designed for single-therapist but extensible. All tables that reference a therap
 
 ### Problem
 
-All existing telehealth platforms are architected for face-centric conversation. Somatic therapy and Dance/Movement Therapy require full-body observation. Both therapist and client are physically distant from their device during movement-based sessions — the phone sits on a tripod across the room.
+Many online session tools are built around a meeting model rather than one-to-one or small-group client work. Practitioners often stand or sit away from the device (for example when demonstrating, teaching or presenting), so reaching for the mouse or keyboard interrupts the session. Optional hand-gesture controls let either side handle common actions without touching the device.
 
 ### Lean MVP Solution: Daily.co + P1 Gesture Controls
 
@@ -581,8 +581,8 @@ Static emergency page — no interactive animations for MVP.
 
 | Requirement | Implementation |
 |-------------|---------------|
-| Lawful basis for health data (Art. 9) | Explicit consent at intake, consent logging |
-| Data minimization | Only collect data necessary for therapy |
+| Lawful basis for client data, including sensitive data for therapy use cases (Art. 9) | Explicit consent at intake, consent logging |
+| Data minimization | Only collect data necessary for the service |
 | Right to access | Client settings page shows stored data |
 | Right to erasure | Manual via email request, processed within 30 days |
 | Right to portability | Manual via email request |
@@ -871,7 +871,7 @@ Everything below was in the full MVP plan but stripped for speed. Each item incl
 | 4-7-8 breathing animation | ~3–4h | Beautiful but not core to booking/video/chat loop | Post-launch content update |
 | Interactive body scan prompt | ~2–3h | Same | Same |
 | 5-4-3-2-1 sensory grounding checklist | ~2–3h | Same | Same |
-| Somatic check-in (tension slider) | ~1–2h | Same | Same |
+| Pre-session check-in (mood slider) | ~1–2h | Same | Same |
 | Therapist mute hours + SLA display | ~3–5h | "Contact therapist" button sufficient for MVP | Post-launch polish |
 | Therapist response SLA in UI | ~2–3h | Part of mute hours system | Same |
 
@@ -927,7 +927,7 @@ The lean MVP ships the core loop. Below is the full build path from production v
 | EU-compliant invoice generation | Section 14 above |
 | P2 gesture controls (volume, framing presets) | Section 14 above |
 | Gesture calibration screen | Section 14 above |
-| Emergency grounding animations | Section 14 above |
+| Crisis support animations | Section 14 above |
 | Therapist mute hours + SLA | Section 14 above |
 | Markdown notes + polish | Section 14 above |
 | Automated GDPR export/deletion | Section 14 above |
@@ -981,14 +981,10 @@ The lean MVP ships the core loop. Below is the full build path from production v
 
 ## 17. Market Context
 
-- **Global somatic therapy market:** $4.01–4.72B (2025), growing at 16.8–17.7% CAGR
 - **Practitioner pain point #1:** Client acquisition (marketing is the defining challenge)
 - **Practitioner pain point #2:** €400–600/mo spent on fragmented tech tools
-- **85–88% of somatic therapists** operate out-of-network
-- **No existing platform** combines directory + booking + telehealth + practice management for body-based therapy
-- **"Body-blind telehealth"** is the critical technology gap — no platform supports full-body video
-- **Gen Z driving demand:** 42% in therapy, fluent in nervous system vocabulary, prefer digital/mobile tools
-- **Headway valuation:** $2.3B from solving insurance billing for talk therapy — somatic therapy is a faster-growing, unserved segment
+- **No existing platform** combines profile page + booking + video + payments + client notes for solo practitioners in one lightweight tool
+- **Hands-free controls** during video sessions are an underserved gap
 
 ---
 
@@ -996,7 +992,7 @@ The lean MVP ships the core loop. Below is the full build path from production v
 
 ### What's Open-Source
 
-The lean MVP (this PRD) is the open-source version. It includes everything a solo somatic therapist needs to run their practice:
+The lean MVP (this PRD) is the open-source version. It includes everything a solo practitioner needs to run their practice:
 
 - Scheduling (Cal.com embed)
 - Video calls with P1 gesture controls (Daily.co + MediaPipe Hands)
@@ -1014,7 +1010,7 @@ The production version and marketplace features from Section 14 and Section 15 r
 - Bundle credits system (3, 5, 10 sessions)
 - EU-compliant invoice PDF generation
 - P2 gesture controls (volume, framing presets)
-- Emergency grounding animations
+- Crisis support animations
 - Web Push notifications
 - Automated GDPR export/deletion
 - Multi-practitioner marketplace
@@ -1026,7 +1022,7 @@ The production version and marketplace features from Section 14 and Section 15 r
 
 ### Deployment Method: "Deploy to Vercel" Button
 
-**Target user:** A solo somatic therapist with no technical background. They can follow a step-by-step guide and click buttons.
+**Target user:** A solo practitioner (therapist, coach, tutor or consultant) with no technical background. They can follow a step-by-step guide and click buttons.
 
 **Deployment flow:**
 
@@ -1087,7 +1083,7 @@ The production version and marketplace features from Section 14 and Section 15 r
 - **MIT:** Permissive, allows anyone to fork and build commercial products on top. Lowers barrier to adoption but no protection against someone taking the code and competing.
 - **AGPL-3.0:** Requires anyone who modifies and hosts the code to open-source their changes. Protects against proprietary forks while still allowing self-hosting. Common for open-source SaaS projects (Cal.com, Chatwoot, Typebot all use AGPL).
 
-**Recommendation:** AGPL-3.0. The somatic therapy niche is small enough that you want contributions flowing back. AGPL ensures that anyone who improves Somove for their practice must share those improvements.
+**Recommendation:** AGPL-3.0. The project is small enough that you want contributions flowing back. AGPL ensures that anyone who improves Somove for their practice must share those improvements.
 
 ### Repository Structure
 

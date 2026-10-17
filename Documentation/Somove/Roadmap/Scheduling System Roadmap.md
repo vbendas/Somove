@@ -59,7 +59,7 @@ Session joins → /session/[id] (video call system)
 
 - [ ] **0.2.1** Create Somove organisation account in Cal.com
 - [ ] **0.2.2** Create therapist user accounts (one per therapist)
-- [ ] **0.2.3** Create session event type: "Somatic Therapy Session" (60 min, default)
+- [ ] **0.2.3** Create session event type: "Individual Session" (60 min, default)
 - [ ] **0.2.4** Configure booking questions: name, email, session goals (optional), first time? (yes/no)
 - [ ] **0.2.5** Set global buffer time (15 min between sessions — prevents back-to-back burnout)
 - [ ] **0.2.6** Configure confirmation and reminder email templates with Somove branding

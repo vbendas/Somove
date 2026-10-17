@@ -293,7 +293,7 @@ Ticket System:
     → Booking & scheduling issue
     → Payment or billing question
     → Technical problem (video call, camera, etc.)
-    → Question about somatic therapy
+    → Question about the services offered
     → Something else
   ```
 - [ ] **2.3.2** Booking & scheduling branch:

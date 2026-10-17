@@ -1,6 +1,6 @@
 ---
 title: Somove Project Documentation
-description: Internal documentation hub for the Somove somatic therapy platform project
+description: Internal documentation hub for the Somove online session platform project
 ---
 
 Welcome to the **Somove** project documentation hub. This site contains all project documentation, roadmaps, research, and decisions to keep everyone involved in sync.
@@ -9,7 +9,6 @@ Welcome to the **Somove** project documentation hub. This site contains all proj
 
 - [[Master Platform Roadmap]] — Overall platform development timeline
 - [[Product Requirements Document]] — Core product requirements and specifications
-- [[Somatic Therapy Platform Research Report]] — Market and domain research
 
 ## Roadmaps
 
@@ -21,4 +20,4 @@ Welcome to the **Somove** project documentation hub. This site contains all proj
 
 ## Features
 
-- [[Group Breathwork Classes]]
+- [[Group Sessions]]

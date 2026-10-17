@@ -2,7 +2,7 @@
 
 ## Overview
 
-A unified PWA-first platform for somatic therapy. One codebase, two experiences (client and therapist), one design system. Mobile is the primary target — every screen designed for phone first, enhanced for tablet and desktop.
+A unified PWA-first platform for independent professionals running online sessions. One codebase, two experiences (client and therapist), one design system. Mobile is the primary target — every screen designed for phone first, enhanced for tablet and desktop.
 
 **MVP & Beta scope: Europe only. All infrastructure EU-hosted. Primary currency: EUR.**
 
@@ -196,7 +196,7 @@ Only name and email collected. No passwords required.
 
 - [ ] **1.1.1** After first sign-in: brief 2-step intake:
   - Step 1: "What brings you to Somove?" (checkboxes: stress, anxiety, trauma, burnout, curiosity, other)
-  - Step 2: "Have you worked with a somatic therapist before?" (yes / no / not sure)
+  - Step 2: "Have you worked with a practitioner like this before?" (yes / no / not sure)
 - [ ] **1.1.2** Store on `ClientProfile`
 - [ ] **1.1.3** Skip option available — intake collectable later
 - [ ] **1.1.4** Redirect to therapist discovery on completion

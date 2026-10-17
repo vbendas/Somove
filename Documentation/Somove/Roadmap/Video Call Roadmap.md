@@ -169,7 +169,7 @@ Phase 1 must be built with a `VideoTrackSource` abstraction so Phase 2 slots in 
 - [ ] **2.7.2** Test fallback trigger on throttled CPU (Chrome DevTools)
 - [ ] **2.7.3** Validate `replaceTrack` in Safari — remote participant should see clean transition
 - [ ] **2.7.4** Test no-person scenario (user steps out of frame)
-- [ ] **2.7.5** Test rapid movement scenario (somatic exercises — fast lateral movement)
+- [ ] **2.7.5** Test rapid movement scenario (demonstrations — fast lateral movement)
 - [ ] **2.7.6** Validate COOP/COEP headers allow WASM threading (check `crossOriginIsolated === true`)
 
 ---

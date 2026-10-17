@@ -1,19 +1,19 @@
 ---
-title: Group Breathwork Classes
-description: Feature specification for group session support — breathwork classes with 1 therapist and up to 8 participants
+title: Group Sessions
+description: Feature specification for group session support — workshops, group classes, group therapy and study groups with 1 host and up to 8 participants
 tags:
   - feature
   - group-sessions
-  - breathwork
+  - workshops
 ---
 
-# Group Breathwork Classes
+# Group Sessions
 
 ## Context
 
-One of Somove's founding therapists facilitates **breathwork group classes** — a format where a single therapist guides up to **8 participants** simultaneously through a structured breathing session. This is fundamentally different from the 1:1 session model and requires dedicated features across booking, video calls, safety, and payments.
+Many practitioners run **group sessions** — workshops, group classes, group therapy and study groups — where a single host leads up to **8 participants** simultaneously. This is fundamentally different from the 1:1 session model and requires dedicated features across booking, video calls, safety, and payments.
 
-**Why this matters:** Group sessions are a high-margin, high-demand format. A single 60-min class at a lower per-person price generates more revenue per hour than individual sessions while making somatic work accessible to clients who can't afford 1:1 rates.
+**Why this matters:** Group sessions are a high-margin, high-demand format. A single 60-min class at a lower per-person price generates more revenue per hour than individual sessions while making the service accessible to clients who can't afford 1:1 rates.
 
 ---
 
@@ -42,7 +42,7 @@ When a group class reaches capacity, interested clients can join a waitlist.
 
 #### 3. Recurring Class Series
 
-Support for classes that repeat on a schedule (e.g. "Every Tuesday 7pm, 6-week breathwork series").
+Support for classes that repeat on a schedule (e.g. "Every Tuesday 7pm, 6-week workshop series").
 
 - Therapist creates a class series: day(s) of week, start date, number of weeks
 - Clients can book the full series (at a discount) or individual drop-in sessions
@@ -89,7 +89,7 @@ Therapist sees all participants in a grid layout with individual mute/unmute con
 
 #### 9. Participant Status Indicators
 
-Each participant can tap a quick reaction visible only to the therapist — critical for breathwork where people may feel overwhelmed.
+Each participant can tap a quick reaction visible only to the therapist — useful for pacing (for example, "need a break" or "question") and for sensitive group formats such as group therapy.
 
 - Three status options: **OK** (default, green) / **Need attention** (yellow) / **Stop** (red)
 - Status appears as a colored border/icon on the participant's tile (therapist view only)
@@ -135,7 +135,7 @@ A quick post-session mood/energy rating from each participant, visible to therap
 The therapist creates **follow-up templates** they can customize per class type, sent to all participants after the session.
 
 - Therapist builds templates in dashboard: text, links, images, audio files
-- Templates are reusable and editable (e.g. "Breathwork Basics - Post Session", "Wim Hof Follow-Up")
+- Templates are reusable and editable (e.g. "Workshop - Post Session", "Study Group - Weekly Recap")
 - After each class, therapist selects or edits a template
 - Auto-appended **"Book your next class"** button with available upcoming sessions
 - Sent via email and/or in-app message to all participants
@@ -261,8 +261,8 @@ session_follow_ups
 | # | Feature | Priority | Rationale |
 |---|---------|----------|-----------|
 | 1 | Group Session Type | P0 | Core foundation — nothing works without this |
-| 5 | Shared Audio Channel | P0 | Breathwork requires ambient/cue audio |
-| 9 | Participant Status Indicators | P0 | Safety — non-negotiable for breathwork |
+| 5 | Shared Audio Channel | P0 | Shared audio (music, cues, recordings) is common in group formats |
+| 9 | Participant Status Indicators | P0 | Participant wellbeing and pacing |
 | 6 | Participant Grid (therapist view) | P0 | Therapist must see all participants |
 | 15 | Class Pack / Drop-In Pricing | P1 | Business model support |
 | 2 | Waitlist | P1 | Demand management |
@@ -271,7 +271,7 @@ session_follow_ups
 | 16 | Attendance Tracking | P2 | Operational, can be manual initially |
 | 12 | Group Check-Out Pulse | P2 | Nice-to-have, enhances post-session engagement |
 | 3 | Recurring Class Series | P2 | Can manage manually with individual classes first |
-| 10 | Private Chat to Therapist | P2 | Important but not day-one for breathwork |
+| 10 | Private Chat to Therapist | P2 | Important but not day-one |
 | 11 | Emergency Signal | P2 | Enhances safety but status indicators cover the core need |
 
 ---

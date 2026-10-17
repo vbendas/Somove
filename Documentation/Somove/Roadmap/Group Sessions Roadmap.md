@@ -1,17 +1,17 @@
 ---
 title: Group Sessions Roadmap
-description: Development roadmap for group session support — breathwork classes, group booking, safety monitoring, and class management
+description: Development roadmap for group session support — workshops and group classes, group booking, safety monitoring, and class management
 tags:
   - roadmap
   - group-sessions
-  - breathwork
+  - workshops
 ---
 
 # Group Sessions Roadmap
 
 ## Overview
 
-This roadmap covers the development of **group session support** for Somove, enabling therapists to facilitate classes (e.g. breathwork) with up to 8 participants simultaneously. See [[Group Breathwork Classes]] for the full feature specification.
+This roadmap covers the development of **group session support** for Somove, enabling practitioners to host group sessions (e.g. workshops, group classes, study groups) with up to 8 participants simultaneously. See [[Group Sessions]] for the full feature specification.
 
 **Scope:** Builds on top of the existing platform (booking, video, payments). Assumes Phase 0–4 from the [[Master Platform Roadmap]] are complete.
 
@@ -176,7 +176,7 @@ This roadmap covers the development of **group session support** for Somove, ena
 - [ ] G3.1.2 Create/edit template:
   - Rich text content (paragraphs, links)
   - Attach images or audio files
-  - Save with name (e.g. "Breathwork Basics - Week 1")
+  - Save with name (e.g. "Workshop - Week 1")
   - Set as default for a class type
 - [ ] G3.1.3 Template library: list, search, duplicate, delete
 
@@ -285,8 +285,8 @@ Recurring series and polish.
 | # | Decision | Rationale |
 |---|----------|-----------|
 | 1 | Group sessions coexist with individual sessions | Same platform, same therapist, different format |
-| 2 | Max 8 participants default, configurable | Breathwork class size; can be adjusted per class type |
-| 3 | No breakout rooms (removed) | Adds complexity without clear value for breathwork format |
+| 2 | Max 8 participants default, configurable | Typical group size; can be adjusted per class type |
+| 3 | No breakout rooms (removed) | Adds complexity without clear value for small groups |
 | 4 | No visual breathing guide (removed) | Therapist verbally guides; visual sync adds high technical cost |
 | 5 | No session recording (removed) | Aligned with platform decision — permanently out of scope |
 | 6 | No class templates (removed) | Redundant with follow-up templates and class series setup |
