@@ -58,7 +58,7 @@ export default async function DashboardPage() {
     );
 
   return (
-    <PageContainer width="narrow">
+    <PageContainer width="dashboard">
       <PageHeader title="Today" />
 
       <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
 
       <div className="mb-8">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
+          <h2 className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Today&apos;s Sessions
           </h2>
           <Link

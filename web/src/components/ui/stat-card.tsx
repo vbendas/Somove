@@ -27,10 +27,10 @@ export function StatCard({
         </div>
       )}
       <div className="min-w-0">
-        <div className="font-heading text-xl font-medium text-foreground sm:text-2xl">
+        <div className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">
           {value}
         </div>
-        <div className="whitespace-normal text-xs leading-tight text-warm-gray sm:text-sm">
+        <div className="whitespace-normal text-xs leading-tight text-muted-foreground sm:text-sm">
           {label}
         </div>
         {hint && <div className="mt-0.5 text-xs text-warm-gray">{hint}</div>}

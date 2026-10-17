@@ -14,7 +14,7 @@ export default async function AdminDashboardPage() {
   const stats = await getAdminStats();
 
   return (
-    <PageContainer width="full">
+    <PageContainer width="dashboard">
       <PageHeader title="Dashboard" description="Overview of your platform." />
 
       <div className="space-y-6">

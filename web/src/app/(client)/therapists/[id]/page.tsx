@@ -138,7 +138,7 @@ export default async function TherapistProfilePage({
 
           {therapist.bio && (
             <div className="mb-6">
-              <h2 className="mb-2 font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+              <h2 className="mb-2 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 About
               </h2>
               <p className="text-sm leading-relaxed text-foreground/80">
@@ -149,7 +149,7 @@ export default async function TherapistProfilePage({
 
           {therapist.credentials && therapist.credentials.length > 0 && (
             <div className="mb-6">
-              <h2 className="mb-2 font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+              <h2 className="mb-2 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Credentials
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -167,7 +167,7 @@ export default async function TherapistProfilePage({
 
           {customPages && customPages.length > 0 && (
             <div className="mb-6">
-              <h2 className="mb-2 font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+              <h2 className="mb-2 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 More from {name.split(" ")[0]}
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -187,7 +187,7 @@ export default async function TherapistProfilePage({
           {ratingInfo.avg !== null && (
             <div className="mb-6">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-heading text-sm font-medium uppercase tracking-wider text-warm-gray">
+                <h2 className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Reviews
                 </h2>
                 <div className="flex items-center gap-2">

@@ -65,10 +65,10 @@ export default function CookieConsent() {
       // height via the --bottom-nav-h CSS variable while mounted, so this
       // offsets by that amount where a bottom nav exists (client/therapist
       // areas) and falls back to 0 where it doesn't (e.g. admin).
-      style={{ bottom: "var(--bottom-nav-h, 0px)" }}
-      className="fixed left-0 right-0 z-[70] border-t border-border bg-card p-4 shadow-lg"
+      style={{ marginBottom: "var(--bottom-nav-h, 0px)" }}
+      className="fixed bottom-4 left-4 right-4 z-[70] max-w-sm rounded-xl border border-border bg-card p-4 text-sm shadow-lg sm:left-auto"
     >
-      <div className="mx-auto flex max-w-4xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col items-start gap-3">
         <p className="text-sm text-foreground">
           We use cookies to provide essential features, and optionally for support
           chat and push notifications. See our{" "}
@@ -80,13 +80,13 @@ export default function CookieConsent() {
         <div className="flex gap-2">
           <button
             onClick={rejectNonEssential}
-            className="whitespace-nowrap rounded-lg border border-primary px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary"
+            className="whitespace-nowrap rounded-lg border border-primary px-3 py-1.5 text-sm font-medium text-foreground hover:bg-secondary"
           >
             Essential only
           </button>
           <button
             onClick={acceptAll}
-            className="whitespace-nowrap rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-dark"
+            className="whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary-dark"
           >
             Accept all
           </button>

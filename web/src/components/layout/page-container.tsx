@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 
 interface PageContainerProps {
   children: React.ReactNode;
-  /** narrow = max-w-2xl (default), wide = max-w-4xl, full = max-w-7xl */
-  width?: "narrow" | "wide" | "full";
+  /** narrow = max-w-2xl (default), wide = max-w-4xl, dashboard = max-w-5xl, full = max-w-7xl */
+  width?: "narrow" | "wide" | "dashboard" | "full";
   /** Adds min-h-screen bg-background — for routes with no group layout (login, onboarding). */
   standalone?: boolean;
   className?: string;
@@ -12,6 +12,7 @@ interface PageContainerProps {
 const widthStyles = {
   narrow: "max-w-2xl",
   wide: "max-w-4xl",
+  dashboard: "max-w-5xl",
   full: "max-w-7xl",
 };
 

@@ -5,32 +5,20 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarDays, CreditCard, MessageSquare, Users } from "lucide-react";
 import TherapistFilters from "@/components/directory/therapist-filters";
+import { TherapistCard } from "@/components/directory/therapist-card";
+import { getTherapists } from "@/lib/directory";
 import { PageContainer } from "@/components/layout/page-container";
 import { PageHeader } from "@/components/layout/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { EmptyState } from "@/components/ui/empty-state";
-import { formatCurrency, formatDate, formatTime } from "@/lib/format";
+import { formatDate, formatTime } from "@/lib/format";
 
 interface TherapistUser {
   name: string;
 }
 
 export const dynamic = "force-dynamic";
-
-function formatAvailability(rules: Record<string, unknown> | null): string {
-  if (!rules) return "";
-  const days = Object.keys(rules);
-  if (days.length === 0) return "";
-  const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const availableDays = days
-    .filter((d) => (rules[d] as Record<string, unknown>)?.available)
-    .map((d) => dayNames[parseInt(d)] || d)
-    .filter(Boolean);
-  if (availableDays.length === 0) return "";
-  if (availableDays.length <= 2) return availableDays.join(" & ");
-  return `${availableDays[0]}\u2013${availableDays[availableDays.length - 1]}`;
-}
 
 async function getUserData() {
   const supabase = await createClient();
@@ -116,35 +104,6 @@ async function getUnreadCount(userId: string) {
   return count || 0;
 }
 
-async function getTherapists() {
-  const admin = createAdminClient();
-
-  const { data: profiles, error: profileError } = await admin
-    .from("therapist_profile")
-    .select("*")
-    .eq("status", "active");
-
-  if (profileError) {
-    console.error("getTherapists profile query error:", profileError.message);
-    return [];
-  }
-
-  if (!profiles || profiles.length === 0) return [];
-
-  const userIds = profiles.map((p) => p.user_id);
-  const { data: users } = await admin
-    .from("users")
-    .select("id, name, email")
-    .in("id", userIds);
-
-  const userMap = new Map((users || []).map((u) => [u.id, u]));
-
-  return profiles.map((p) => ({
-    ...p,
-    users: userMap.get(p.user_id) || null,
-  }));
-}
-
 export default async function Home({
   searchParams,
 }: {
@@ -169,7 +128,7 @@ export default async function Home({
     : allTherapists;
 
   return (
-    <PageContainer width="wide">
+    <PageContainer width="dashboard">
       <PageHeader
         title={`Welcome, ${userData.name?.split(" ")[0] || "there"}`}
         description="Find a professional and manage your sessions."
@@ -185,7 +144,7 @@ export default async function Home({
       {/* Upcoming Sessions */}
       <div className="mb-8">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-warm-gray">
+          <h2 className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Upcoming Sessions
           </h2>
           {upcomingSessions.length > 0 && (
@@ -249,7 +208,7 @@ export default async function Home({
 
       {/* Therapist Directory */}
       <div id="directory" className="scroll-mt-6">
-        <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-warm-gray">
+        <h2 className="mb-4 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
           {upcomingSessions.length > 0 ? "Find a Professional" : "Available Professionals"}
         </h2>
 
@@ -266,75 +225,7 @@ export default async function Home({
             )}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {therapists.map((therapist) => (
-                <Link
-                  key={therapist.user_id}
-                  href={`/therapists/${therapist.user_id}`}
-                >
-                  <Card className="group h-full cursor-pointer transition-all hover:shadow-lg hover:border-primary/30">
-                    <CardContent className="p-6">
-                      <div className="mb-4 flex items-center gap-4">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 font-heading text-xl font-medium text-primary">
-                          {therapist.users?.name?.charAt(0) || "?"}
-                        </div>
-                        <div>
-                          <h2 className="font-heading text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                            {therapist.users?.name || "Professional"}
-                          </h2>
-                          {therapist.modalities && therapist.modalities.length > 0 && (
-                            <p className="text-sm text-warm-gray">
-                              {therapist.modalities.slice(0, 2).join(" · ")}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {therapist.bio && (
-                        <p className="mb-4 line-clamp-3 text-sm text-warm-gray">
-                          {therapist.bio}
-                        </p>
-                      )}
-
-                      <div className="flex items-center justify-between">
-                        <div>
-                          {therapist.session_price_cents !== null ? (
-                            <span className="text-lg font-medium text-foreground">
-                              {formatCurrency(therapist.session_price_cents)}
-                            </span>
-                          ) : (
-                            <span className="text-sm text-warm-gray">Price on request</span>
-                          )}
-                          <span className="ml-1 text-sm text-warm-gray">
-                            / {therapist.default_session_duration} min
-                          </span>
-                        </div>
-                        {therapist.free_first_session && (
-                          <span className="inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-                            Free first session
-                          </span>
-                        )}
-                      </div>
-
-                      {therapist.availability_rules && formatAvailability(therapist.availability_rules as Record<string, unknown>) && (
-                        <p className="mt-2 text-xs text-warm-gray">
-                          Typically available {formatAvailability(therapist.availability_rules as Record<string, unknown>)}
-                        </p>
-                      )}
-
-                      {therapist.credentials && therapist.credentials.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {(therapist.credentials as string[]).slice(0, 3).map((cred: string) => (
-                            <span
-                              key={cred}
-                              className="rounded-full bg-surface px-3 py-1 text-xs text-warm-gray"
-                            >
-                              {cred}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Link>
+                <TherapistCard key={therapist.user_id} therapist={therapist} />
               ))}
             </div>
           </>

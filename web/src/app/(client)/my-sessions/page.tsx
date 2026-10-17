@@ -61,7 +61,7 @@ export default async function MySessionsPage({
 
       {upcomingSessions && upcomingSessions.length > 0 && (
         <div className="mb-8">
-          <h2 className="mb-3 text-sm font-medium uppercase tracking-wider text-warm-gray">
+          <h2 className="mb-3 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Upcoming
           </h2>
           <div className="space-y-3">
@@ -92,7 +92,7 @@ export default async function MySessionsPage({
 
       {pastSessions && pastSessions.length > 0 && (
         <div>
-          <h2 className="mb-3 text-sm font-medium uppercase tracking-wider text-warm-gray">
+          <h2 className="mb-3 font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Past
           </h2>
           <div className="space-y-3">

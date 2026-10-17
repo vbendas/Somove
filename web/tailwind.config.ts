@@ -14,7 +14,8 @@ const config: Config = {
         foreground: "var(--foreground)",
         surface: "var(--surface)",
         primary: {
-          DEFAULT: "var(--primary)",
+          // color-mix lets opacity modifiers (bg-primary/10) work with hex CSS vars
+          DEFAULT: "color-mix(in srgb, var(--primary) calc(<alpha-value> * 100%), transparent)",
           dark: "var(--primary-dark)",
           foreground: "var(--primary-foreground)",
         },
