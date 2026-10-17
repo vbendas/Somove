@@ -22,6 +22,13 @@ import { cookies } from "next/headers";
 const ROLES = ["client", "therapist", "admin"] as const;
 type Role = (typeof ROLES)[number];
 
+// Seeded, fictional demo accounts (see scripts/seed-demo.mjs). Overridable via env.
+const DEMO_EMAILS: Record<Role, string> = {
+  client: process.env.DEMO_CLIENT_EMAIL || "demo-client@example.com",
+  therapist: process.env.DEMO_THERAPIST_EMAIL || "demo-pro@example.com",
+  admin: process.env.DEMO_ADMIN_EMAIL || "demo-admin@example.com",
+};
+
 const SESSION_TTL_MS = 50 * 60 * 1000; // access tokens live 60 min
 
 type CachedSession = { session: Session; expiresAt: number };
@@ -48,27 +55,23 @@ async function mintSession(role: Role): Promise<Session> {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // Pick the demo account: the oldest user with the requested role.
+  // Pick the seeded demo account for this role. Never fall back to another
+  // user: that could expose a real account.
+  const email = DEMO_EMAILS[role];
   const { data: demoUser, error: userError } = await admin
     .from("users")
     .select("id")
+    .eq("email", email)
     .eq("role", role)
-    .order("created_at", { ascending: true })
-    .limit(1)
     .maybeSingle();
   if (userError || !demoUser) {
-    throw new Error(`No demo user with role "${role}" exists`);
-  }
-
-  const { data: authUser, error: authError } = await admin.auth.admin.getUserById(demoUser.id);
-  if (authError || !authUser.user?.email) {
-    throw new Error(authError?.message ?? "Auth user not found");
+    throw new Error(`Demo account for role "${role}" does not exist`);
   }
 
   // One-time token, never emailed.
   const { data: link, error: linkError } = await admin.auth.admin.generateLink({
     type: "magiclink",
-    email: authUser.user.email,
+    email,
   });
   const tokenHash = link?.properties?.hashed_token;
   if (linkError || !tokenHash) {
