@@ -18,3 +18,7 @@ backup/
 .opencode/
 .mimocode/
 supabase/.temp/
+
+# Local-only files
+*.pdf
+graphify-out/
