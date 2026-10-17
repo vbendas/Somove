@@ -1,5 +1,5 @@
 /**
- * P1 Gesture Controls for Somatic Video (MediaPipe Hands based)
+ * P1 Gesture Controls for Video Sessions (MediaPipe Hands based)
  * 
  * Planned gestures:
  * - Thumbs up (hold 1.5s): zoom in (local preview)

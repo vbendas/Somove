@@ -27,9 +27,9 @@
 --   default_session_duration
 -- ) VALUES (
 --   (SELECT id FROM users WHERE email = 'therapist@somove.app'),
---   'Somatic therapist specializing in trauma recovery and nervous system regulation. With over 10 years of experience, I help clients reconnect with their bodies and find healing through movement and awareness.',
---   ARRAY['SEP', 'BC-DMT', 'MA Psychology'],
---   ARRAY['Somatic Experiencing', 'Dance/Movement Therapy', 'Polyvagal Theory'],
+--   'Sample professional offering one-to-one online sessions. Replace this with your own bio.',
+--   ARRAY['Certified teacher', 'MA Education'],
+--   ARRAY['Tutoring', 'Language teaching'],
 --   9000,
 --   TRUE,
 --   60
@@ -44,8 +44,8 @@
 --   price_cents
 -- ) VALUES (
 --   (SELECT id FROM users WHERE email = 'therapist@somove.app'),
---   'Individual Somatic Session',
---   'One-on-one somatic therapy session focusing on body awareness and nervous system regulation.',
+--   'Individual Session',
+--   'One-on-one online session.',
 --   60,
 --   9000
 -- );

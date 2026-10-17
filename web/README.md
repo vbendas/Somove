@@ -1,6 +1,6 @@
 # Somove Web App
 
-A somatic therapy platform built with Next.js 14, Supabase, and Tailwind CSS.
+An online session platform for independent professionals (therapists, coaches, teachers, consultants), built with Next.js 14, Supabase, and Tailwind CSS.
 
 ## Architecture
 

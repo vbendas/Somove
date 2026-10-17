@@ -7,14 +7,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 
 const REASONS = [
-  "Stress & anxiety",
-  "Trauma recovery",
-  "Burnout",
-  "Body tension & pain",
-  "Emotional regulation",
-  "Self-awareness & growth",
-  "Relationship challenges",
-  "Curiosity about somatic work",
+  "Ongoing sessions",
+  "A one-off consultation",
+  "Coaching or career support",
+  "Tutoring or lessons",
+  "Mental health support",
+  "Other",
 ];
 
 export default function IntakePage() {
@@ -63,12 +61,12 @@ export default function IntakePage() {
             ))}
           </div>
           <CardTitle className="font-heading text-2xl">
-            {step === 1 && "What brings you here?"}
+            {step === 1 && "What are you looking for?"}
             {step === 2 && "Your experience"}
           </CardTitle>
           <CardDescription>
             {step === 1 && "Select all that apply. This helps us personalize your experience."}
-            {step === 2 && "Have you worked with a somatic therapist before?"}
+            {step === 2 && "Have you had online sessions before?"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -94,9 +92,9 @@ export default function IntakePage() {
           {step === 2 && (
             <div className="space-y-3">
               {[
-                { value: "yes", label: "Yes, I have worked with a somatic therapist" },
+                { value: "yes", label: "Yes, I have had online sessions before" },
                 { value: "no", label: "No, this is my first time" },
-                { value: "not_sure", label: "Not sure / I'm not familiar with somatic therapy" },
+                { value: "not_sure", label: "Not sure" },
               ].map((opt) => (
                 <button
                   key={opt.value}

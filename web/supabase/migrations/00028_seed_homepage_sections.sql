@@ -7,179 +7,395 @@ VALUES
 (
   'homepage_hero',
   'Hero',
-  '[{"id": "hero-main", "type": "hero", "data": {
-    "eyebrow": "Somatic Therapy",
-    "title": "Heal Through Your Body",
-    "subtitle": "Somatic therapy for anxiety, trauma, and emotional resilience. Discover the wisdom your body holds. Online sessions from wherever you feel safe.",
-    "primaryCta": {"label": "Book Now", "href": "/therapists"},
-    "secondaryCta": {"label": "Learn More", "href": "#how-it-works"},
-    "trustBadges": ["Certified Therapist", "Secure & Private", "Online Sessions"]
-  }}]'::jsonb,
-  '[{"id": "hero-main", "type": "hero", "data": {
-    "eyebrow": "Somatic Therapy",
-    "title": "Heal Through Your Body",
-    "subtitle": "Somatic therapy for anxiety, trauma, and emotional resilience. Discover the wisdom your body holds. Online sessions from wherever you feel safe.",
-    "primaryCta": {"label": "Book Now", "href": "/therapists"},
-    "secondaryCta": {"label": "Learn More", "href": "#how-it-works"},
-    "trustBadges": ["Certified Therapist", "Secure & Private", "Online Sessions"]
-  }}]'::jsonb,
+  '[
+  {
+    "id": "hero-main",
+    "type": "hero",
+    "data": {
+      "eyebrow": "Online Session Platform",
+      "title": "Your practice, online",
+      "subtitle": "Booking, payments, video sessions, messaging and private client notes in one place. Built for therapists, coaches, teachers and consultants who meet clients one-to-one or in small groups.",
+      "primaryCta": {
+        "label": "Book Now",
+        "href": "/therapists"
+      },
+      "secondaryCta": {
+        "label": "Learn More",
+        "href": "#how-it-works"
+      },
+      "trustBadges": [
+        "Secure payments with Stripe",
+        "Video sessions",
+        "Private client notes"
+      ]
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "hero-main",
+    "type": "hero",
+    "data": {
+      "eyebrow": "Online Session Platform",
+      "title": "Your practice, online",
+      "subtitle": "Booking, payments, video sessions, messaging and private client notes in one place. Built for therapists, coaches, teachers and consultants who meet clients one-to-one or in small groups.",
+      "primaryCta": {
+        "label": "Book Now",
+        "href": "/therapists"
+      },
+      "secondaryCta": {
+        "label": "Learn More",
+        "href": "#how-it-works"
+      },
+      "trustBadges": [
+        "Secure payments with Stripe",
+        "Video sessions",
+        "Private client notes"
+      ]
+    }
+  }
+]'::jsonb,
   true, 0, NOW()
 ),
 (
   'homepage_what_is',
-  'What Is Somatic Therapy',
-  '[{"id": "what-is-main", "type": "imageText", "data": {
-    "eyebrow": "Our Services",
-    "title": "Somatic Therapy Services",
-    "html": "<p>Evidence-based body-centered approaches to healing and transformation.</p><p><strong>Body Awareness</strong> — Learn to listen to the signals your body sends. Tension, numbness, restlessness — they all carry meaning.</p><p><strong>Nervous System Regulation</strong> — Move from survival mode to safety using breath, movement, and gentle techniques to calm your nervous system.</p><p><strong>Movement &amp; Expression</strong> — Your body holds what words can''t reach. Through guided movement, process and release stored tension.</p><p><strong>Trauma Release</strong> — Gentle somatic techniques to process and release trauma stored in the body, building resilience from within.</p>",
-    "imagePosition": "left"
-  }}]'::jsonb,
-  '[{"id": "what-is-main", "type": "imageText", "data": {
-    "eyebrow": "Our Services",
-    "title": "Somatic Therapy Services",
-    "html": "<p>Evidence-based body-centered approaches to healing and transformation.</p><p><strong>Body Awareness</strong> — Learn to listen to the signals your body sends. Tension, numbness, restlessness — they all carry meaning.</p><p><strong>Nervous System Regulation</strong> — Move from survival mode to safety using breath, movement, and gentle techniques to calm your nervous system.</p><p><strong>Movement &amp; Expression</strong> — Your body holds what words can''t reach. Through guided movement, process and release stored tension.</p><p><strong>Trauma Release</strong> — Gentle somatic techniques to process and release trauma stored in the body, building resilience from within.</p>",
-    "imagePosition": "left"
-  }}]'::jsonb,
+  'Services',
+  '[
+  {
+    "id": "what-is-main",
+    "type": "imageText",
+    "data": {
+      "eyebrow": "What You Get",
+      "title": "Everything for your sessions",
+      "html": "<p>One platform for the full session workflow, from first visit to follow-up.</p><p><strong>Profile &amp; landing page</strong> — Present your work, your services and your availability on a page you control.</p><p><strong>Booking &amp; payments</strong> — Clients pick a time and pay online. Payouts go through Stripe Connect.</p><p><strong>Video sessions</strong> — Meet clients one-to-one or in small groups without extra software.</p><p><strong>Messaging &amp; private notes</strong> — Stay in touch between sessions and keep your client notes private.</p>",
+      "imagePosition": "left"
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "what-is-main",
+    "type": "imageText",
+    "data": {
+      "eyebrow": "What You Get",
+      "title": "Everything for your sessions",
+      "html": "<p>One platform for the full session workflow, from first visit to follow-up.</p><p><strong>Profile &amp; landing page</strong> — Present your work, your services and your availability on a page you control.</p><p><strong>Booking &amp; payments</strong> — Clients pick a time and pay online. Payouts go through Stripe Connect.</p><p><strong>Video sessions</strong> — Meet clients one-to-one or in small groups without extra software.</p><p><strong>Messaging &amp; private notes</strong> — Stay in touch between sessions and keep your client notes private.</p>",
+      "imagePosition": "left"
+    }
+  }
+]'::jsonb,
   true, 1, NOW()
 ),
 (
   'homepage_how_it_works',
   'How It Works',
-  '[{"id": "how-it-works-main", "type": "featureGrid", "data": {
-    "eyebrow": "Getting Started",
-    "title": "Your Healing Journey",
-    "subtitle": "",
-    "columns": 3,
-    "style": "numbered",
-    "items": [
-      {"number": "01", "title": "Breathe Deeply", "description": "Begin with conscious breathing to ground yourself and create space for healing."},
-      {"number": "02", "title": "Invite Energy", "description": "Through gentle somatic techniques, invite awareness and energy into areas of held tension."},
-      {"number": "03", "title": "Heal Within", "description": "Allow your body''s natural intelligence to process, release, and integrate what''s been stored."}
-    ]
-  }}]'::jsonb,
-  '[{"id": "how-it-works-main", "type": "featureGrid", "data": {
-    "eyebrow": "Getting Started",
-    "title": "Your Healing Journey",
-    "subtitle": "",
-    "columns": 3,
-    "style": "numbered",
-    "items": [
-      {"number": "01", "title": "Breathe Deeply", "description": "Begin with conscious breathing to ground yourself and create space for healing."},
-      {"number": "02", "title": "Invite Energy", "description": "Through gentle somatic techniques, invite awareness and energy into areas of held tension."},
-      {"number": "03", "title": "Heal Within", "description": "Allow your body''s natural intelligence to process, release, and integrate what''s been stored."}
-    ]
-  }}]'::jsonb,
+  '[
+  {
+    "id": "how-it-works-main",
+    "type": "featureGrid",
+    "data": {
+      "eyebrow": "Getting Started",
+      "title": "How it works",
+      "subtitle": "",
+      "columns": 3,
+      "style": "numbered",
+      "items": [
+        {
+          "number": "01",
+          "title": "Find a professional",
+          "description": "Browse profiles and pick the person who fits what you need."
+        },
+        {
+          "number": "02",
+          "title": "Book and pay",
+          "description": "Choose a time that works and pay securely online."
+        },
+        {
+          "number": "03",
+          "title": "Meet online",
+          "description": "Join the video session, then keep in touch by message."
+        }
+      ]
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "how-it-works-main",
+    "type": "featureGrid",
+    "data": {
+      "eyebrow": "Getting Started",
+      "title": "How it works",
+      "subtitle": "",
+      "columns": 3,
+      "style": "numbered",
+      "items": [
+        {
+          "number": "01",
+          "title": "Find a professional",
+          "description": "Browse profiles and pick the person who fits what you need."
+        },
+        {
+          "number": "02",
+          "title": "Book and pay",
+          "description": "Choose a time that works and pay securely online."
+        },
+        {
+          "number": "03",
+          "title": "Meet online",
+          "description": "Join the video session, then keep in touch by message."
+        }
+      ]
+    }
+  }
+]'::jsonb,
   true, 2, NOW()
 ),
 (
   'homepage_stats',
   'Stats',
-  '[{"id": "stats-main", "type": "stats", "data": {
-    "items": [
-      {"value": 500, "suffix": "+", "label": "Happy Client"},
-      {"value": 98, "suffix": "%", "label": "Daily Client"},
-      {"value": 15, "suffix": "+", "label": "Years of Experience"}
-    ]
-  }}]'::jsonb,
-  '[{"id": "stats-main", "type": "stats", "data": {
-    "items": [
-      {"value": 500, "suffix": "+", "label": "Happy Client"},
-      {"value": 98, "suffix": "%", "label": "Daily Client"},
-      {"value": 15, "suffix": "+", "label": "Years of Experience"}
-    ]
-  }}]'::jsonb,
+  '[
+  {
+    "id": "stats-main",
+    "type": "stats",
+    "data": {
+      "items": [
+        {
+          "value": 4,
+          "label": "Core tools: booking, payments, video, notes"
+        },
+        {
+          "value": 1,
+          "label": "Platform for the whole session workflow"
+        },
+        {
+          "value": 24,
+          "suffix": "/7",
+          "label": "Online booking"
+        }
+      ]
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "stats-main",
+    "type": "stats",
+    "data": {
+      "items": [
+        {
+          "value": 4,
+          "label": "Core tools: booking, payments, video, notes"
+        },
+        {
+          "value": 1,
+          "label": "Platform for the whole session workflow"
+        },
+        {
+          "value": 24,
+          "suffix": "/7",
+          "label": "Online booking"
+        }
+      ]
+    }
+  }
+]'::jsonb,
   true, 3, NOW()
 ),
 (
   'homepage_testimonials',
   'Testimonials',
-  '[{"id": "testimonials-main", "type": "testimonials", "data": {
-    "eyebrow": "Feedback",
-    "title": "Reiki Feedback from Happy Clients",
-    "items": [
-      {"quote": "I had tried talk therapy for years, but something was always missing. Working with the body changed everything. I''m actually releasing my trauma now.", "author": "Tammy Silva", "role": "Client for 6 months"},
-      {"quote": "The full-body video setup made online therapy feel natural. I could move freely and still feel deeply connected to the process.", "author": "Paula Davis", "role": "Client for 3 months"},
-      {"quote": "The between-session tools are a game-changer. When I feel overwhelmed at 2am, I open the app and do a grounding exercise.", "author": "Whitney Rain", "role": "Client for 1 year"},
-      {"quote": "Somatic therapy helped me understand my body in ways I never imagined. The sessions are transformative and deeply healing.", "author": "Hailey Star", "role": "Client for 8 months"}
-    ]
-  }}]'::jsonb,
-  '[{"id": "testimonials-main", "type": "testimonials", "data": {
-    "eyebrow": "Feedback",
-    "title": "Reiki Feedback from Happy Clients",
-    "items": [
-      {"quote": "I had tried talk therapy for years, but something was always missing. Working with the body changed everything. I''m actually releasing my trauma now.", "author": "Tammy Silva", "role": "Client for 6 months"},
-      {"quote": "The full-body video setup made online therapy feel natural. I could move freely and still feel deeply connected to the process.", "author": "Paula Davis", "role": "Client for 3 months"},
-      {"quote": "The between-session tools are a game-changer. When I feel overwhelmed at 2am, I open the app and do a grounding exercise.", "author": "Whitney Rain", "role": "Client for 1 year"},
-      {"quote": "Somatic therapy helped me understand my body in ways I never imagined. The sessions are transformative and deeply healing.", "author": "Hailey Star", "role": "Client for 8 months"}
-    ]
-  }}]'::jsonb,
+  '[
+  {
+    "id": "testimonials-main",
+    "type": "testimonials",
+    "data": {
+      "eyebrow": "Feedback",
+      "title": "What clients say",
+      "items": [
+        {
+          "quote": "Booking and paying took a minute, and the video session worked first time.",
+          "author": "A. R.",
+          "role": "Client"
+        },
+        {
+          "quote": "I like being able to message my coach between sessions without switching apps.",
+          "author": "J. M.",
+          "role": "Coaching client"
+        },
+        {
+          "quote": "Having lessons, payments and messages in one place makes scheduling much simpler.",
+          "author": "S. K.",
+          "role": "Student"
+        },
+        {
+          "quote": "Clear invoices and easy rescheduling. Exactly what I needed for working with a consultant remotely.",
+          "author": "T. L.",
+          "role": "Consulting client"
+        }
+      ]
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "testimonials-main",
+    "type": "testimonials",
+    "data": {
+      "eyebrow": "Feedback",
+      "title": "What clients say",
+      "items": [
+        {
+          "quote": "Booking and paying took a minute, and the video session worked first time.",
+          "author": "A. R.",
+          "role": "Client"
+        },
+        {
+          "quote": "I like being able to message my coach between sessions without switching apps.",
+          "author": "J. M.",
+          "role": "Coaching client"
+        },
+        {
+          "quote": "Having lessons, payments and messages in one place makes scheduling much simpler.",
+          "author": "S. K.",
+          "role": "Student"
+        },
+        {
+          "quote": "Clear invoices and easy rescheduling. Exactly what I needed for working with a consultant remotely.",
+          "author": "T. L.",
+          "role": "Consulting client"
+        }
+      ]
+    }
+  }
+]'::jsonb,
   true, 4, NOW()
 ),
 (
   'homepage_pricing',
   'Pricing',
-  '[{"id": "pricing-main", "type": "pricing", "data": {
-    "eyebrow": "Session Options",
-    "title": "Choose Your Path",
-    "subtitle": "Transparent pricing. No hidden fees. EU-compliant invoices provided.",
-    "tiers": [
-      {
-        "name": "Single Session",
-        "price": "€90",
-        "period": "/ session",
-        "features": ["50-minute session", "Video or in-person", "Session notes provided", "Invoice provided"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": false
-      },
-      {
-        "name": "5 Session Package",
-        "price": "€400",
-        "period": "/ 5 sessions",
-        "features": ["Everything in Single", "Priority scheduling", "Between-session messaging", "Grounding exercises library", "Save €50 vs individual"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": true
-      },
-      {
-        "name": "Monthly Support",
-        "price": "€320",
-        "period": "/ month",
-        "features": ["4 sessions per month", "24/7 emergency support", "Personalized exercises", "Ongoing therapist support"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": false
-      }
-    ]
-  }}]'::jsonb,
-  '[{"id": "pricing-main", "type": "pricing", "data": {
-    "eyebrow": "Session Options",
-    "title": "Choose Your Path",
-    "subtitle": "Transparent pricing. No hidden fees. EU-compliant invoices provided.",
-    "tiers": [
-      {
-        "name": "Single Session",
-        "price": "€90",
-        "period": "/ session",
-        "features": ["50-minute session", "Video or in-person", "Session notes provided", "Invoice provided"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": false
-      },
-      {
-        "name": "5 Session Package",
-        "price": "€400",
-        "period": "/ 5 sessions",
-        "features": ["Everything in Single", "Priority scheduling", "Between-session messaging", "Grounding exercises library", "Save €50 vs individual"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": true
-      },
-      {
-        "name": "Monthly Support",
-        "price": "€320",
-        "period": "/ month",
-        "features": ["4 sessions per month", "24/7 emergency support", "Personalized exercises", "Ongoing therapist support"],
-        "cta": {"label": "Book Now", "href": "/therapists"},
-        "highlighted": false
-      }
-    ]
-  }}]'::jsonb,
+  '[
+  {
+    "id": "pricing-main",
+    "type": "pricing",
+    "data": {
+      "eyebrow": "Session Options",
+      "title": "Simple pricing",
+      "subtitle": "Transparent pricing. No hidden fees. EU-compliant invoices provided.",
+      "tiers": [
+        {
+          "name": "Single Session",
+          "price": "€90",
+          "period": "/ session",
+          "features": [
+            "Online video session",
+            "Secure payment via Stripe",
+            "Invoice provided"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": false
+        },
+        {
+          "name": "5 Session Package",
+          "price": "€400",
+          "period": "/ 5 sessions",
+          "features": [
+            "Everything in Single",
+            "Priority scheduling",
+            "Messaging between sessions",
+            "Shared resources library",
+            "Save €50 vs individual"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": true
+        },
+        {
+          "name": "Monthly Support",
+          "price": "€320",
+          "period": "/ month",
+          "features": [
+            "4 sessions per month",
+            "Messaging between sessions",
+            "Shared resources library",
+            "Ongoing support from your professional"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": false
+        }
+      ]
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "pricing-main",
+    "type": "pricing",
+    "data": {
+      "eyebrow": "Session Options",
+      "title": "Simple pricing",
+      "subtitle": "Transparent pricing. No hidden fees. EU-compliant invoices provided.",
+      "tiers": [
+        {
+          "name": "Single Session",
+          "price": "€90",
+          "period": "/ session",
+          "features": [
+            "Online video session",
+            "Secure payment via Stripe",
+            "Invoice provided"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": false
+        },
+        {
+          "name": "5 Session Package",
+          "price": "€400",
+          "period": "/ 5 sessions",
+          "features": [
+            "Everything in Single",
+            "Priority scheduling",
+            "Messaging between sessions",
+            "Shared resources library",
+            "Save €50 vs individual"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": true
+        },
+        {
+          "name": "Monthly Support",
+          "price": "€320",
+          "period": "/ month",
+          "features": [
+            "4 sessions per month",
+            "Messaging between sessions",
+            "Shared resources library",
+            "Ongoing support from your professional"
+          ],
+          "cta": {
+            "label": "Book Now",
+            "href": "/therapists"
+          },
+          "highlighted": false
+        }
+      ]
+    }
+  }
+]'::jsonb,
   true, 5, NOW()
 ),
 (
@@ -202,18 +418,36 @@ VALUES
 (
   'homepage_final_cta',
   'Final CTA',
-  '[{"id": "final-cta-main", "type": "ctaBanner", "data": {
-    "style": "dark",
-    "title": "Ready to Begin?",
-    "subtitle": "Book your first session and start your journey toward embodied healing.",
-    "cta": {"label": "Book Now", "href": "/login"}
-  }}]'::jsonb,
-  '[{"id": "final-cta-main", "type": "ctaBanner", "data": {
-    "style": "dark",
-    "title": "Ready to Begin?",
-    "subtitle": "Book your first session and start your journey toward embodied healing.",
-    "cta": {"label": "Book Now", "href": "/login"}
-  }}]'::jsonb,
+  '[
+  {
+    "id": "final-cta-main",
+    "type": "ctaBanner",
+    "data": {
+      "style": "dark",
+      "title": "Ready to Begin?",
+      "subtitle": "Book your first session online.",
+      "cta": {
+        "label": "Book Now",
+        "href": "/login"
+      }
+    }
+  }
+]'::jsonb,
+  '[
+  {
+    "id": "final-cta-main",
+    "type": "ctaBanner",
+    "data": {
+      "style": "dark",
+      "title": "Ready to Begin?",
+      "subtitle": "Book your first session online.",
+      "cta": {
+        "label": "Book Now",
+        "href": "/login"
+      }
+    }
+  }
+]'::jsonb,
   true, 7, NOW()
 )
 ON CONFLICT (key) DO NOTHING;

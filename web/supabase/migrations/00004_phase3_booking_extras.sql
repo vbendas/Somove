@@ -109,7 +109,7 @@ INSERT INTO session_types (therapist_id, name, description, duration_min, price_
 SELECT
   tp.user_id,
   'Single Session',
-  'A one-on-one somatic therapy session',
+  'A one-on-one online session',
   tp.default_session_duration,
   COALESCE(tp.session_price_cents, 0),
   'EUR',

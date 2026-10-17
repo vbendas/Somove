@@ -6,7 +6,7 @@
 CREATE TABLE IF NOT EXISTS platform_settings (
   id INT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
   platform_name TEXT NOT NULL DEFAULT 'Somove',
-  platform_tagline TEXT DEFAULT 'Somatic Therapy Platform',
+  platform_tagline TEXT DEFAULT 'Online Session Platform',
   logo_url TEXT,
   primary_color TEXT DEFAULT '#D4A574',
   accent_color TEXT DEFAULT '#8BA888',

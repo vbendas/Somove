@@ -215,7 +215,7 @@ export async function createStripeCheckout(sessionId: string) {
     cancelUrl: `${siteUrl}/booking/confirmed?sessionId=${session.id}&payment=cancelled`,
     customerEmail: client?.email,
     productName,
-    productDescription: `${session.duration_min} min somatic therapy session`,
+    productDescription: `${session.duration_min} min session`,
   });
 
   if (result.error) return { error: result.error.message };

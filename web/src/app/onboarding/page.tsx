@@ -12,25 +12,23 @@ import { toast } from "sonner";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 
 const CREDENTIALS_OPTIONS = [
-  "SEP (Somatic Experiencing Practitioner)",
-  "BC-DMT (Board Certified Dance/Movement Therapist)",
-  "LCSW (Licensed Clinical Social Worker)",
-  "LPC (Licensed Professional Counselor)",
-  "PhD Psychology",
-  "MA Psychology",
-  "Certified Yoga Therapist",
+  "Licensed Psychologist",
+  "Licensed Professional Counselor",
+  "Licensed Clinical Social Worker",
+  "ICF-certified coach",
+  "Certified teacher",
   "Other",
 ];
 
 const MODALITIES_OPTIONS = [
-  "Somatic Experiencing",
-  "Dance/Movement Therapy",
-  "Polyvagal Theory",
-  "Sensorimotor Psychotherapy",
-  "EMDR",
-  "Trauma-Informed Yoga",
-  "Breathwork",
-  "Sound Healing",
+  "CBT",
+  "Psychodynamic therapy",
+  "Couples therapy",
+  "Career coaching",
+  "Life coaching",
+  "Tutoring",
+  "Language teaching",
+  "Consulting",
   "Other",
 ];
 
@@ -219,7 +217,7 @@ export default function OnboardingPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="modalities" className="text-sm font-medium text-foreground">Modalities</label>
+                <label htmlFor="modalities" className="text-sm font-medium text-foreground">Services</label>
                 <div id="modalities" className="flex flex-wrap gap-2" role="group">
                   {MODALITIES_OPTIONS.map((mod) => (
                     <button
