@@ -6,7 +6,7 @@ An open-source online session platform for independent professionals.
 
 - Profile and landing page with a visual page builder and theming
 - Booking, with payments through Stripe Connect
-- Video sessions via Daily.co or self-hosted MiroTalk, with optional hand-gesture controls (MediaPipe)
+- Video sessions via Daily.co or self-hosted MiroTalk
 - Messaging and private client notes
 - Session credits and bundles
 - Admin panel with professional invites
@@ -19,7 +19,7 @@ Therapists and psychologists, coaches, teachers and tutors, consultants, and oth
 
 ## Built with
 
-- Next.js 14 (App Router, TypeScript)
+- Next.js 15 (App Router, TypeScript)
 - Tailwind CSS and shadcn/ui
 - Supabase (Postgres with RLS, Auth, Realtime, Storage)
 - Stripe Connect
@@ -40,7 +40,7 @@ Destructive admin actions are disabled in the demo, and its sample sessions are 
 
 ## Status
 
-Solo project, under active development.
+Solo project, under active development. Planned work is tracked in [ROADMAP.md](ROADMAP.md) and in [open issues](https://github.com/vbendas/Somove/issues).
 
 ## Getting started
 
@@ -101,7 +101,7 @@ Run these from `web/`:
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for planned work and links to the detailed plans.
+See [ROADMAP.md](ROADMAP.md) for planned work and links to the detailed plans, and the [issue tracker](https://github.com/vbendas/Somove/issues) for the concrete tasks.
 
 ## License
 
